@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/joost/myownposixutilities/false/**)",
+      "Bash(make)",
+      "Bash(./false)",
+      "Bash(echo \"exit=$?\")"
+    ]
+  }
+}
