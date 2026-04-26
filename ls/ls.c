@@ -50,6 +50,8 @@
 #include <locale.h>
 #include <pwd.h>
 #include <stdbool.h>
+#include <wchar.h>
+#include <wctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -163,11 +165,50 @@ static int get_term_width(void)
     return 80;
 }
 
+/*
+ * Check for embedded newlines and warn (Issue 8 FUTURE DIRECTIONS:
+ * encouraged to treat as an error when newline is a terminator/separator).
+ */
+static void check_newline_in_name(const char *name)
+{
+    if (!opt_q && strchr(name, '\n')) {
+        fprintf(stderr, "ls: filename contains embedded newline: ");
+        for (const unsigned char *p = (const unsigned char *)name; *p; p++)
+            fputc(*p == '\n' ? '?' : *p, stderr);
+        fputc('\n', stderr);
+        had_error = true;
+    }
+}
+
 static void write_name(const char *name)
 {
     if (!opt_q) { fputs(name, stdout); return; }
-    for (const unsigned char *p = (const unsigned char *)name; *p; p++)
-        putchar(isprint(*p) ? *p : '?');
+    /*
+     * Replace non-printable characters with '?', multibyte-aware.
+     * Invalid byte sequences are each replaced by a single '?'.
+     */
+    const char *p        = name;
+    size_t      left     = strlen(name);
+    mbstate_t   st;
+    memset(&st, 0, sizeof st);
+    while (left > 0) {
+        wchar_t wc;
+        size_t  n = mbrtowc(&wc, p, left, &st);
+        if (n == (size_t)-1 || n == (size_t)-2) {
+            /* Invalid or incomplete sequence: consume one byte as '?' */
+            putchar('?');
+            p++; left--;
+            memset(&st, 0, sizeof st);
+        } else if (n == 0) {
+            break; /* NUL — shouldn't appear in filenames */
+        } else {
+            if (iswprint((wint_t)wc))
+                fwrite(p, 1, n, stdout);
+            else
+                putchar('?');
+            p += n; left -= n;
+        }
+    }
 }
 
 static void mode_str(const struct stat *st, char buf[11])
@@ -274,6 +315,29 @@ static size_t entry_width(const entry_t *e)
     return w;
 }
 
+/* Column widths for long-format output — computed once per directory listing. */
+static int g_nlink_w = 1;
+static int g_owner_w = 1;
+static int g_group_w = 1;
+static int g_size_w  = 1;
+
+static void compute_long_widths(const entry_t *list, size_t n)
+{
+    g_nlink_w = 1; g_owner_w = 1; g_group_w = 1; g_size_w = 1;
+    for (size_t i = 0; i < n; i++) {
+        const struct stat *s = estat(&list[i]);
+        char buf[32];
+        int nw = snprintf(NULL, 0, "%u",  (unsigned)s->st_nlink);
+        int ow = (int)strlen(owner_str(s->st_uid, buf, sizeof buf));
+        int gw = (int)strlen(group_str(s->st_gid, buf, sizeof buf));
+        int sw = snprintf(NULL, 0, "%llu", (unsigned long long)s->st_size);
+        if (nw > g_nlink_w) g_nlink_w = nw;
+        if (ow > g_owner_w) g_owner_w = ow;
+        if (gw > g_group_w) g_group_w = gw;
+        if (sw > g_size_w)  g_size_w  = sw;
+    }
+}
+
 /* ================================================================ */
 /*  Sorting                                                           */
 /* ================================================================ */
@@ -283,6 +347,14 @@ static int cmp_name(const char *a, const char *b)
     int r = strcoll(a, b);
     if (r == 0) r = strcmp(a, b); /* byte-by-byte tiebreak per SUSv5 Issue 8 */
     return r;
+}
+
+/* For operand-level sorting: always by name (collating sequence), with -r. */
+static int cmp_entries_by_name(const void *a, const void *b)
+{
+    const entry_t *ea = a, *eb = b;
+    int r = cmp_name(ea->name, eb->name);
+    return opt_r ? -r : r;
 }
 
 static int cmp_entries(const void *a, const void *b)
@@ -323,17 +395,18 @@ static void print_long_entry(const entry_t *e)
 
     /* mode nlink [owner] [group] size|device date name */
     fputs(mode, stdout);
-    printf(" %u", (unsigned)s->st_nlink);
-    if (!opt_g) printf(" %-8s", owner_str(s->st_uid, ownbuf, sizeof ownbuf));
-    if (!opt_o) printf(" %-8s", group_str(s->st_gid, grpbuf, sizeof grpbuf));
+    printf(" %*u", g_nlink_w, (unsigned)s->st_nlink);
+    if (!opt_g) printf(" %-*s", g_owner_w, owner_str(s->st_uid, ownbuf, sizeof ownbuf));
+    if (!opt_o) printf(" %-*s", g_group_w, group_str(s->st_gid, grpbuf, sizeof grpbuf));
 
     if (S_ISCHR(s->st_mode) || S_ISBLK(s->st_mode))
         printf(" %3u, %3u", (unsigned)major(s->st_rdev),
                              (unsigned)minor(s->st_rdev));
     else
-        printf(" %8llu", (unsigned long long)s->st_size);
+        printf(" %*llu", g_size_w, (unsigned long long)s->st_size);
 
     printf(" %s ", tbuf);
+    check_newline_in_name(e->name);
     write_name(e->name);
 
     bool is_lnk = S_ISLNK(e->st.st_mode) && !opt_L;
@@ -368,6 +441,7 @@ static void print_long_entry(const entry_t *e)
 static void print_short(const entry_t *e)
 {
     print_inode_blocks(e);
+    check_newline_in_name(e->name);
     write_name(e->name);
     const struct stat *s = estat(e);
     bool is_lnk = S_ISLNK(e->st.st_mode) && !opt_L;
@@ -389,6 +463,7 @@ static void print_one_per_line(const entry_t *list, size_t n)
 
 static void print_long_list(const entry_t *list, size_t n)
 {
+    compute_long_widths(list, n);
     for (size_t i = 0; i < n; i++)
         print_long_entry(&list[i]);
 }
@@ -712,10 +787,11 @@ int main(int argc, char *argv[])
         }
     }
 
-    /* -f: unsorted, implies -a, ignores -r/-S/-t */
+    /* -f: unsorted directory order; implies -a; -r/-S/-t shall be ignored. */
     if (opt_f) {
         opt_a     = true;
         sort_mode = SORT_NONE;
+        opt_r     = false;
     }
 
     /* Long-format options disable -C/-m/-x (last-wins handled in parsing).
@@ -775,8 +851,16 @@ int main(int argc, char *argv[])
             ops[i].tgt_ok = (stat(files[i], &ops[i].tgt) == 0);
         }
 
-        /* Determine effective type for descend-vs-display decision */
-        struct stat *eff = (ops[i].tgt_ok && (opt_L || opt_H))
+        /*
+         * Determine whether this operand should be descended into.
+         * Per spec: follow a symlink-to-dir when -H or -L is set, OR when
+         * none of -d/-F/-l is active (the default case).  In all other cases
+         * (i.e. -d, -F, or -l without -H/-L) show the symlink as a file.
+         */
+        bool follow_for_descend = opt_L || opt_H
+                                || (!opt_d && !opt_F && !long_fmt);
+        struct stat *eff = (ops[i].tgt_ok && follow_for_descend
+                            && S_ISLNK(ops[i].st.st_mode))
                          ? &ops[i].tgt : &ops[i].st;
         ops[i].is_dir = S_ISDIR(eff->st_mode) && !opt_d;
 
@@ -805,9 +889,8 @@ int main(int argc, char *argv[])
             k++;
         }
         n_nondirs = k;
-        /* Spec: non-dir operands sorted by collating sequence */
-        qsort(nd, (size_t)n_nondirs, sizeof *nd,
-              (int(*)(const void*, const void*))cmp_entries);
+        /* Spec: non-dir operands sorted by collating sequence, not sort_mode. */
+        qsort(nd, (size_t)n_nondirs, sizeof *nd, cmp_entries_by_name);
         /* No "total" line for plain file operands */
         output_entries(nd, (size_t)n_nondirs);
         need_nl_before_header = (n_dirs > 0);
