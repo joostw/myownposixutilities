@@ -5,3 +5,4 @@ grep/grep.o
 grep/posix_re.o
 true/true
 unlink/unlink
+ls/ls
