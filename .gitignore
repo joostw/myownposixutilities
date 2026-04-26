@@ -6,3 +6,13 @@ grep/posix_re.o
 true/true
 unlink/unlink
 ls/ls
+cat/cat
+wc/wc
+mkdir/mkdir
+echo/echo
+head/head
+basename/basename
+dirname/dirname
+sleep/sleep
+pwd/pwd
+tail/tail
