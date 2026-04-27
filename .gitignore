@@ -17,3 +17,6 @@ sleep/sleep
 pwd/pwd
 tail/tail
 more/more
+tee/tee
+touch/touch
+ln/ln
