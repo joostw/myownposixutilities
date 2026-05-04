@@ -30,15 +30,15 @@ static int do_link(const char *src, const char *dst)
             fprintf(stderr, "ln: %s: already exists\n", dst);
             return 1;
         }
-        /* Check whether src and dst name the same directory entry */
-        if (!opt_s) {
-            struct stat src_st, dst_st;
-            if (stat(src, &src_st) == 0 && stat(dst, &dst_st) == 0 &&
-                src_st.st_ino == dst_st.st_ino &&
-                src_st.st_dev == dst_st.st_dev) {
-                fprintf(stderr, "ln: %s and %s are the same file\n", src, dst);
-                return 1;
-            }
+        /* Check whether src and dst name the same directory entry.
+         * Applies regardless of -s: the spec checks this before branching
+         * on -s, preventing e.g. "ln -sf foo foo" from unlinking foo. */
+        struct stat src_st, dst_st;
+        if (stat(src, &src_st) == 0 && stat(dst, &dst_st) == 0 &&
+            src_st.st_ino == dst_st.st_ino &&
+            src_st.st_dev == dst_st.st_dev) {
+            fprintf(stderr, "ln: %s and %s are the same file\n", src, dst);
+            return 1;
         }
         if (unlink(dst) == -1) {
             fprintf(stderr, "ln: %s: %s\n", dst, strerror(errno));

@@ -81,6 +81,13 @@ static int parse_t(const char *s, struct timespec *out)
     return 0;
 }
 
+static int isdigit2(const char *p)
+{
+    return (p[0] >= '0' && p[0] <= '9') && (p[1] >= '0' && p[1] <= '9');
+}
+
+static int d2(const char *p) { return (p[0]-'0')*10 + (p[1]-'0'); }
+
 /*
  * Parse -d YYYY-MM-DDThh:mm:SS[.frac][tz]
  * T may be a single space; tz is empty (local) or 'Z' (UTC).
@@ -98,23 +105,23 @@ static int parse_d(const char *s, struct timespec *out)
     if (i - yr_start < 4 || i >= len || s[i] != '-') return -1;
     i++;
 
-    if (i + 2 >= len || s[i+2] != '-') return -1;
-    int mon = (s[i]-'0')*10 + (s[i+1]-'0');  i += 3;
+    if (i + 2 >= len || !isdigit2(s+i) || s[i+2] != '-') return -1;
+    int mon = d2(s+i);  i += 3;
 
-    if (i + 1 >= len) return -1;
-    int day = (s[i]-'0')*10 + (s[i+1]-'0');  i += 2;
+    if (i + 1 >= len || !isdigit2(s+i)) return -1;
+    int day = d2(s+i);  i += 2;
 
     if (i >= len || (s[i] != 'T' && s[i] != ' ')) return -1;
     i++;
 
-    if (i + 2 >= len || s[i+2] != ':') return -1;
-    int hour = (s[i]-'0')*10 + (s[i+1]-'0'); i += 3;
+    if (i + 2 >= len || !isdigit2(s+i) || s[i+2] != ':') return -1;
+    int hour = d2(s+i); i += 3;
 
-    if (i + 2 >= len || s[i+2] != ':') return -1;
-    int min  = (s[i]-'0')*10 + (s[i+1]-'0'); i += 3;
+    if (i + 2 >= len || !isdigit2(s+i) || s[i+2] != ':') return -1;
+    int min  = d2(s+i); i += 3;
 
-    if (i + 1 >= len) return -1;
-    int sec  = (s[i]-'0')*10 + (s[i+1]-'0'); i += 2;
+    if (i + 1 >= len || !isdigit2(s+i)) return -1;
+    int sec  = d2(s+i); i += 2;
 
     long nsec = 0;
     if (i < len && (s[i] == '.' || s[i] == ',')) {
@@ -125,6 +132,7 @@ static int parse_d(const char *s, struct timespec *out)
             ndigits++;
             i++;
         }
+        if (ndigits == 0) return -1;  /* spec requires at least one digit */
         while (ndigits++ < 9) nsec *= 10;
     }
 
