@@ -1,4 +1,5 @@
 .gitignore
+CLAUDE.md
 susv5-html/
 false/false
 grep/grep
@@ -21,4 +22,5 @@ more/more
 tee/tee
 touch/touch
 ln/ln
-CLAUDE.md
+sed/sed
+set/sed.o
