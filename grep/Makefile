@@ -1,18 +1,43 @@
-CC      = cc
-CFLAGS  = -std=c99 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -Wpedantic
+# grep - search files for a pattern (POSIX.1-2024)
+#
+# Targets: all (the default), test, difftest, install, clean.
 
-.PHONY: all clean
+.POSIX:
 
-all: grep
+CC       = cc
+CFLAGS   = -O2
+LDFLAGS  =
+PREFIX   = /usr/local
+BINDIR   = $(PREFIX)/bin
 
-grep: grep.o posix_re.o
-	$(CC) $(CFLAGS) -o $@ $^
+# required by the sources: the language standard; and the warnings
+STDFLAGS = -std=c11 -Wall -Wextra
+LDLIBS   =
 
-grep.o: grep.c posix_re.h
-	$(CC) $(CFLAGS) -c $<
+PROG     = grep
+OBJS     = grep.o posix_re.o
 
-posix_re.o: posix_re.c posix_re.h
-	$(CC) $(CFLAGS) -c $<
+all: $(PROG)
+
+$(PROG): $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)
+
+$(OBJS): posix_re.h
+
+.c.o:
+	$(CC) $(STDFLAGS) $(CFLAGS) -c $<
+
+test: all
+	sh ./test_grep.sh
+
+difftest:
+	@echo "grep: no differential tests"
+
+install: all
+	mkdir -p $(DESTDIR)$(BINDIR)
+	cp $(PROG) $(DESTDIR)$(BINDIR)/$(PROG)
 
 clean:
-	rm -f grep grep.o posix_re.o
+	rm -f $(PROG) $(OBJS)
+
+.PHONY: all test difftest install clean

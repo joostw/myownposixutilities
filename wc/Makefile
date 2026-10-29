@@ -1,12 +1,41 @@
-CC     = cc
-CFLAGS = -std=c99 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -Wpedantic
+# wc - word, line, and byte or character count (POSIX.1-2024)
+#
+# Targets: all (the default), test, difftest, install, clean.
 
-.PHONY: all clean
+.POSIX:
 
-all: wc
+CC       = cc
+CFLAGS   = -O2
+LDFLAGS  =
+PREFIX   = /usr/local
+BINDIR   = $(PREFIX)/bin
 
-wc: wc.c
-	$(CC) $(CFLAGS) -o $@ $<
+# required by the sources: the language standard; and the warnings
+STDFLAGS = -std=c11 -Wall -Wextra
+LDLIBS   =
+
+PROG     = wc
+OBJS     = wc.o
+
+all: $(PROG)
+
+$(PROG): $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)
+
+.c.o:
+	$(CC) $(STDFLAGS) $(CFLAGS) -c $<
+
+test: all
+	sh ./test_wc.sh
+
+difftest:
+	@echo "wc: no differential tests"
+
+install: all
+	mkdir -p $(DESTDIR)$(BINDIR)
+	cp $(PROG) $(DESTDIR)$(BINDIR)/$(PROG)
 
 clean:
-	rm -f wc
+	rm -f $(PROG) $(OBJS)
+
+.PHONY: all test difftest install clean

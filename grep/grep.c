@@ -1,7 +1,5 @@
-#define _POSIX_C_SOURCE 200809L
-
 /*
- * grep — search files for a pattern  (SUSv5 / IEEE Std 1003.1-2024)
+ * grep.c - grep: search files for a pattern (POSIX.1-2024, XCU grep)
  *
  * Synopsis (from the standard):
  *   grep [-E|-F] [-c|-l|-q] [-insvx] -e pattern_list
@@ -24,8 +22,15 @@
  *   -v  Invert the sense of matching
  *   -x  Whole-line match (entire line must match)
  *
+ * -q, -l and -c: -q writes nothing, and otherwise -l takes precedence
+ * over -c, whatever their order.  -s silences the messages about files
+ * that do not exist or cannot be read (opened or read: a directory, say).
+ * A selected last line without a <newline> is written with one.
+ *
  * Exit status: 0 = match found, 1 = no match, >1 = error.
  */
+
+#define _POSIX_C_SOURCE 200809L
 
 #include "posix_re.h"
 
@@ -110,7 +115,6 @@ static result_t grep_file(const char *name, FILE *fp,
     long      linenum = 0;
     long      count   = 0;
 
-    (void)suppress;   /* file-open errors already handled by caller */
 
     while ((nread = getline(&linebuf, &cap, fp)) >= 0) {
         linenum++;
@@ -148,15 +152,18 @@ static result_t grep_file(const char *name, FILE *fp,
         case OUT_NORMAL:
             if (prefix_name) printf("%s:", name);
             if (show_num)    printf("%ld:", linenum);
-            /* Write the line exactly as read (including '\n' if present). */
-            fwrite(linebuf, 1, (size_t)nread, stdout);
+            /* the line, as a text line even if the file's last one had no <newline> */
+            fwrite(linebuf, 1, len, stdout);
+            putchar('\n');
             break;
         }
     }
 
 done:
     if (ferror(fp)) {
-        fprintf(stderr, "grep: %s: %s\n", name, strerror(errno));
+        /* -s: an unreadable file (a directory, say) is not reported */
+        if (!suppress)
+            fprintf(stderr, "grep: %s: %s\n", name, strerror(errno));
         res.error = true;
     }
 
@@ -202,14 +209,16 @@ int main(int argc, char *argv[])
     bool       show_num = false;
     bool       suppress = false;
 
+    bool       opt_c = false, opt_l = false, opt_q = false;
+
     int opt;
     while ((opt = getopt(argc, argv, "EFce:f:ilnqsvx")) != -1) {
         switch (opt) {
         case 'E': patmode = PAT_ERE;   break;
         case 'F': patmode = PAT_FIXED; break;
-        case 'c': outmode = OUT_COUNT; break;
-        case 'l': outmode = OUT_FILES; break;
-        case 'q': outmode = OUT_QUIET; break;
+        case 'c': opt_c = true; break;
+        case 'l': opt_l = true; break;
+        case 'q': opt_q = true; break;
         case 'i': icase    = true;     break;
         case 'n': show_num = true;     break;
         case 's': suppress = true;     break;
@@ -226,6 +235,11 @@ int main(int argc, char *argv[])
             return 2;
         }
     }
+
+    /* -q writes nothing; otherwise -l takes precedence over -c (STDOUT) */
+    if (opt_q)      outmode = OUT_QUIET;
+    else if (opt_l) outmode = OUT_FILES;
+    else if (opt_c) outmode = OUT_COUNT;
 
     /* Build the pattern set now that we know mode and flags. */
     pset_t *ps = pset_new(patmode, icase);

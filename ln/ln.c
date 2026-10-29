@@ -1,10 +1,15 @@
 /*
- * ln — link files  (SUSv5 / IEEE Std 1003.1-2024)
+ * ln.c - ln: link files (POSIX.1-2024, XCU ln)
  *
  * Synopsis:
  *   ln [-fs] [-L|-P] source_file target_file
  *   ln [-fs] [-L|-P] source_file... target_dir
+ *
+ * Without -L or -P, a hard link to a symbolic link links the symbolic
+ * link itself (-P; the default is implementation-defined).
  */
+
+#define _POSIX_C_SOURCE 200809L
 
 #include <errno.h>
 #include <fcntl.h>
@@ -20,6 +25,49 @@
 static bool opt_f, opt_s, opt_L, opt_P;
 static int had_error;
 
+/* split a pathname into its directory and its last component (trailing
+   slashes removed); the results are malloc'ed */
+static void split_path(const char *path, char **dir, char **last)
+{
+    size_t n = strlen(path);
+    while (n > 1 && path[n - 1] == '/')
+        n--;
+    size_t i = n;
+    while (i > 0 && path[i - 1] != '/')
+        i--;
+    *last = strndup(path + i, n - i);
+    if (i == 0)
+        *dir = strdup(".");
+    else {
+        size_t d = i;
+        while (d > 1 && path[d - 1] == '/')
+            d--;
+        *dir = strndup(path, d);
+    }
+    if (!*dir || !*last) {
+        fprintf(stderr, "ln: out of memory\n");
+        exit(1);
+    }
+}
+
+/* do two pathnames name the same directory entry? */
+static bool same_entry(const char *a, const char *b)
+{
+    char *da, *la, *db, *lb;
+    struct stat sa, sb;
+    bool same = false;
+    split_path(a, &da, &la);
+    split_path(b, &db, &lb);
+    if (strcmp(la, lb) == 0 && stat(da, &sa) == 0 && stat(db, &sb) == 0 &&
+        sa.st_dev == sb.st_dev && sa.st_ino == sb.st_ino)
+        same = true;
+    free(da);
+    free(la);
+    free(db);
+    free(lb);
+    return same;
+}
+
 static int do_link(const char *src, const char *dst)
 {
     struct stat dst_lst;
@@ -30,14 +78,13 @@ static int do_link(const char *src, const char *dst)
             fprintf(stderr, "ln: %s: already exists\n", dst);
             return 1;
         }
-        /* Check whether src and dst name the same directory entry.
-         * Applies regardless of -s: the spec checks this before branching
-         * on -s, preventing e.g. "ln -sf foo foo" from unlinking foo. */
-        struct stat src_st, dst_st;
-        if (stat(src, &src_st) == 0 && stat(dst, &dst_st) == 0 &&
-            src_st.st_ino == dst_st.st_ino &&
-            src_st.st_dev == dst_st.st_dev) {
-            fprintf(stderr, "ln: %s and %s are the same file\n", src, dst);
+        /* The destination must not be the same directory entry as the
+         * source (the same name in the same directory: not merely the same
+         * file, so "ln -sf t link" replaces a link that points to t, and
+         * "ln -f a b" replaces another hard link b to a).  This is checked
+         * with -s too, so that "ln -sf foo foo" does not remove foo. */
+        if (same_entry(src, dst)) {
+            fprintf(stderr, "ln: %s and %s are the same directory entry\n", src, dst);
             return 1;
         }
         if (unlink(dst) == -1) {

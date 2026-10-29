@@ -1,8 +1,11 @@
 /*
- * mkdir — make directories  (SUSv5 / IEEE Std 1003.1-2024)
+ * mkdir.c - mkdir: make directories (POSIX.1-2024, XCU mkdir)
  *
  * Synopsis: mkdir [-p] [-m mode] dir...
  */
+
+#define _POSIX_C_SOURCE 200809L
+#define _XOPEN_SOURCE 700
 
 #include <errno.h>
 #include <locale.h>
@@ -37,9 +40,13 @@ static int parse_mode(const char *str, mode_t base, mode_t *out)
         return 0;
     }
 
-    /* Symbolic mode: [who...][op perm...][,...]  */
+    /* Symbolic mode: [who...][op perm...][,...]
+     * Without a who, the bits set in the file mode creation mask are not
+     * affected by + - and = (chmod EXTENDED DESCRIPTION). */
     mode_t result = base & 07777;
     const char *p = str;
+    mode_t cmask = umask(0);
+    umask(cmask);
 
     while (*p) {
         /* Parse who letters */
@@ -53,7 +60,8 @@ static int parse_mode(const char *str, mode_t base, mode_t *out)
             }
             p++;
         }
-        if (!wu && !wg && !wo) wu = wg = wo = true; /* no who → all */
+        bool no_who = !wu && !wg && !wo;
+        if (no_who) wu = wg = wo = true; /* no who: all, except the umask's bits */
 
         /* Must have at least one op */
         if (*p != '+' && *p != '-' && *p != '=') {
@@ -124,6 +132,8 @@ static int parse_mode(const char *str, mode_t base, mode_t *out)
                 p++;
             }
 
+            if (no_who)
+                perm &= ~cmask;
             switch (op) {
             case '+':
                 result |= perm;
@@ -133,9 +143,13 @@ static int parse_mode(const char *str, mode_t base, mode_t *out)
                 break;
             case '=': {
                 mode_t who_mask = 0;
-                if (wu) who_mask |= S_IRWXU | S_ISUID;
-                if (wg) who_mask |= S_IRWXG | S_ISGID;
-                if (wo) who_mask |= S_IRWXO | S_ISVTX;
+                if (no_who)
+                    who_mask = 07777;   /* all the file mode bits */
+                else {
+                    if (wu) who_mask |= S_IRWXU | S_ISUID;
+                    if (wg) who_mask |= S_IRWXG | S_ISGID;
+                    if (wo) who_mask |= S_IRWXO | S_ISVTX;
+                }
                 result = (result & ~who_mask) | perm;
                 break;
             }
@@ -208,11 +222,11 @@ static void make_dir_p(const char *orig)
             int r;
 
             if (is_last && opt_m) {
-                /* Final dir with -m: bypass umask, create with at least opt_mode,
-                 * then chmod to exact opt_mode so directory is never more
-                 * restrictive than the requested mode at any point. */
+                /* Final dir with -m: created with the mode's permission bits
+                 * (never less restrictive than the mode), then chmod for the
+                 * set-ID and sticky bits. */
                 mode_t saved = umask(0);
-                r = mkdir(path, opt_mode | 0300);
+                r = mkdir(path, opt_mode & 0777);
                 umask(saved);
                 if (r == 0) {
                     if (chmod(path, opt_mode) != 0) {
@@ -285,7 +299,7 @@ static void make_dir(const char *dir)
     }
 
     if (opt_m) {
-        if (!try_mkdir(dir, opt_mode | 0300, false)) return;
+        if (!try_mkdir(dir, opt_mode & 0777, false)) return;
         if (chmod(dir, opt_mode) != 0) {
             fprintf(stderr, "mkdir: cannot set permissions on '%s': %s\n",
                     dir, strerror(errno));

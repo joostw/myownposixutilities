@@ -1,5 +1,5 @@
 /*
- * posix_re — reusable multi-pattern matching for POSIX text utilities.
+ * posix_re.h - reusable multi-pattern matching for POSIX text utilities.
  *
  * A pattern set (pset_t) holds any number of patterns; a line matches if
  * ANY pattern in the set matches.  The three modes map directly to the three

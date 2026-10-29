@@ -1,8 +1,10 @@
 /*
- * tee — duplicate standard input  (SUSv5 / IEEE Std 1003.1-2024)
+ * tee.c - tee: duplicate standard input (POSIX.1-2024, XCU tee)
  *
  * Synopsis: tee [-ai] [file...]
  */
+
+#define _POSIX_C_SOURCE 200809L
 
 #include <errno.h>
 #include <fcntl.h>

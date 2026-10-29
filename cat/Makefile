@@ -1,12 +1,41 @@
-CC     = cc
-CFLAGS = -std=c99 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -Wpedantic
+# cat - concatenate and print files (POSIX.1-2024)
+#
+# Targets: all (the default), test, difftest, install, clean.
 
-.PHONY: all clean
+.POSIX:
 
-all: cat
+CC       = cc
+CFLAGS   = -O2
+LDFLAGS  =
+PREFIX   = /usr/local
+BINDIR   = $(PREFIX)/bin
 
-cat: cat.c
-	$(CC) $(CFLAGS) -o $@ $<
+# required by the sources: the language standard; and the warnings
+STDFLAGS = -std=c11 -Wall -Wextra
+LDLIBS   =
+
+PROG     = cat
+OBJS     = cat.o
+
+all: $(PROG)
+
+$(PROG): $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)
+
+.c.o:
+	$(CC) $(STDFLAGS) $(CFLAGS) -c $<
+
+test: all
+	sh ./test_cat.sh
+
+difftest:
+	@echo "cat: no differential tests"
+
+install: all
+	mkdir -p $(DESTDIR)$(BINDIR)
+	cp $(PROG) $(DESTDIR)$(BINDIR)/$(PROG)
 
 clean:
-	rm -f cat
+	rm -f $(PROG) $(OBJS)
+
+.PHONY: all test difftest install clean

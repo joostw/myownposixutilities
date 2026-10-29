@@ -1,9 +1,18 @@
 /*
- * cat — concatenate and print files  (SUSv5 / IEEE Std 1003.1-2024)
+ * cat.c - cat: concatenate and print files (POSIX.1-2024, XCU cat)
  *
  * Synopsis: cat [-u] [file...]
+ *
+ * Input is copied with read() and write(), so whatever one read() returns
+ * is written at once: output is never delayed, as -u requires (and
+ * without -u it is no different).  "-" is the standard input each time
+ * it appears; it is not closed and reopened.
  */
 
+#define _POSIX_C_SOURCE 200809L
+
+#include <errno.h>
+#include <fcntl.h>
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,39 +21,56 @@
 
 static int had_error;
 
-static void cat_stream(FILE *in, const char *name)
+static int write_all(const char *buf, size_t n)
 {
-    char buf[4096];
-    size_t n;
+    while (n > 0) {
+        ssize_t w = write(STDOUT_FILENO, buf, n);
+        if (w < 0) {
+            if (errno == EINTR)
+                continue;
+            return -1;
+        }
+        buf += w;
+        n -= (size_t)w;
+    }
+    return 0;
+}
 
-    while ((n = fread(buf, 1, sizeof buf, in)) > 0) {
-        if (fwrite(buf, 1, n, stdout) != n) {
-            fprintf(stderr, "cat: write error\n");
+static void cat_fd(int fd, const char *name)
+{
+    static char buf[65536];
+    for (;;) {
+        ssize_t n = read(fd, buf, sizeof buf);
+        if (n == 0)
+            return;
+        if (n < 0) {
+            if (errno == EINTR)
+                continue;
+            fprintf(stderr, "cat: %s: %s\n", name, strerror(errno));
             had_error = 1;
             return;
         }
-    }
-    if (ferror(in)) {
-        fprintf(stderr, "cat: %s: read error\n", name);
-        had_error = 1;
+        if (write_all(buf, (size_t)n) != 0) {
+            fprintf(stderr, "cat: write error: %s\n", strerror(errno));
+            exit(1);
+        }
     }
 }
 
 static void cat_file(const char *path)
 {
     if (strcmp(path, "-") == 0) {
-        cat_stream(stdin, "stdin");
+        cat_fd(STDIN_FILENO, "standard input");
         return;
     }
-
-    FILE *f = fopen(path, "rb");
-    if (!f) {
-        perror(path);
+    int fd = open(path, O_RDONLY);
+    if (fd < 0) {
+        fprintf(stderr, "cat: %s: %s\n", path, strerror(errno));
         had_error = 1;
         return;
     }
-    cat_stream(f, path);
-    fclose(f);
+    cat_fd(fd, path);
+    close(fd);
 }
 
 int main(int argc, char *argv[])
@@ -55,8 +81,7 @@ int main(int argc, char *argv[])
     while ((opt = getopt(argc, argv, "u")) != -1) {
         switch (opt) {
         case 'u':
-            setvbuf(stdout, NULL, _IONBF, 0);
-            break;
+            break;      /* output is never delayed */
         default:
             fprintf(stderr, "usage: cat [-u] [file...]\n");
             return 1;
@@ -65,17 +90,11 @@ int main(int argc, char *argv[])
     argc -= optind;
     argv += optind;
 
-    if (argc == 0) {
-        cat_stream(stdin, "stdin");
-    } else {
+    if (argc == 0)
+        cat_fd(STDIN_FILENO, "standard input");
+    else
         for (int i = 0; i < argc; i++)
             cat_file(argv[i]);
-    }
-
-    if (fflush(stdout) != 0 || ferror(stdout)) {
-        fprintf(stderr, "cat: write error\n");
-        had_error = 1;
-    }
 
     return had_error ? 1 : 0;
 }

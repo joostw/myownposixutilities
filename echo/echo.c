@@ -1,5 +1,5 @@
 /*
- * echo — write arguments to standard output  (SUSv5 / IEEE Std 1003.1-2024)
+ * echo.c - echo: write arguments to standard output (POSIX.1-2024, XCU echo)
  *
  * Synopsis: echo [string...]
  *
@@ -8,6 +8,8 @@
  * XSI backslash escape sequences are processed in every argument.
  * \c suppresses the trailing newline and ignores everything that follows.
  */
+
+#define _POSIX_C_SOURCE 200809L
 
 #include <locale.h>
 #include <stdio.h>

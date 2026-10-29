@@ -1,5 +1,5 @@
 /*
- * ls — list directory contents  (SUSv5 / IEEE Std 1003.1-2024)
+ * ls.c - ls: list directory contents (POSIX.1-2024, XCU ls)
  *
  * Synopsis:
  *   [XSI] ls [-ikqrs] [-gln o] [-A|-a] [-C|-m|-x|-1] \
@@ -97,15 +97,17 @@ static const struct stat *estat(const entry_t *e)
     return (e->use_tgt && e->tgt_ok) ? &e->tgt : &e->st;
 }
 
-static time_t etime(const entry_t *e)
+static struct timespec etimespec(const entry_t *e)
 {
     const struct stat *s = estat(e);
     switch (time_sel) {
-    case TIME_CTIME: return s->st_ctime;
-    case TIME_ATIME: return s->st_atime;
-    default:         return s->st_mtime;
+    case TIME_CTIME: return s->st_ctim;
+    case TIME_ATIME: return s->st_atim;
+    default:         return s->st_mtim;
     }
 }
+
+static time_t etime(const entry_t *e) { return etimespec(e).tv_sec; }
 
 /* ================================================================ */
 /*  Infinite-loop detection for -R                                    */
@@ -298,10 +300,35 @@ static unsigned long display_blks(blkcnt_t b)
     return (unsigned long)b;
 }
 
+/* the columns a name takes as write_name() writes it */
+static size_t name_width(const char *name)
+{
+    size_t left = strlen(name), w = 0;
+    const char *p = name;
+    mbstate_t st;
+    memset(&st, 0, sizeof st);
+    while (left > 0) {
+        wchar_t wc;
+        size_t n = mbrtowc(&wc, p, left, &st);
+        if (n == (size_t)-1 || n == (size_t)-2) {
+            w++;                    /* a byte: '?' with -q, one column at most */
+            p++; left--;
+            memset(&st, 0, sizeof st);
+            continue;
+        }
+        if (n == 0)
+            break;
+        int cw = iswprint((wint_t)wc) ? wcwidth(wc) : 1;
+        w += cw > 0 ? (size_t)cw : (opt_q ? 1 : 0);
+        p += n; left -= n;
+    }
+    return w;
+}
+
 /* Display width of an entry (name + optional inode/blocks/indicator). */
 static size_t entry_width(const entry_t *e)
 {
-    size_t w = strlen(e->name);
+    size_t w = name_width(e->name);
     if (opt_i) w += (size_t)snprintf(NULL, 0, "%llu ",
                                      (unsigned long long)e->st.st_ino);
     if (opt_s) w += (size_t)snprintf(NULL, 0, "%lu ",
@@ -366,8 +393,12 @@ static int cmp_entries(const void *a, const void *b)
         off_t sa = estat(ea)->st_size, sb = estat(eb)->st_size;
         r = (sb > sa) - (sa > sb); /* descending */
     } else if (sort_mode == SORT_TIME) {
-        time_t ta = etime(ea), tb = etime(eb);
-        r = (tb > ta) - (ta > tb); /* most recent first */
+        struct timespec ta = etimespec(ea), tb = etimespec(eb);
+        /* most recent first */
+        if (ta.tv_sec != tb.tv_sec)
+            r = (tb.tv_sec > ta.tv_sec) - (ta.tv_sec > tb.tv_sec);
+        else
+            r = (tb.tv_nsec > ta.tv_nsec) - (ta.tv_nsec > tb.tv_nsec);
     }
 
     if (r == 0) r = cmp_name(ea->name, eb->name);
@@ -509,7 +540,7 @@ static void print_columns(const entry_t *list, size_t n, bool across)
     }
 
     int col_width = (int)max_w + 2; /* 2-space separator */
-    int ncols     = term_width / col_width;
+    int ncols     = (term_width + 2) / col_width;   /* no separator after the last */
     if (ncols < 1) ncols = 1;
     size_t nrows  = (n + (size_t)ncols - 1) / (size_t)ncols;
 
@@ -595,8 +626,10 @@ static int read_dir(const char *path, entry_t **out, size_t *out_n)
         char  *full = malloc(plen + 1 + nlen + 1);
         if (!full) { perror("ls"); had_error = true; break; }
         memcpy(full, path, plen);
-        full[plen] = '/';
-        memcpy(full + plen + 1, nm, nlen + 1);
+        size_t at = plen;
+        if (plen == 0 || path[plen - 1] != '/')
+            full[at++] = '/';
+        memcpy(full + at, nm, nlen + 1);
 
         /* Grow list */
         if (count == cap) {
@@ -631,8 +664,7 @@ static int read_dir(const char *path, entry_t **out, size_t *out_n)
             }
         } else if (S_ISLNK(e->st.st_mode)) {
             /* Stat the target for -F indicators, but don't use it for display */
-            stat(full, &e->tgt);
-            e->tgt_ok = true;
+            e->tgt_ok = stat(full, &e->tgt) == 0;
         }
 
         count++;
@@ -670,10 +702,12 @@ static void list_dir(const char *path, const char *display);
 static void list_dir(const char *path, const char *display)
 {
     struct stat dst;
-    if (lstat(path, &dst) == 0) {
+    memset(&dst, 0, sizeof dst);
+    if (stat(path, &dst) == 0) {
         if (!mark_visited(dst.st_dev, dst.st_ino)) {
-            fprintf(stderr, "ls: %s: not listing already-visited directory\n",
+            fprintf(stderr, "ls: %s: not listing already-visited directory (a loop)\n",
                     path);
+            had_error = true;
             return;
         }
     }
@@ -692,7 +726,7 @@ static void list_dir(const char *path, const char *display)
         return;
     }
 
-    if (sort_mode != SORT_NONE)
+    if (sort_mode != SORT_NONE && n > 1)
         qsort(list, n, sizeof *list, cmp_entries);
 
     print_total(list, n);
@@ -737,70 +771,75 @@ int main(int argc, char *argv[])
 {
     setlocale(LC_ALL, "");
 
+    /*
+     * Of each mutually-exclusive set the last option given decides:
+     * -A|-a, -F|-p, -H|-L, -c|-u, and the output format (-C, -m, -x and
+     * -1; -g, -l, -n and -o turn long format on and -C, -m and -x turn it
+     * off, while -1 leaves it as it is).  The sort is by size or time from
+     * the last of -S and -t, where -c and -u count as -t once -t is given;
+     * -f ignores -r, -S and -t wherever they are.
+     */
+    fmt_t  cols_fmt = FMT_ONE;          /* the format when not long */
+    bool   cols_set = false;
+    bool   seen_t = false;
+    char   last_sort = 0;               /* 'S' or 't' (or 'c'/'u' after -t) */
+    char   last_ctu = 0;
+
     int opt;
     while ((opt = getopt(argc, argv, "AaCcdfFgHikLlmnopqrRsStux1")) != -1) {
         switch (opt) {
-        case 'A': opt_A = true; break;
-        case 'a': opt_a = true; break;
-        case 'C': out_fmt = FMT_DOWN;   long_fmt = false; break;
-        case 'c': time_sel = TIME_CTIME; break;
+        case 'A': opt_A = true; opt_a = false; break;
+        case 'a': opt_a = true; opt_A = false; break;
+        case 'C': cols_fmt = FMT_DOWN;   cols_set = true; long_fmt = false; break;
+        case 'x': cols_fmt = FMT_ACROSS; cols_set = true; long_fmt = false; break;
+        case 'm': cols_fmt = FMT_STREAM; cols_set = true; long_fmt = false; break;
+        case '1': cols_fmt = FMT_ONE;    cols_set = true; break;
+        case 'c': time_sel = TIME_CTIME; last_ctu = 'c'; break;
+        case 'u': time_sel = TIME_ATIME; last_ctu = 'u'; break;
         case 'd': opt_d = true; break;
-        case 'F': opt_F = true; break;
+        case 'F': opt_F = true; opt_p = false; break;
+        case 'p': opt_p = true; opt_F = false; break;
         case 'f': opt_f = true; break;
-        case 'g':
-            opt_g    = true;
-            long_fmt = true;
-            out_fmt  = FMT_LONG;
-            break;
-        case 'H': opt_H = true; break;
+        case 'g': opt_g = true; long_fmt = true; break;
+        case 'l':               long_fmt = true; break;
+        case 'n': opt_n = true; long_fmt = true; break;
+        case 'o': opt_o = true; long_fmt = true; break;
+        case 'H': opt_H = true; opt_L = false; break;
+        case 'L': opt_L = true; opt_H = false; break;
         case 'i': opt_i = true; break;
         case 'k': opt_k = true; break;
-        case 'L': opt_L = true; break;
-        case 'l':
-            long_fmt = true;
-            out_fmt  = FMT_LONG;
-            break;
-        case 'm': out_fmt = FMT_STREAM; long_fmt = false; break;
-        case 'n':
-            opt_n    = true;
-            long_fmt = true;
-            out_fmt  = FMT_LONG;
-            break;
-        case 'o':
-            opt_o    = true;
-            long_fmt = true;
-            out_fmt  = FMT_LONG;
-            break;
-        case 'p': opt_p = true; break;
         case 'q': opt_q = true; break;
         case 'R': opt_R = true; break;
         case 'r': opt_r = true; break;
-        case 'S': sort_mode = SORT_SIZE; break;
         case 's': opt_s = true; break;
-        case 't': sort_mode = SORT_TIME; break;
-        case 'u': time_sel = TIME_ATIME; break;
-        case 'x': out_fmt = FMT_ACROSS; long_fmt = false; break;
-        case '1': out_fmt = FMT_ONE; break;
+        case 'S': last_sort = 'S'; last_ctu = 'S'; break;
+        case 't': last_sort = 't'; last_ctu = 't'; seen_t = true; break;
         default:
             usage();
             return 2;
         }
     }
 
-    /* -f: unsorted directory order; implies -a; -r/-S/-t shall be ignored. */
+    if (seen_t)
+        sort_mode = last_ctu == 'S' ? SORT_SIZE : SORT_TIME;
+    else
+        sort_mode = last_sort == 'S' ? SORT_SIZE : SORT_NAME;
+
+    /* -f: directory order; turns on -a; -r, -S and -t are ignored */
     if (opt_f) {
         opt_a     = true;
+        opt_A     = false;
         sort_mode = SORT_NONE;
         opt_r     = false;
     }
 
-    /* Long-format options disable -C/-m/-x (last-wins handled in parsing).
-       If a long-format option set out_fmt = FMT_LONG, it overrides -C/-m/-x
-       only if it was specified after them — which the switch already does. */
-
-    /* Default output format for terminals: multi-column (-C). */
-    if (out_fmt == FMT_ONE && !long_fmt && isatty(STDOUT_FILENO))
-        out_fmt = FMT_DOWN;
+    if (long_fmt)
+        out_fmt = FMT_LONG;
+    else if (cols_set)
+        out_fmt = cols_fmt;
+    else
+        /* to a terminal the format is implementation-defined: columns */
+        out_fmt = isatty(STDOUT_FILENO) ? FMT_DOWN : FMT_ONE;
 
     if (out_fmt == FMT_DOWN || out_fmt == FMT_ACROSS || out_fmt == FMT_STREAM)
         term_width = get_term_width();
@@ -808,12 +847,11 @@ int main(int argc, char *argv[])
     int     n_files = argc - optind;
     char  **files   = argv + optind;
 
-    /* No operands: list "." */
+    /* No operands: as if the single operand "." */
+    static char *dot[] = { ".", NULL };
     if (n_files == 0) {
-        show_headers           = opt_R;
-        need_nl_before_header  = false;
-        list_dir(".", ".");
-        return had_error ? 1 : 0;
+        files   = dot;
+        n_files = 1;
     }
 
     /*
@@ -890,7 +928,8 @@ int main(int argc, char *argv[])
         }
         n_nondirs = k;
         /* Spec: non-dir operands sorted by collating sequence, not sort_mode. */
-        qsort(nd, (size_t)n_nondirs, sizeof *nd, cmp_entries_by_name);
+        if (n_nondirs > 1)
+            qsort(nd, (size_t)n_nondirs, sizeof *nd, cmp_entries_by_name);
         /* No "total" line for plain file operands */
         output_entries(nd, (size_t)n_nondirs);
         need_nl_before_header = (n_dirs > 0);
@@ -934,5 +973,9 @@ int main(int argc, char *argv[])
 
     free(ops);
     free(visited);
+    if (fflush(stdout) == EOF || ferror(stdout)) {
+        perror("ls: write error");
+        return 1;
+    }
     return had_error ? 1 : 0;
 }

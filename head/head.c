@@ -1,10 +1,13 @@
 /*
- * head — copy the first part of files  (SUSv5 / IEEE Std 1003.1-2024)
+ * head.c - head: copy the first part of files (POSIX.1-2024, XCU head)
  *
  * Synopsis: head [-c number|-n number] [file...]
  */
 
+#define _POSIX_C_SOURCE 200809L
+
 #include <errno.h>
+#include <limits.h>
 #include <locale.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -59,6 +62,21 @@ static void head_stream(FILE *f, const char *name)
     }
 }
 
+/* a positive decimal integer: digits only; values too large saturate */
+static bool positive(const char *s, long long *v)
+{
+    long long n = 0;
+    if (!*s)
+        return false;
+    for (; *s; s++) {
+        if (*s < '0' || *s > '9')
+            return false;
+        n = n > (LLONG_MAX - (*s - '0')) / 10 ? LLONG_MAX : n * 10 + (*s - '0');
+    }
+    *v = n;
+    return n > 0;
+}
+
 int main(int argc, char *argv[])
 {
     setlocale(LC_ALL, "");
@@ -66,26 +84,15 @@ int main(int argc, char *argv[])
     int opt;
     while ((opt = getopt(argc, argv, "c:n:")) != -1) {
         switch (opt) {
-        case 'c': {
-            char *end;
-            use_bytes = true;
-            count = strtoll(optarg, &end, 10);
-            if (*end != '\0' || count <= 0) {
-                fprintf(stderr, "head: invalid byte count: '%s'\n", optarg);
+        case 'c':
+        case 'n':
+            use_bytes = opt == 'c';
+            if (!positive(optarg, &count)) {
+                fprintf(stderr, "head: invalid %s count: '%s'\n",
+                        use_bytes ? "byte" : "line", optarg);
                 return 1;
             }
             break;
-        }
-        case 'n': {
-            char *end;
-            use_bytes = false;
-            count = strtoll(optarg, &end, 10);
-            if (*end != '\0' || count <= 0) {
-                fprintf(stderr, "head: invalid line count: '%s'\n", optarg);
-                return 1;
-            }
-            break;
-        }
         default:
             fprintf(stderr, "usage: head [-c number|-n number] [file...]\n");
             return 1;
@@ -106,7 +113,7 @@ int main(int argc, char *argv[])
 
             if (strcmp(argv[i], "-") == 0) {
                 f    = stdin;
-                name = "standard input";
+                name = "-";     /* the header names the operand */
             } else {
                 f = fopen(argv[i], "rb");
                 if (!f) {
@@ -126,10 +133,11 @@ int main(int argc, char *argv[])
             head_stream(f, name);
 
             if (f != stdin) fclose(f);
+            else clearerr(stdin);
         }
     }
 
-    if (fflush(stdout) != 0) {
+    if (fflush(stdout) != 0 || ferror(stdout)) {
         fprintf(stderr, "head: write error\n");
         had_error = 1;
     }

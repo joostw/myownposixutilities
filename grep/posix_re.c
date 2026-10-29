@@ -1,3 +1,8 @@
+/*
+ * posix_re.c - matching a line against a set of patterns (BREs, EREs or
+ * fixed strings) for grep; the interface is described in posix_re.h.
+ */
+
 #define _POSIX_C_SOURCE 200809L
 
 #include "posix_re.h"
@@ -110,10 +115,8 @@ oom:
  *
  * Patterns in a pattern_list are *separated* by newlines (spec: "patterns
  * separated by <newline> characters").  A trailing '\n' is therefore a
- * separator with nothing following it — it does not create an extra null
- * pattern.  Two adjacent '\n' characters do create a null pattern (the
- * empty segment between them), consistent with the spec note "A null
- * pattern can be specified by two adjacent <newline> characters."
+ * separator, and the empty segment after it is a null pattern, which
+ * matches every line (as two adjacent '\n' characters make one).
  */
 int pset_add_str(pset_t *ps, const char *str, const char *src)
 {
@@ -121,8 +124,6 @@ int pset_add_str(pset_t *ps, const char *str, const char *src)
     for (;;) {
         const char *nl  = strchr(p, '\n');
         size_t      len = nl ? (size_t)(nl - p) : strlen(p);
-        /* Skip a final empty segment produced by a trailing '\n'. */
-        if (!nl && len == 0 && p > str) break;
         if (add_one(ps, p, len, src) != 0) return -1;
         if (!nl) break;
         p = nl + 1;
@@ -174,16 +175,16 @@ static bool match_re(const regex_t *re, const char *line, size_t len,
  * needle is already lowercase-folded (done once at pattern-compile time).
  * The haystack is converted from multibyte on each call.
  *
- * Returns false on OOM or invalid encoding (caller may fall back).
+ * Returns -1 on OOM or invalid encoding (the caller falls back to bytes).
  */
-static bool wcs_find(const char *hay, size_t hbytes,
+static int wcs_find(const char *hay, size_t hbytes,
                      const wchar_t *needle, size_t nwc, bool whole)
 {
     wchar_t *whay = malloc((hbytes + 1) * sizeof *whay);
-    if (!whay) return false;
+    if (!whay) return -1;
 
     size_t whlen = mbstowcs(whay, hay, hbytes + 1);
-    if (whlen == (size_t)-1) { free(whay); return false; }
+    if (whlen == (size_t)-1) { free(whay); return -1; }
 
     bool found = false;
     if (whole) {
@@ -228,8 +229,11 @@ static bool match_fixed(const char *line, size_t llen,
     }
 
     /* Case-insensitive: prefer the wide-character path. */
-    if (n->wstr != NULL)
-        return wcs_find(line, llen, n->wstr, n->wstr_len, whole);
+    if (n->wstr != NULL) {
+        int r = wcs_find(line, llen, n->wstr, n->wstr_len, whole);
+        if (r >= 0)
+            return r;
+    }
 
     /* Fallback (pattern had invalid encoding or OOM). */
     if (whole) return llen == plen && strncasecmp(line, pat, plen) == 0;

@@ -1,8 +1,10 @@
 /*
- * wc — word, line, and byte or character count  (SUSv5 / IEEE Std 1003.1-2024)
+ * wc.c - wc: word, line, and byte or character count (POSIX.1-2024, XCU wc)
  *
  * Synopsis: wc [-c|-m] [-lw] [file...]
  */
+
+#define _POSIX_C_SOURCE 200809L
 
 #include <ctype.h>
 #include <errno.h>
@@ -26,46 +28,58 @@ typedef struct {
     unsigned long long chars;
 } counts_t;
 
-static void count_bytes(FILE *f, const char *name, counts_t *c)
+/*
+ * One pass over the input.  In a locale with multibyte characters, words
+ * are made of characters (iswspace() decides), and with -m characters
+ * are counted with mbrtowc(): a byte that is not part of a valid
+ * character is not a character (it still belongs to a word), and
+ * counting goes on.
+ */
+static void count_stream(FILE *f, const char *name, counts_t *c)
 {
-    char buf[8192];
+    unsigned char buf[65536];
     size_t n;
     bool in_word = false;
+    bool mb = MB_CUR_MAX > 1;
+    mbstate_t st;
+    memset(&st, 0, sizeof st);
 
     while ((n = fread(buf, 1, sizeof buf, f)) > 0) {
         c->bytes += n;
-        for (size_t i = 0; i < n; i++) {
-            unsigned char ch = (unsigned char)buf[i];
-            if (ch == '\n') c->lines++;
-            if (isspace(ch)) {
-                in_word = false;
-            } else if (!in_word) {
-                c->words++;
-                in_word = true;
+        if (!mb) {
+            for (size_t i = 0; i < n; i++) {
+                unsigned char ch = buf[i];
+                if (ch == '\n') c->lines++;
+                if (isspace(ch)) in_word = false;
+                else if (!in_word) { c->words++; in_word = true; }
             }
+            c->chars += n;
+            continue;
+        }
+        size_t i = 0;
+        while (i < n) {
+            wchar_t wc;
+            size_t r = mbrtowc(&wc, (const char *)buf + i, n - i, &st);
+            if (r == (size_t)-2) {          /* continues in the next block */
+                i = n;
+                break;
+            }
+            if (r == (size_t)-1) {          /* not a character: one byte */
+                memset(&st, 0, sizeof st);
+                wc = (wchar_t)-1;
+                r = 1;
+            } else if (r == 0)
+                r = 1;                      /* a NUL */
+            i += r;
+            if (wc != (wchar_t)-1)
+                c->chars++;                 /* a byte that is not a character is not counted */
+            if (wc == L'\n') c->lines++;
+            if (wc != (wchar_t)-1 && iswspace((wint_t)wc)) in_word = false;
+            else if (!in_word) { c->words++; in_word = true; }
         }
     }
-    if (ferror(f)) {
-        fprintf(stderr, "wc: %s: %s\n", name, strerror(errno));
-        had_error = 1;
-    }
-}
-
-static void count_chars(FILE *f, const char *name, counts_t *c)
-{
-    wint_t wc;
-    bool in_word = false;
-
-    while ((wc = fgetwc(f)) != WEOF) {
-        c->chars++;
-        if (wc == L'\n') c->lines++;
-        if (iswspace(wc)) {
-            in_word = false;
-        } else if (!in_word) {
-            c->words++;
-            in_word = true;
-        }
-    }
+    if (mb && !mbsinit(&st) && !in_word)    /* an incomplete character at the end */
+        c->words++;
     if (ferror(f)) {
         fprintf(stderr, "wc: %s: %s\n", name, strerror(errno));
         had_error = 1;
@@ -100,7 +114,7 @@ static void process_file(const char *path, counts_t *total)
 
     if (path == NULL || strcmp(path, "-") == 0) {
         f    = stdin;
-        name = NULL;
+        name = path;        /* "-" as an operand is named; no operand, no name */
     } else {
         f = fopen(path, "rb");
         if (!f) {
@@ -112,10 +126,9 @@ static void process_file(const char *path, counts_t *total)
     }
 
     counts_t c = {0, 0, 0, 0};
-    if (opt_m)
-        count_chars(f, name ? name : "stdin", &c);
-    else
-        count_bytes(f, name ? name : "stdin", &c);
+    count_stream(f, name ? name : "standard input", &c);
+    if (f == stdin)
+        clearerr(stdin);    /* "-" may be given again */
 
     print_counts(&c, name);
 
@@ -157,5 +170,9 @@ int main(int argc, char *argv[])
             print_counts(&total, "total");
     }
 
+    if (fflush(stdout) == EOF || ferror(stdout)) {
+        perror("wc: write error");
+        return 1;
+    }
     return had_error ? 1 : 0;
 }

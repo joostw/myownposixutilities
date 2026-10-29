@@ -1,11 +1,13 @@
 /*
- * pwd — return working directory name  (SUSv5 / IEEE Std 1003.1-2024)
+ * pwd.c - pwd: return working directory name (POSIX.1-2024, XCU pwd)
  *
  * Synopsis: pwd [-L|-P]
  *
  * -L (default): use $PWD if it is a valid absolute path naming the cwd
  * -P:           resolve symlinks via getcwd()
  */
+
+#define _POSIX_C_SOURCE 200809L
 
 #include <limits.h>
 #include <locale.h>
@@ -29,14 +31,39 @@ static bool no_dot(const char *p)
     return true;
 }
 
-static void pwd_physical(void)
+#include <errno.h>
+
+static void out(const char *s)
 {
-    char buf[PATH_MAX];
-    if (getcwd(buf, sizeof buf) == NULL) {
-        perror("pwd");
+    if (puts(s) == EOF || fflush(stdout) == EOF) {
+        perror("pwd: write error");
         exit(1);
     }
-    puts(buf);
+}
+
+/* the physical pathname: getcwd() with a buffer that grows, so that
+   directories deeper than PATH_MAX bytes work where the system allows */
+static void pwd_physical(void)
+{
+    size_t cap = PATH_MAX;
+    char *buf = NULL;
+    for (;;) {
+        char *nb = realloc(buf, cap);
+        if (!nb) {
+            perror("pwd");
+            exit(1);
+        }
+        buf = nb;
+        if (getcwd(buf, cap) != NULL)
+            break;
+        if (errno != ERANGE) {
+            perror("pwd");
+            exit(1);
+        }
+        cap *= 2;
+    }
+    out(buf);
+    free(buf);
 }
 
 int main(int argc, char *argv[])
@@ -65,7 +92,7 @@ int main(int argc, char *argv[])
         struct stat es, cs;
         if (stat(env, &es) == 0 && stat(".", &cs) == 0 &&
             es.st_dev == cs.st_dev && es.st_ino == cs.st_ino) {
-            puts(env);
+            out(env);
             return 0;
         }
     }

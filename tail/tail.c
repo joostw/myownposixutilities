@@ -1,13 +1,26 @@
 /*
- * tail — copy the last part of a file  (SUSv5 / IEEE Std 1003.1-2024)
+ * tail.c - tail: copy the last part of a file (POSIX.1-2024, XCU tail)
  *
  * Synopsis: tail [-f] [-c number|-n number] [file]
  *           tail -r [-n number] [file]
  *
- * number may be prefixed with '+' (from start, 1-based) or '-'/none (from end).
+ * number may have a sign: '+' counts from the beginning (origin 1, and
+ * then it must not be zero), '-' or none from the end (0 copies nothing).
+ * With -r, number has no sign and is the number of lines to copy, last
+ * line first.
+ *
+ * Counts from the end are kept in buffers that grow with the input, so
+ * any count works without allocating it in advance.  A regular file is
+ * read from its current offset, like any other input.
+ * -f follows a regular file or a FIFO named by the operand; it is
+ * ignored when standard input is a pipe or FIFO and no file operand (or
+ * "-") is given.
  */
 
+#define _POSIX_C_SOURCE 200809L
+
 #include <errno.h>
+#include <limits.h>
 #include <locale.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -17,280 +30,274 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-static bool      opt_f, opt_r, opt_n_set;
-static bool      use_bytes;         /* -c vs -n */
-static bool      from_start;        /* + prefix → count from beginning */
-static long long count   = 10;      /* default: 10 lines from end */
+static bool      opt_f, opt_r, opt_c, opt_n;
+static bool      from_start;        /* '+': from the beginning */
+static long long count = 10;
 static int       had_error;
+static const char *name = "standard input";
 
-/* ---- line ring buffer ---- */
-typedef struct { char *data; size_t len; size_t cap; } Line;
-static Line  *ring;
-static size_t ring_cap, ring_head, ring_size;
-
-static void ring_free(void)
+static void *xrealloc(void *p, size_t n)
 {
-    for (size_t i = 0; i < ring_cap; i++) free(ring[i].data);
-    free(ring);
-    ring = NULL;
-    ring_cap = ring_head = ring_size = 0;
-}
-
-static void ring_init(size_t n)
-{
-    ring_free();
-    if (n == 0) return;
-    ring = calloc(n, sizeof *ring);
-    if (!ring) { perror("tail"); exit(1); }
-    ring_cap = n;
-}
-
-static void ring_push(const char *s, size_t len)
-{
-    if (!ring_cap) return;
-    Line *slot = &ring[ring_head];
-    if (len + 1 > slot->cap) {
-        free(slot->data);
-        slot->data = malloc(len + 1);
-        if (!slot->data) { perror("tail"); exit(1); }
-        slot->cap = len + 1;
+    void *q = realloc(p, n ? n : 1);
+    if (!q) {
+        perror("tail");
+        exit(1);
     }
-    memcpy(slot->data, s, len);
-    slot->data[len] = '\0';
-    slot->len = len;
-    ring_head = (ring_head + 1) % ring_cap;
-    if (ring_size < ring_cap) ring_size++;
+    return q;
 }
 
-/* Return index of the i-th oldest line in the ring (0 = oldest). */
-static size_t ring_idx(size_t i)
+static void out(const void *p, size_t n)
 {
-    return (ring_head + ring_cap - ring_size + i) % ring_cap;
+    if (n && fwrite(p, 1, n, stdout) != n) {
+        perror("tail: write error");
+        exit(1);
+    }
 }
 
-static void ring_print_forward(void)
+static void read_error(FILE *f)
 {
-    for (size_t i = 0; i < ring_size; i++)
-        fwrite(ring[ring_idx(i)].data, 1, ring[ring_idx(i)].len, stdout);
+    if (ferror(f)) {
+        fprintf(stderr, "tail: %s: %s\n", name, strerror(errno));
+        had_error = 1;
+    }
 }
 
-static void ring_print_reverse(void)
-{
-    for (size_t i = ring_size; i-- > 0; )
-        fwrite(ring[ring_idx(i)].data, 1, ring[ring_idx(i)].len, stdout);
-}
-
-/* ---- helpers ---- */
-static void copy_stream(FILE *f)
+static void copy_rest(FILE *f)
 {
     char buf[8192];
     size_t n;
     while ((n = fread(buf, 1, sizeof buf, f)) > 0)
-        fwrite(buf, 1, n, stdout);
+        out(buf, n);
+    read_error(f);
 }
 
-/* Skip 'skip' bytes from f; return false on read error. */
-static bool skip_bytes(FILE *f, long long skip)
-{
-    /* Try fseeko first */
-    if (fseeko(f, (off_t)skip, SEEK_SET) == 0) return true;
-    /* Non-seekable: read and discard */
-    char buf[8192];
-    while (skip > 0) {
-        size_t want = (skip > (long long)sizeof buf) ? sizeof buf : (size_t)skip;
-        size_t n = fread(buf, 1, want, f);
-        if (n == 0) return !ferror(f);
-        skip -= (long long)n;
-    }
-    return true;
-}
-
-/* Skip 'skip' newlines from f. */
-static bool skip_lines(FILE *f, long long skip)
-{
-    int c;
-    while (skip > 0 && (c = getc(f)) != EOF)
-        if (c == '\n') skip--;
-    return !ferror(f);
-}
-
-/* ---- mode implementations ---- */
+/* ---- from the beginning ---- */
 
 static void from_start_bytes(FILE *f)
 {
-    /* Skip first (count - 1) bytes, then copy rest */
-    if (!skip_bytes(f, count - 1)) {
-        fprintf(stderr, "tail: read error\n");
-        had_error = 1;
-        return;
+    long long skip = count - 1;
+    /* a seekable input: seek from its current offset */
+    if (skip > 0 && fseeko(f, (off_t)skip, SEEK_CUR) == 0)
+        skip = 0;
+    while (skip > 0) {
+        char buf[8192];
+        size_t want = skip > (long long)sizeof buf ? sizeof buf : (size_t)skip;
+        size_t n = fread(buf, 1, want, f);
+        if (n == 0) {
+            read_error(f);
+            return;
+        }
+        skip -= (long long)n;
     }
-    copy_stream(f);
+    copy_rest(f);
 }
 
 static void from_start_lines(FILE *f)
 {
-    /* Skip first (count - 1) newlines, then copy rest */
-    if (!skip_lines(f, count - 1)) {
-        fprintf(stderr, "tail: read error\n");
-        had_error = 1;
-        return;
-    }
-    copy_stream(f);
+    long long skip = count - 1;
+    int c;
+    while (skip > 0 && (c = getc(f)) != EOF)
+        if (c == '\n')
+            skip--;
+    copy_rest(f);
 }
 
+/* ---- from the end ---- */
+
+/* the last count bytes: a buffer holding at most twice what is kept */
 static void from_end_bytes(FILE *f)
 {
-    if (count == 0) return;
-
-    /* Try seeking */
-    if (fseeko(f, 0, SEEK_END) == 0) {
-        off_t end = ftello(f);
-        off_t start = (end > (off_t)count) ? (end - (off_t)count) : 0;
-        if (fseeko(f, start, SEEK_SET) == 0) {
-            copy_stream(f);
-            return;
-        }
+    char *buf = NULL;
+    size_t len = 0, cap = 0, keep;
+    if (count == 0) {
+        read_error(f);
+        return;
     }
-    rewind(f);
-
-    /* Ring byte buffer for non-seekable input */
-    char *buf = malloc((size_t)count);
-    if (!buf) { perror("tail"); had_error = 1; return; }
-    size_t head = 0, n = 0;
-    char chunk[8192];
-    size_t r;
-    while ((r = fread(chunk, 1, sizeof chunk, f)) > 0) {
-        for (size_t i = 0; i < r; i++) {
-            buf[head] = chunk[i];
-            head = (head + 1) % (size_t)count;
-            if (n < (size_t)count) n++;
+    keep = (unsigned long long)count > SIZE_MAX / 4 ? SIZE_MAX / 4 : (size_t)count;
+    for (;;) {
+        size_t n;
+        if (cap - len < 8192) {
+            if (len > keep) {
+                memmove(buf, buf + (len - keep), keep);
+                len = keep;
+            }
+            if (cap - len < 8192) {
+                cap = cap ? cap * 2 : 16384;
+                buf = xrealloc(buf, cap);
+            }
         }
+        n = fread(buf + len, 1, cap - len, f);
+        if (n == 0)
+            break;
+        len += n;
     }
-    size_t start = (head + (size_t)count - n) % (size_t)count;
-    for (size_t i = 0; i < n; i++)
-        putchar_unlocked(buf[(start + i) % (size_t)count]);
+    read_error(f);
+    if (len > keep)
+        out(buf + (len - keep), keep);
+    else
+        out(buf, len);
     free(buf);
+}
+
+/* the input's lines, kept as offsets into one buffer */
+typedef struct {
+    char *data;
+    size_t len, cap;
+    size_t *start;      /* offsets of the lines kept */
+    size_t nlines, lcap, first;
+} Lines;
+
+/* read lines, keeping the last max of them (all of them if max is 0) */
+static void read_lines(FILE *f, Lines *L, unsigned long long max)
+{
+    int c;
+    bool at_line_start = true;
+    memset(L, 0, sizeof *L);
+    while ((c = getc(f)) != EOF) {
+        if (at_line_start) {
+            if (L->nlines == L->lcap) {
+                L->lcap = L->lcap ? L->lcap * 2 : 64;
+                L->start = xrealloc(L->start, L->lcap * sizeof *L->start);
+            }
+            L->start[L->nlines++] = L->len;
+            at_line_start = false;
+            /* drop lines no longer needed, now and then */
+            if (max && L->nlines - L->first > max)
+                L->first = L->nlines - max;
+            if (max && L->first > 4096 && L->first > L->nlines / 2) {
+                size_t base = L->start[L->first];
+                memmove(L->data, L->data + base, L->len - base);
+                L->len -= base;
+                for (size_t i = L->first; i < L->nlines; i++)
+                    L->start[i - L->first] = L->start[i] - base;
+                L->nlines -= L->first;
+                L->first = 0;
+            }
+        }
+        if (L->len == L->cap) {
+            L->cap = L->cap ? L->cap * 2 : 8192;
+            L->data = xrealloc(L->data, L->cap);
+        }
+        L->data[L->len++] = (char)c;
+        if (c == '\n')
+            at_line_start = true;
+    }
+    read_error(f);
+    if (max && L->nlines - L->first > max)
+        L->first = L->nlines - max;
+}
+
+static size_t line_end(const Lines *L, size_t i)
+{
+    return i + 1 < L->nlines ? L->start[i + 1] : L->len;
 }
 
 static void from_end_lines(FILE *f)
 {
-    ring_init((size_t)count);
-
-    char *linebuf = NULL;
-    size_t linecap = 0;
-    ssize_t len;
-    while ((len = getline(&linebuf, &linecap, f)) != -1)
-        ring_push(linebuf, (size_t)len);
-    free(linebuf);
-
-    ring_print_forward();
+    Lines L;
+    if (count == 0) {
+        read_error(f);
+        return;
+    }
+    read_lines(f, &L, (unsigned long long)count);
+    if (L.nlines > L.first)
+        out(L.data + L.start[L.first], L.len - L.start[L.first]);
+    free(L.data);
+    free(L.start);
 }
 
 static void reverse_lines(FILE *f)
 {
-    /* -r without -n: collect ALL lines; -r -n N: collect last N */
-    size_t cap = opt_n_set ? (size_t)count : SIZE_MAX / sizeof(Line);
-    ring_init(cap > 1000000 ? 1000000 : cap);
-
-    char *linebuf = NULL;
-    size_t linecap = 0;
-    ssize_t len;
-
-    /* Grow dynamically when no limit or ring is full for "all" case */
-    if (cap > 1000000) {
-        /* Unbounded: use dynamic array */
-        Line *arr = NULL;
-        size_t arr_n = 0, arr_cap = 0;
-        while ((len = getline(&linebuf, &linecap, f)) != -1) {
-            if (arr_n == arr_cap) {
-                size_t newcap = arr_cap ? arr_cap * 2 : 256;
-                Line *tmp = realloc(arr, newcap * sizeof *arr);
-                if (!tmp) { perror("tail"); exit(1); }
-                arr = tmp;
-                arr_cap = newcap;
-            }
-            arr[arr_n].data = malloc((size_t)len + 1);
-            if (!arr[arr_n].data) { perror("tail"); exit(1); }
-            memcpy(arr[arr_n].data, linebuf, (size_t)len);
-            arr[arr_n].data[len] = '\0';
-            arr[arr_n].len = (size_t)len;
-            arr[arr_n].cap = (size_t)len + 1;
-            arr_n++;
-        }
-        free(linebuf);
-        for (size_t i = arr_n; i-- > 0; )
-            fwrite(arr[i].data, 1, arr[i].len, stdout);
-        for (size_t i = 0; i < arr_n; i++) free(arr[i].data);
-        free(arr);
+    Lines L;
+    if (opt_n && count == 0) {
+        read_error(f);
         return;
     }
-
-    while ((len = getline(&linebuf, &linecap, f)) != -1)
-        ring_push(linebuf, (size_t)len);
-    free(linebuf);
-
-    ring_print_reverse();
+    read_lines(f, &L, opt_n ? (unsigned long long)count : 0);
+    for (size_t i = L.nlines; i-- > L.first; )
+        out(L.data + L.start[i], line_end(&L, i) - L.start[i]);
+    free(L.data);
+    free(L.start);
 }
 
-static void follow_stream(FILE *f)
+/* ---- -f ---- */
+
+static void follow(FILE *f)
 {
-    while (1) {
-        char buf[8192];
+    char buf[8192];
+    for (;;) {
         size_t n = fread(buf, 1, sizeof buf, f);
         if (n > 0) {
-            fwrite(buf, 1, n, stdout);
-            fflush(stdout);
-        } else {
-            if (ferror(f)) { had_error = 1; return; }
-            clearerr(f);
-            sleep(1);
+            out(buf, n);
+            if (fflush(stdout) == EOF) {
+                perror("tail: write error");
+                exit(1);
+            }
+            continue;
         }
+        if (ferror(f)) {
+            read_error(f);
+            return;
+        }
+        clearerr(f);
+        sleep(1);
     }
+}
+
+/* the option-argument: an optional sign (when allowed) and digits */
+static bool parse_number(const char *s, bool sign_ok)
+{
+    const char *p = s;
+    long long v = 0;
+    from_start = false;
+    if (*p == '+' || *p == '-') {
+        if (!sign_ok)
+            return false;
+        from_start = *p == '+';
+        p++;
+    }
+    if (!*p)
+        return false;
+    for (; *p; p++) {
+        if (*p < '0' || *p > '9')
+            return false;
+        if (v > (LLONG_MAX - (*p - '0')) / 10)
+            v = LLONG_MAX;              /* as good as infinite */
+        else
+            v = v * 10 + (*p - '0');
+    }
+    if (from_start && v == 0)
+        return false;
+    count = v;
+    return true;
 }
 
 int main(int argc, char *argv[])
 {
+    const char *num = NULL;
     setlocale(LC_ALL, "");
 
     int opt;
     while ((opt = getopt(argc, argv, "c:fn:r")) != -1) {
-        char *end, *p;
         switch (opt) {
         case 'c':
-            use_bytes = true;
-            p = optarg;
-            if (*p == '+') { from_start = true; p++; }
-            else if (*p == '-') { from_start = false; p++; }
-            else { from_start = false; }
-            count = strtoll(p, &end, 10);
-            if (*end != '\0' || count <= 0) {
-                fprintf(stderr, "tail: invalid number of bytes: '%s'\n", optarg);
-                return 1;
-            }
+            opt_c = true;
+            opt_n = false;
+            num = optarg;
             break;
         case 'f':
             opt_f = true;
             break;
         case 'n':
-            use_bytes = false;
-            opt_n_set = true;
-            p = optarg;
-            if (*p == '+') { from_start = true; p++; }
-            else if (*p == '-') { from_start = false; p++; }
-            else { from_start = false; }
-            count = strtoll(p, &end, 10);
-            if (*end != '\0' || count <= 0) {
-                fprintf(stderr, "tail: invalid number of lines: '%s'\n", optarg);
-                return 1;
-            }
+            opt_n = true;
+            opt_c = false;
+            num = optarg;
             break;
         case 'r':
             opt_r = true;
             break;
         default:
-            fprintf(stderr, "usage: tail [-f] [-c number|-n number] [file]\n"
-                            "       tail -r [-n number] [file]\n");
-            return 1;
+            goto usage;
         }
     }
     argc -= optind;
@@ -298,14 +305,19 @@ int main(int argc, char *argv[])
 
     if (argc > 1) {
         fprintf(stderr, "tail: too many operands\n");
+        goto usage;
+    }
+    if (opt_r && (opt_c || opt_f))
+        goto usage;
+    if (num && !parse_number(num, !opt_r)) {
+        fprintf(stderr, "tail: invalid number: '%s'\n", num);
         return 1;
     }
 
     FILE *f;
-    const char *name;
-    if (argc == 0 || strcmp(argv[0], "-") == 0) {
-        f    = stdin;
-        name = "stdin";
+    bool from_stdin = argc == 0 || strcmp(argv[0], "-") == 0;
+    if (from_stdin) {
+        f = stdin;
     } else {
         f = fopen(argv[0], "rb");
         if (!f) {
@@ -315,30 +327,33 @@ int main(int argc, char *argv[])
         name = argv[0];
     }
 
-    if (opt_r) {
+    /* -f is ignored for standard input that is a pipe or FIFO */
+    if (opt_f && from_stdin) {
+        struct stat st;
+        if (fstat(fileno(f), &st) == 0 && S_ISFIFO(st.st_mode))
+            opt_f = false;
+    }
+
+    if (opt_r)
         reverse_lines(f);
-    } else if (use_bytes) {
-        if (from_start) from_start_bytes(f);
-        else            from_end_bytes(f);
-        if (opt_f) follow_stream(f);
-    } else {
-        if (from_start) from_start_lines(f);
-        else            from_end_lines(f);
-        if (opt_f) follow_stream(f);
+    else if (opt_c)
+        from_start ? from_start_bytes(f) : from_end_bytes(f);
+    else
+        from_start ? from_start_lines(f) : from_end_lines(f);
+
+    if (fflush(stdout) == EOF || ferror(stdout)) {
+        perror("tail: write error");
+        return 1;
     }
+    if (opt_f && !had_error)
+        follow(f);
 
-    if (ferror(stdout)) {
-        fprintf(stderr, "tail: write error\n");
-        had_error = 1;
-    }
-
-    if (ferror(f)) {
-        fprintf(stderr, "tail: %s: read error\n", name);
-        had_error = 1;
-    }
-
-    if (f != stdin) fclose(f);
-
-    ring_free();
+    if (f != stdin)
+        fclose(f);
     return had_error ? 1 : 0;
+
+usage:
+    fprintf(stderr, "usage: tail [-f] [-c number|-n number] [file]\n"
+                    "       tail -r [-n number] [file]\n");
+    return 1;
 }

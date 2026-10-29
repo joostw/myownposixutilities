@@ -1,5 +1,6 @@
 /*
- * basename — return non-directory portion of a pathname  (SUSv5 / IEEE Std 1003.1-2024)
+ * basename.c - basename: return non-directory portion of a pathname
+ *   (POSIX.1-2024, XCU basename)
  *
  * Synopsis: basename string [suffix]
  *
@@ -12,12 +13,19 @@
  *  6. Strip suffix if it matches end but not the whole remaining string
  */
 
+#define _POSIX_C_SOURCE 200809L
+
 #include <locale.h>
 #include <stdio.h>
 #include <string.h>
 
 int main(int argc, char *argv[])
 {
+    /* no options, but "--" as the first argument is discarded (XCU 1.4) */
+    if (argc > 1 && strcmp(argv[1], "--") == 0) {
+        argv++;
+        argc--;
+    }
     if (argc < 2 || argc > 3) {
         fprintf(stderr, "usage: basename string [suffix]\n");
         return 1;
@@ -52,6 +60,7 @@ int main(int argc, char *argv[])
             s[slen - suflen] = '\0';
     }
 
-    puts(s);
+    if (puts(s) == EOF || fflush(stdout) == EOF)
+        return 1;
     return 0;
 }

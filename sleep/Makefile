@@ -1,12 +1,41 @@
-CC     = cc
-CFLAGS = -std=c99 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -Wpedantic
+# sleep - suspend execution for an interval (POSIX.1-2024)
+#
+# Targets: all (the default), test, difftest, install, clean.
 
-.PHONY: all clean
+.POSIX:
 
-all: sleep
+CC       = cc
+CFLAGS   = -O2
+LDFLAGS  =
+PREFIX   = /usr/local
+BINDIR   = $(PREFIX)/bin
 
-sleep: sleep.c
-	$(CC) $(CFLAGS) -o $@ $<
+# required by the sources: the language standard; and the warnings
+STDFLAGS = -std=c11 -Wall -Wextra
+LDLIBS   =
+
+PROG     = sleep
+OBJS     = sleep.o
+
+all: $(PROG)
+
+$(PROG): $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)
+
+.c.o:
+	$(CC) $(STDFLAGS) $(CFLAGS) -c $<
+
+test: all
+	sh ./test_sleep.sh
+
+difftest:
+	@echo "sleep: no differential tests"
+
+install: all
+	mkdir -p $(DESTDIR)$(BINDIR)
+	cp $(PROG) $(DESTDIR)$(BINDIR)/$(PROG)
 
 clean:
-	rm -f sleep
+	rm -f $(PROG) $(OBJS)
+
+.PHONY: all test difftest install clean

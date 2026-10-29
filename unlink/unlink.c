@@ -1,5 +1,5 @@
 /*
- * unlink — call the unlink function  (SUSv5 / IEEE Std 1003.1-2024, XSI)
+ * unlink.c - unlink: call the unlink function (POSIX.1-2024, XCU unlink) [XSI]
  *
  * Synopsis: unlink file
  *

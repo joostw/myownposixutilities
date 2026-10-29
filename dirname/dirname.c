@@ -1,5 +1,6 @@
 /*
- * dirname — return the directory portion of a pathname  (SUSv5 / IEEE Std 1003.1-2024)
+ * dirname.c - dirname: return the directory portion of a pathname
+ *   (POSIX.1-2024, XCU dirname)
  *
  * Synopsis: dirname string
  *
@@ -12,12 +13,19 @@
  *  6. Empty result → '/'
  */
 
+#define _POSIX_C_SOURCE 200809L
+
 #include <locale.h>
 #include <stdio.h>
 #include <string.h>
 
 int main(int argc, char *argv[])
 {
+    /* no options, but "--" as the first argument is discarded (XCU 1.4) */
+    if (argc > 1 && strcmp(argv[1], "--") == 0) {
+        argv++;
+        argc--;
+    }
     if (argc != 2) {
         fprintf(stderr, "usage: dirname string\n");
         return 1;
@@ -52,6 +60,7 @@ int main(int argc, char *argv[])
     while (n > 1 && s[n - 1] == '/') s[--n] = '\0';
 
     /* Step 6: empty result means root */
-    puts(n == 0 ? "/" : s);
+    if (puts(n == 0 ? "/" : s) == EOF || fflush(stdout) == EOF)
+        return 1;
     return 0;
 }
