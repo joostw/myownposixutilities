@@ -1,0 +1,90 @@
+-- writing in a UTF-8 locale: UTF-8 names as they are, others BINARY
+    16 path=w/cafÃ©
+    21 hdrcharset=BINARY
+    15 path=w/cafï¿½
+-- writing in the C locale: bytes outside ASCII are BINARY
+    21 hdrcharset=BINARY
+    16 path=w/cafÃ©
+    21 hdrcharset=BINARY
+    15 path=w/cafï¿½
+-- -o hdrcharset:=BINARY: the names as they are
+      1     15 path=w/cafï¿½
+      1     16 path=w/cafÃ©
+      2     21 hdrcharset=BINARY
+== reading in the UTF-8 locale
+utf8 rc=0
+ c a f 303 251 \n
+pax: café: name cannot be translated to the codeset of the current locale; skipped (see -o invalid=)
+raw rc=1
+bin rc=0
+ c a f 351 \n
+glob rc=0
+ a 351 \n b 351 \n
+pax: a: name cannot be translated to the codeset of the current locale; skipped (see -o invalid=)
+nul rc=1
+pax: nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn: name too long for the file system; skipped (see -o invalid=)
+long rc=1
+iso rc=0
+ c a f 303 251 \n
+other rc=0
+ c a f 303 251 \n
+ok rc=0
+ p l a i n \n
+== reading in C
+pax: cafÃ©: name cannot be translated to the codeset of the current locale; skipped (see -o invalid=)
+utf8 rc=1
+pax: café: name cannot be translated to the codeset of the current locale; skipped (see -o invalid=)
+raw rc=1
+bin rc=0
+ c a f 351 \n
+glob rc=0
+ a 351 \n b 351 \n
+pax: a: name cannot be translated to the codeset of the current locale; skipped (see -o invalid=)
+nul rc=1
+pax: nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn: name too long for the file system; skipped (see -o invalid=)
+long rc=1
+pax: cafÃ©: name cannot be translated to the codeset of the current locale; skipped (see -o invalid=)
+iso rc=1
+pax: café: name cannot be translated to the codeset of the current locale; skipped (see -o invalid=)
+other rc=1
+ok rc=0
+ p l a i n \n
+== the actions, in the C locale, for the UTF-8 name
+pax: cafÃ©: name cannot be translated to the codeset of the current locale; skipped (see -o invalid=)
+bypass rc=1
+binary rc=0
+ c a f 303 251 \n
+UTF-8 rc=0
+ c a f 303 251 \n
+write rc=0
+ c a f 303 251 \n
+== the actions in a UTF-8 locale, for the name that is not UTF-8
+pax: café: name cannot be translated to the codeset of the current locale; skipped (see -o invalid=)
+bypass rc=1
+binary rc=0
+ c a f 351 \n
+UTF-8 rc=0
+ c a f 351 \n
+write rc=0
+ c a f 351 \n
+== a name with a NUL, -o invalid=binary
+rc=0
+ a \n
+== a name too long, -o invalid=write: tried, and the system refuses
+pax: N...: cannot create: File name too long
+rc=1
+== a symbolic link whose target cannot be translated
+pax: y: name cannot be translated to the codeset of the current locale; skipped (see -o invalid=)
+rc=1
+write rc=0
+ y - > t 351 \n
+== list mode lists every file
+ c a f 303 251 \n
+utf8 rc=0
+ c a f 351 \n
+raw rc=0
+ a \n
+nul rc=0
+== -o invalid=rename asks, as -i does
+b'caf\xc3\xa9: rename? cafe\n'
+rc 0 ['cafe']

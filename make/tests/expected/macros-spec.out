@@ -1,0 +1,16 @@
+IMM=[1 $x] KEEP=[1 $x] DEL=[2 $x]
+IA=[a 2 $y] DA=[a 2 $y]
+SH=[lead  mid end] SH2=[] C=[c1]
+IMM=[1 $x] KEEP=[1 $x] DEL=[2 $x]
+IA=[a 2 $y] DA=[a 2 $y]
+SH=[lead  mid end] SH2=[] C=[c1]
+IMM=[env $x] KEEP=[env $x] DEL=[env $x]
+IA=[a env $y] DA=[a env $y]
+SH=[lead  mid end] SH2=[] C=[c1]
+-- 100 levels of indirection
+bottom
+-- self reference
+make: *** Recursive variable 'X' references itself (eventually).  Stop.
+rc=2
+-- substitution forms
+[a.o b.o lib%.o x.c.o] [a.o b.o lib%.o x.c.o] [a.c b.c X x.c.c] [a.c% b.c% lib%.c% x.c.c%] [A.c b.c lib%.c x.c.c] [a.o=z b.o=z lib%.o=z x.c.o=z]

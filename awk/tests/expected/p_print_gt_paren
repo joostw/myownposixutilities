@@ -1,0 +1,3 @@
+awk: syntax error at source line 1: statement not terminated
+awk:  context is: BEGIN{print 1 > 2  >>> ? "/tmp/o7" : "/tmp/o8"} <<<
+1

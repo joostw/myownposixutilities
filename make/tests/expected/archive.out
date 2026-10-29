@@ -1,0 +1,31 @@
+-- build
+cc -c  f.c
+ar -rUc lib.a f.o
+rm -f f.o
+cc -c  g.c
+ar -rUc lib.a g.o
+rm -f g.o
+lib lib.a updated with f.o g.o
+f.o
+g.o
+-- up to date
+make: 'lib.a' is up to date.
+-- one member out of date
+cc -c  g.c
+ar -rUc lib.a g.o
+rm -f g.o
+lib lib.a updated with g.o
+-- members with long names and BSD-style archives
+cc -c  a_rather_long_member_name.c
+ar -rUc lib.a a_rather_long_member_name.o
+rm -f a_rather_long_member_name.o
+make: Nothing to be done for 'lib.a'.
+f.o
+g.o
+a_rather_long_member_name.o
+-- -t touches a member
+touch lib.a(f.o)
+touch lib.a
+make: 'lib.a' is up to date.
+-- member macros
+@=lib.a %=f.o <=f.c *=f ?=f.c @D=. %F=f.o

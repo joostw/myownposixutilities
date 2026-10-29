@@ -1,0 +1,1478 @@
+{
+ "cases.txt:LINENO": [
+  "1\n3\n",
+  0
+ ],
+ "cases.txt:PPID": [
+  "ppid\n",
+  0
+ ],
+ "cases.txt:alias": [
+  "ll-alias x\none\ntwo\nword\nll-alias\n0\n",
+  0
+ ],
+ "cases.txt:alias listing": [
+  "a1='x y'\n",
+  0
+ ],
+ "cases.txt:and or lists": [
+  "yes\nyes2\nthree\n",
+  0
+ ],
+ "cases.txt:arith assign side effect": [
+  "3 3\n1 1\n",
+  0
+ ],
+ "cases.txt:arith errors": [
+  "rc=2\nrc2=2\n",
+  0
+ ],
+ "cases.txt:arith subshell ambiguity": [
+  "inner\na b\n",
+  0
+ ],
+ "cases.txt:arithmetic": [
+  "7 9 3 1 -3\n1 0 0 1 0 -1 6 1 7 16 64\n8 31 2 3\n7 7 14 10 5 1 1\n",
+  0
+ ],
+ "cases.txt:arithmetic vars": [
+  "12 4\n1\n10\n1\n",
+  0
+ ],
+ "cases.txt:assignment before command": [
+  "1\n[]\n[]\n",
+  0
+ ],
+ "cases.txt:assignment cmdsub status": [
+  "1\n0\n",
+  0
+ ],
+ "cases.txt:assignment special builtin persists": [
+  "[3]\n",
+  0
+ ],
+ "cases.txt:async and wait": [
+  "bg\nafter\n7\n127\n",
+  0
+ ],
+ "cases.txt:async pid": [
+  "havepid\n",
+  0
+ ],
+ "cases.txt:at and star": [
+  "[a b]\n[c]\n[]\n3\n[a b c ]\na b-c-\nu[a b]\nu[c]\n",
+  0
+ ],
+ "cases.txt:at embedded": [
+  "x1\n2\n3y\n",
+  0
+ ],
+ "cases.txt:backquote with backslashes": [
+  "a\b\nx$y\n",
+  0
+ ],
+ "cases.txt:backslash in double quotes": [
+  "a$b `c` \\d \\e \"f\"\n",
+  0
+ ],
+ "cases.txt:brace group": [
+  "2\n2\n",
+  0
+ ],
+ "cases.txt:break continue": [
+  "1\n3\na1\nb1\nafter a1\nok\n",
+  0
+ ],
+ "cases.txt:case fallthrough": [
+  "one\ntwo\n",
+  0
+ ],
+ "cases.txt:case misc syntax": [
+  "paren\nalt\ndefault\n",
+  0
+ ],
+ "cases.txt:case patterns": [
+  "1:abc\n2:ABC\n1:a.c\n3:*\nempty\n",
+  0
+ ],
+ "cases.txt:case quoted pattern from var": [
+  "unquoted\nquoted2\n",
+  0
+ ],
+ "cases.txt:cd and pwd": [
+  "DD/sub\nDD\nDD/sub\ndd\nrc=1\n",
+  0
+ ],
+ "cases.txt:cd logical symlink": [
+  "lnk\nsh-regress-work\nR/x\n",
+  0
+ ],
+ "cases.txt:cdpath": [
+  "CDP/target\n",
+  0
+ ],
+ "cases.txt:cmdsub status": [
+  "5\n0\n3\n",
+  0
+ ],
+ "cases.txt:command builtin": [
+  "via-command\n1\n1\n",
+  0
+ ],
+ "cases.txt:command not found continues": [
+  "continued\n",
+  0
+ ],
+ "cases.txt:command special builtin no exit": [
+  "still here 2\n",
+  0
+ ],
+ "cases.txt:command substitution": [
+  "[a]\nnested deep\nbq\n$HOME\ncase-in-cmdsub\n",
+  0
+ ],
+ "cases.txt:comments": [
+  "a\nb#notcomment\n",
+  0
+ ],
+ "cases.txt:dollar at end": [
+  "$ a$ b$\n",
+  0
+ ],
+ "cases.txt:dollar dollar in subshell": [
+  "same\n",
+  0
+ ],
+ "cases.txt:dollar single quote": [
+  "0000000   a  \\t   b  \\n  \\n\n0000005\n0000000   A   A 033  \\n\n",
+  0
+ ],
+ "cases.txt:dot": [
+  "sourced\nfrom-dot\n4\n",
+  0
+ ],
+ "cases.txt:dot path search": [
+  "found-in-path\n",
+  0
+ ],
+ "cases.txt:dup errors": [
+  "rc=1\n",
+  0
+ ],
+ "cases.txt:echo escapes": [
+  "0000000   a  \\t   b  \\n\nstop",
+  0
+ ],
+ "cases.txt:empty at": [
+  "n=0\n0\n1\n",
+  0
+ ],
+ "cases.txt:eval": [
+  "1\n1\n0\n1\n",
+  0
+ ],
+ "cases.txt:eval loop break": [
+  "1\n",
+  0
+ ],
+ "cases.txt:exec": [
+  "replaced\nto4\n",
+  0
+ ],
+ "cases.txt:exit": [
+  "44\n0\n5\n",
+  0
+ ],
+ "cases.txt:exit status of commands": [
+  "127\n126\n",
+  0
+ ],
+ "cases.txt:expansion error exits": [
+  "",
+  2
+ ],
+ "cases.txt:export": [
+  "1\n2\n[]\n",
+  0
+ ],
+ "cases.txt:field splitting": [
+  "3\n2:a:b\n3\n[a]\n[]\n[b]\n",
+  0
+ ],
+ "cases.txt:field splitting ws mix": [
+  "4\n[a][b][][c]\n",
+  0
+ ],
+ "cases.txt:for without in": [
+  "p\nq\nempty\n",
+  0
+ ],
+ "cases.txt:function positional restore": [
+  "in\ntop1 2\n",
+  0
+ ],
+ "cases.txt:function recursion": [
+  "720\n",
+  0
+ ],
+ "cases.txt:function redirect on definition": [
+  "to-file\n",
+  0
+ ],
+ "cases.txt:functions": [
+  "a 2\n7 1\nafter\nsub\n2\n",
+  0
+ ],
+ "cases.txt:getopts": [
+  "a \nb arg\nc foo\nOPTIND=5\nrest\n",
+  0
+ ],
+ "cases.txt:getopts errors": [
+  "? [x]\n: [b]\n? [u]\n? [u]\n",
+  0
+ ],
+ "cases.txt:getopts grouped and --": [
+  "a\nb 2\n1 2\n",
+  0
+ ],
+ "cases.txt:glob bracket classes": [
+  "f/A f/3 f/A f/_ f/b\n",
+  0
+ ],
+ "cases.txt:glob in variable": [
+  "e/1 e/2 e/*\n",
+  0
+ ],
+ "cases.txt:glob slash bracket": [
+  "g/a[b g/a[b\n",
+  0
+ ],
+ "cases.txt:globbing": [
+  "d/a.c d/b.c\nd/a.c d/b.c d/x.txt\nd/.h\nd/a.c d/b.c\nd/b.c\nd/x.txt\nd/*.c d/*.c d/*\nd/nomatch*\nd/*.c\n",
+  0
+ ],
+ "cases.txt:hash": [
+  "1\n",
+  0
+ ],
+ "cases.txt:here-doc with large body": [
+  "201\n",
+  0
+ ],
+ "cases.txt:heredoc backslash": [
+  "line continued\nback\\slash $ ` \\\"\n",
+  0
+ ],
+ "cases.txt:heredoc basic": [
+  "a val $x bq cs \"q\" 'q'\nliteral $x `x`\nquoted delim $x\n",
+  0
+ ],
+ "cases.txt:heredoc in cmdsub": [
+  "inside\n",
+  0
+ ],
+ "cases.txt:heredoc in function and loop": [
+  "in func arg\n1\n2\n",
+  0
+ ],
+ "cases.txt:heredoc multiple": [
+  "first\nsecond\n",
+  0
+ ],
+ "cases.txt:heredoc strip tabs": [
+  "tab1\ntab2\n",
+  0
+ ],
+ "cases.txt:if elif else": [
+  "one\ntwo\nother\nst=0\n",
+  0
+ ],
+ "cases.txt:ifs empty": [
+  "1\n0\n<a>\n<b>\n",
+  0
+ ],
+ "cases.txt:ifs unset": [
+  "3\n",
+  0
+ ],
+ "cases.txt:jobs non-interactive": [
+  "143\n",
+  0
+ ],
+ "cases.txt:kill -l": [
+  "KILL\nINT\n",
+  0
+ ],
+ "cases.txt:length": [
+  "5\n3\n1\n",
+  0
+ ],
+ "cases.txt:line continuation": [
+  "ab\njoined\n",
+  0
+ ],
+ "cases.txt:nested param": [
+  "B Bx $b\n",
+  0
+ ],
+ "cases.txt:noclobber": [
+  "rc=1\na\nc\n",
+  0
+ ],
+ "cases.txt:numeric loop large": [
+  "2000\n",
+  0
+ ],
+ "cases.txt:param expansion ops": [
+  "d1  set\nd1 d2 set\n a2 a3\n  a3\nas as\nas2 as2\n",
+  0
+ ],
+ "cases.txt:param question": [
+  "rc=2\nrc=2\n1\n",
+  0
+ ],
+ "cases.txt:pipefail": [
+  "1\n3\n0\n",
+  0
+ ],
+ "cases.txt:pipelines": [
+  "b\n0\n0\n1\n",
+  0
+ ],
+ "cases.txt:positional beyond 9": [
+  "10 10 11\n",
+  0
+ ],
+ "cases.txt:printf": [
+  "a|    b|c    |de\n42 -7 10 ff FF 3\nhw\na\tb\\c\nxAy\na\nb\nc\nno args |\n65\n16\n8\n  3.1|1.000000e+03\n%\nhello world\n",
+  0
+ ],
+ "cases.txt:printf b stop": [
+  "x\n",
+  0
+ ],
+ "cases.txt:printf errors": [
+  "0\nrc=1\n12\nrc=1\n",
+  0
+ ],
+ "cases.txt:quoted null fields": [
+  "2\n1\n",
+  0
+ ],
+ "cases.txt:quoting basic": [
+  "single $x double $WORK $x a b a\"b it's\n",
+  0
+ ],
+ "cases.txt:read": [
+  "[a][b c]\n[lead  trail]\n[onetwo]\n[a\b]\n[a][b:c]\n1 [no-newline]\n[a][b][]\n",
+  0
+ ],
+ "cases.txt:read delimiter": [
+  "[a,b]\n",
+  0
+ ],
+ "cases.txt:read ifs nonws": [
+  "[a][][b]\n[][a]\n",
+  0
+ ],
+ "cases.txt:readonly": [
+  "rc=2\n1\n",
+  0
+ ],
+ "cases.txt:readonly assignment error exits": [
+  "",
+  2
+ ],
+ "cases.txt:redirect error continues": [
+  "continued 1\n",
+  0
+ ],
+ "cases.txt:redirect error special builtin exits": [
+  "",
+  1
+ ],
+ "cases.txt:redirection order": [
+  "1\n",
+  0
+ ],
+ "cases.txt:redirections": [
+  "out\nout\napp\n2\ne1\nthree\nrw\n",
+  0
+ ],
+ "cases.txt:return status": [
+  "1\n9\n",
+  0
+ ],
+ "cases.txt:semicolon newline handling": [
+  "multi\n1\n",
+  0
+ ],
+ "cases.txt:set -a": [
+  "1\n",
+  0
+ ],
+ "cases.txt:set -e and&&": [
+  "survived\n",
+  1
+ ],
+ "cases.txt:set -e basic": [
+  "one\ntwo\nthree\n",
+  1
+ ],
+ "cases.txt:set -e cmdsub assignment": [
+  "",
+  1
+ ],
+ "cases.txt:set -e in condition of compound": [
+  "yes-brace\n",
+  0
+ ],
+ "cases.txt:set -e pipeline": [
+  "yes\n",
+  1
+ ],
+ "cases.txt:set -e subshell": [
+  "",
+  1
+ ],
+ "cases.txt:set -f": [
+  "a*\na1 a2\n",
+  0
+ ],
+ "cases.txt:set -n": [
+  "",
+  0
+ ],
+ "cases.txt:set -u": [
+  "1\nrc=2\ndefault\n0\nend\n",
+  0
+ ],
+ "cases.txt:set positional": [
+  "3\nb\n0\n",
+  0
+ ],
+ "cases.txt:special builtin error exits": [
+  "",
+  2
+ ],
+ "cases.txt:special params": [
+  "0\n1\n3\n0\n",
+  1
+ ],
+ "cases.txt:subshell isolation": [
+  "2\n1\n/\n1\n",
+  0
+ ],
+ "cases.txt:syntax error in eval": [
+  "before\n",
+  2
+ ],
+ "cases.txt:test": [
+  "eq\nseq\nsne\nz\nn\nnoexist\ndir\none-arg\nzero-arg\n0\n0\n0\n0\n0\n1\n0\n",
+  0
+ ],
+ "cases.txt:test errors": [
+  "2\n",
+  0
+ ],
+ "cases.txt:test files": [
+  "0\n1\n0\n0\n0\n",
+  0
+ ],
+ "cases.txt:tilde": [
+  "/home/u /home/u/x ~ R/x\n/home/u/a:/home/u/b\n/h/x\n",
+  0
+ ],
+ "cases.txt:times": [
+  "2\n",
+  0
+ ],
+ "cases.txt:trap exit": [
+  "body\nexiting\nafter\ne\n3\n",
+  0
+ ],
+ "cases.txt:trap in subshell reset": [
+  "trap -- 'echo parent' USR1\n",
+  0
+ ],
+ "cases.txt:trap list": [
+  "trap -- 'echo x' INT\n",
+  0
+ ],
+ "cases.txt:trap signal": [
+  "got USR1\nafter\n",
+  0
+ ],
+ "cases.txt:trap status preserved": [
+  "0\n",
+  0
+ ],
+ "cases.txt:trim": [
+  "a/b/c.tar.gz c.tar.gz /a/b/c.tar /a/b/c\n/b/c.tar.gz /a/b/c.tar.gz /a/b/c.tar.\nb a\n",
+  0
+ ],
+ "cases.txt:trim patterns brackets": [
+  "abc 123 abc123\n",
+  0
+ ],
+ "cases.txt:type": [
+  "1\n1\n",
+  0
+ ],
+ "cases.txt:umask": [
+  "0027\nu=rwx,g=rx,o=\n0027\n",
+  0
+ ],
+ "cases.txt:unset": [
+  "[unset]\n127\n",
+  0
+ ],
+ "cases.txt:var assign no command redirect": [
+  "1\ncreated\n",
+  0
+ ],
+ "cases.txt:while until": [
+  "1\n2\n3\n0\n",
+  0
+ ],
+ "cases.txt:word with many expansions": [
+  "x1y2z$qw\n",
+  0
+ ],
+ "cases2.txt:builtins: OLDPWD set": [
+  "/\n",
+  0
+ ],
+ "cases2.txt:builtins: alias defined in same line not used": [
+  "not-yet\nyy-alias\n",
+  0
+ ],
+ "cases2.txt:builtins: alias not expanded in non-command position": [
+  "xx\n",
+  0
+ ],
+ "cases2.txt:builtins: alias with special chars in value": [
+  "",
+  127
+ ],
+ "cases2.txt:builtins: break in function not affecting loop": [
+  "1\n2\n",
+  0
+ ],
+ "cases2.txt:builtins: cd -P dotdot": [
+  "a\n",
+  0
+ ],
+ "cases2.txt:builtins: cd dash prints": [
+  "xx\n",
+  0
+ ],
+ "cases2.txt:builtins: cd dotdot logical": [
+  "sh-regress-work\n",
+  0
+ ],
+ "cases2.txt:builtins: cd empty arg": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:builtins: colon with args": [
+  "0\n",
+  0
+ ],
+ "cases2.txt:builtins: command -p": [
+  "plist\n",
+  0
+ ],
+ "cases2.txt:builtins: command -v forms": [
+  "f\nalias al=x\ncd\nif\n1\n",
+  0
+ ],
+ "cases2.txt:builtins: command suppresses function": [
+  "real\n",
+  0
+ ],
+ "cases2.txt:builtins: echo dash n literal": [
+  "-n abc\n\n-e x\n-- y\n",
+  0
+ ],
+ "cases2.txt:builtins: eval sets status": [
+  "3\n",
+  0
+ ],
+ "cases2.txt:builtins: eval with positional": [
+  "y x\n",
+  0
+ ],
+ "cases2.txt:builtins: exec in function replaces shell": [
+  "from-exec\n",
+  0
+ ],
+ "cases2.txt:builtins: exec with redirection only persists": [
+  "to5\n",
+  0
+ ],
+ "cases2.txt:builtins: export and unexport via unset": [
+  "[u]\n",
+  0
+ ],
+ "cases2.txt:builtins: export name only then assign": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:builtins: getopts optarg next word": [
+  "f:file\nv:\n",
+  0
+ ],
+ "cases2.txt:builtins: getopts reset by OPTIND": [
+  "a\na\n",
+  0
+ ],
+ "cases2.txt:builtins: getopts unknown with colon": [
+  "? z\n",
+  0
+ ],
+ "cases2.txt:builtins: getopts with args list": [
+  "x val\n",
+  0
+ ],
+ "cases2.txt:builtins: hash builtin no output": [
+  "0\n0\n",
+  1
+ ],
+ "cases2.txt:builtins: jobs output": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:builtins: kill -l list contains": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:builtins: kill with signal name": [
+  "143\n137\n",
+  0
+ ],
+ "cases2.txt:builtins: printf char constants": [
+  "97 98\n",
+  0
+ ],
+ "cases2.txt:builtins: printf large": [
+  "9223372036854775807\n",
+  0
+ ],
+ "cases2.txt:builtins: printf missing args zero": [
+  "0 |\n",
+  0
+ ],
+ "cases2.txt:builtins: printf negative and plus": [
+  "+5  5 00042 42   |\n",
+  0
+ ],
+ "cases2.txt:builtins: printf octal escapes": [
+  "0000000   a   A   b  \\0   c\n",
+  0
+ ],
+ "cases2.txt:builtins: printf reuse format": [
+  "a=1\nb=2\nc=\n",
+  0
+ ],
+ "cases2.txt:builtins: printf width star": [
+  "[   42][ab  ]\n",
+  0
+ ],
+ "cases2.txt:builtins: printf x hash": [
+  "0xff 010\n",
+  0
+ ],
+ "cases2.txt:builtins: pwd -L -P": [
+  "ls1\ns\n",
+  0
+ ],
+ "cases2.txt:builtins: read backslash at end": [
+  "1 [abc]\n",
+  0
+ ],
+ "cases2.txt:builtins: read does not consume more than line": [
+  "two\n",
+  0
+ ],
+ "cases2.txt:builtins: read empty line": [
+  "0 []\n",
+  0
+ ],
+ "cases2.txt:builtins: read escaped ifs char": [
+  "[a b][c]\n",
+  0
+ ],
+ "cases2.txt:builtins: read last var gets rest with nonws": [
+  "[a][b:c:]\n",
+  0
+ ],
+ "cases2.txt:builtins: read multiple lines": [
+  "<l1>\n<l2>\n",
+  0
+ ],
+ "cases2.txt:builtins: read nul delim": [
+  "[a]\n[b]\n",
+  0
+ ],
+ "cases2.txt:builtins: read with IFS whitespace mix": [
+  "[a][b  c]\n",
+  0
+ ],
+ "cases2.txt:builtins: readonly unset fails": [
+  "1 1\n",
+  0
+ ],
+ "cases2.txt:builtins: return from dot inside function": [
+  "after dot 3\n",
+  0
+ ],
+ "cases2.txt:builtins: return value range": [
+  "255\n",
+  0
+ ],
+ "cases2.txt:builtins: set -- resets": [
+  "0\n",
+  0
+ ],
+ "cases2.txt:builtins: set -o option": [
+  "zz*\nzz1\n",
+  0
+ ],
+ "cases2.txt:builtins: set listing contains var": [
+  "SETTEST='a b'\n",
+  0
+ ],
+ "cases2.txt:builtins: set plus options": [
+  "survived\n",
+  0
+ ],
+ "cases2.txt:builtins: shift zero": [
+  "2\n",
+  0
+ ],
+ "cases2.txt:builtins: test -t": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:builtins: test bang bang": [
+  "0\n",
+  0
+ ],
+ "cases2.txt:builtins: test four args": [
+  "0\n0\n1\n",
+  0
+ ],
+ "cases2.txt:builtins: test nt ot": [
+  "0\n0\n0\n",
+  0
+ ],
+ "cases2.txt:builtins: test numeric ops": [
+  "0\n0\n0\n",
+  0
+ ],
+ "cases2.txt:builtins: test string ops": [
+  "0\n1\n1\n0\n",
+  0
+ ],
+ "cases2.txt:builtins: times format": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:builtins: trap -p": [
+  "trap -- 'echo hi' USR2\n",
+  0
+ ],
+ "cases2.txt:builtins: trap EXIT in function context": [
+  "body\nexit-trap\n",
+  0
+ ],
+ "cases2.txt:builtins: trap during wait": [
+  "trapped\ndone\n",
+  0
+ ],
+ "cases2.txt:builtins: trap ignore then child": [
+  "child-survived\n",
+  0
+ ],
+ "cases2.txt:builtins: trap invalid signal": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:builtins: trap reset by number": [
+  "",
+  0
+ ],
+ "cases2.txt:builtins: trap with numeric signal": [
+  "hup\n",
+  0
+ ],
+ "cases2.txt:builtins: true false": [
+  "0\n1\n",
+  0
+ ],
+ "cases2.txt:builtins: type for various": [
+  "1\n1\n1\n",
+  0
+ ],
+ "cases2.txt:builtins: ulimit -n": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:builtins: ulimit set and get": [
+  "1000\n",
+  0
+ ],
+ "cases2.txt:builtins: umask affects files": [
+  "-rw-------\n",
+  0
+ ],
+ "cases2.txt:builtins: umask symbolic plus minus": [
+  "0002\n0006\n0777\n",
+  0
+ ],
+ "cases2.txt:builtins: unalias -a": [
+  "0\n",
+  0
+ ],
+ "cases2.txt:builtins: unset -v": [
+  "[unset]\nfunc-still\n",
+  0
+ ],
+ "cases2.txt:builtins: unset multiple": [
+  "[][]\n",
+  0
+ ],
+ "cases2.txt:builtins: wait multiple": [
+  "3\n",
+  0
+ ],
+ "cases2.txt:builtins: wait unknown pid": [
+  "127\n",
+  0
+ ],
+ "cases2.txt:exec: $0 in function": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:exec: PATH change rehashes": [
+  "h1\nh2\n",
+  0
+ ],
+ "cases2.txt:exec: PATH empty entry is cwd": [
+  "in-cwd\n",
+  0
+ ],
+ "cases2.txt:exec: PATH search order": [
+  "b1\n",
+  0
+ ],
+ "cases2.txt:exec: arg0 of external": [
+  "a0\n",
+  0
+ ],
+ "cases2.txt:exec: assignment to readonly before regular command": [
+  "",
+  2
+ ],
+ "cases2.txt:exec: assignment visible in same command expansion order": [
+  "2\n",
+  0
+ ],
+ "cases2.txt:exec: background job does not block": [
+  "immediate\n",
+  0
+ ],
+ "cases2.txt:exec: brace group redirect applies to all": [
+  "a\nb\n",
+  0
+ ],
+ "cases2.txt:exec: close stdout": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:exec: compound redirect error not fatal": [
+  "rc=1\n",
+  0
+ ],
+ "cases2.txt:exec: deep pipeline": [
+  "y\n",
+  0
+ ],
+ "cases2.txt:exec: dot not found exits": [
+  "",
+  2
+ ],
+ "cases2.txt:exec: dup input": [
+  "content\n",
+  0
+ ],
+ "cases2.txt:exec: env for external": [
+  "X=1\n0\n",
+  1
+ ],
+ "cases2.txt:exec: errexit bang": [
+  "a\nb\n",
+  0
+ ],
+ "cases2.txt:exec: errexit case": [
+  "",
+  1
+ ],
+ "cases2.txt:exec: errexit command not found": [
+  "",
+  127
+ ],
+ "cases2.txt:exec: errexit for loop": [
+  "",
+  1
+ ],
+ "cases2.txt:exec: errexit function in condition": [
+  "continues-in-f\nt\nend\n",
+  0
+ ],
+ "cases2.txt:exec: errexit in cmdsub": [
+  "\nouter\n",
+  0
+ ],
+ "cases2.txt:exec: errexit not triggered by and-or": [
+  "recovered\nend\n",
+  0
+ ],
+ "cases2.txt:exec: errexit until loop condition": [
+  "ok\n",
+  0
+ ],
+ "cases2.txt:exec: exit in pipeline component": [
+  "still-here\n",
+  0
+ ],
+ "cases2.txt:exec: exit inside exit trap": [
+  "t\n",
+  7
+ ],
+ "cases2.txt:exec: exit status 126 for directory": [
+  "126\n",
+  0
+ ],
+ "cases2.txt:exec: exit status of last command": [
+  "",
+  1
+ ],
+ "cases2.txt:exec: exit trap runs once": [
+  "bye\n",
+  2
+ ],
+ "cases2.txt:exec: exit with no args uses last": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:exec: function overriding builtin": [
+  "my-cd\n",
+  0
+ ],
+ "cases2.txt:exec: function redirect error not fatal": [
+  "rc=1\n",
+  0
+ ],
+ "cases2.txt:exec: heredoc to fd": [
+  "zero\n",
+  0
+ ],
+ "cases2.txt:exec: long command line": [
+  "2000\n",
+  0
+ ],
+ "cases2.txt:exec: loop redirect": [
+  "1\n2\ngot x\ngot y\n",
+  0
+ ],
+ "cases2.txt:exec: many fds": [
+  "ok\n",
+  0
+ ],
+ "cases2.txt:exec: nested functions and returns": [
+  "a after b 3\n4\n",
+  0
+ ],
+ "cases2.txt:exec: noclobber devnull ok": [
+  "0\n",
+  0
+ ],
+ "cases2.txt:exec: noexec": [
+  "",
+  0
+ ],
+ "cases2.txt:exec: non-executable in path skipped": [
+  "n2\n",
+  0
+ ],
+ "cases2.txt:exec: pipeline last status and wait all": [
+  "after\n",
+  0
+ ],
+ "cases2.txt:exec: positional in nested function": [
+  "g:x\nf:y\n",
+  0
+ ],
+ "cases2.txt:exec: read-write redirect creates": [
+  "created\n",
+  0
+ ],
+ "cases2.txt:exec: redirect word expansion": [
+  "w\n",
+  0
+ ],
+ "cases2.txt:exec: redirect word not globbed": [
+  "2\n",
+  0
+ ],
+ "cases2.txt:exec: script without shebang": [
+  "ran-script arg\n",
+  0
+ ],
+ "cases2.txt:exec: script without shebang inherits exported only": [
+  "[][2]\nnofunc\n",
+  0
+ ],
+ "cases2.txt:exec: special builtin assignment error": [
+  "",
+  2
+ ],
+ "cases2.txt:exec: special builtin not overridable by function": [
+  "x\n",
+  0
+ ],
+ "cases2.txt:exec: stdin of async is devnull": [
+  "",
+  0
+ ],
+ "cases2.txt:exec: subshell exit status": [
+  "1\n0\n",
+  0
+ ],
+ "cases2.txt:exec: subshell traps reset": [
+  "in-sub\nend\nparent-exit\n",
+  0
+ ],
+ "cases2.txt:exec: trap exit status": [
+  "trap 4\n",
+  4
+ ],
+ "cases2.txt:exec: unrecoverable syntax error in script": [
+  "before\n",
+  2
+ ],
+ "cases2.txt:exec: verbose": [
+  "v\n",
+  0
+ ],
+ "cases2.txt:exec: xtrace format": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:exec: xtrace to stderr": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:expand: alternative with at": [
+  "<a b>\n<c>\n",
+  0
+ ],
+ "cases2.txt:expand: arithmetic comparison chain": [
+  "1 1\n",
+  0
+ ],
+ "cases2.txt:expand: arithmetic hex and octal vars": [
+  "16 8 24\n",
+  0
+ ],
+ "cases2.txt:expand: arithmetic in dquotes": [
+  "16 5\n",
+  0
+ ],
+ "cases2.txt:expand: arithmetic negative modulo and shifts": [
+  "-1 -4 8\n",
+  0
+ ],
+ "cases2.txt:expand: arithmetic nested parens": [
+  "15 1 3\n",
+  0
+ ],
+ "cases2.txt:expand: arithmetic no eval in short circuit": [
+  "0 0 1 0\n",
+  0
+ ],
+ "cases2.txt:expand: arithmetic signed var": [
+  "-5 5 25\n",
+  0
+ ],
+ "cases2.txt:expand: arithmetic ternary nesting": [
+  "20\n",
+  0
+ ],
+ "cases2.txt:expand: arithmetic with cmdsub": [
+  "7\n",
+  0
+ ],
+ "cases2.txt:expand: assign default keeps value": [
+  "hello\n",
+  0
+ ],
+ "cases2.txt:expand: assign positional error": [
+  "rc=2\n",
+  0
+ ],
+ "cases2.txt:expand: backslash in var not quoting for glob": [
+  "b\\x\n",
+  0
+ ],
+ "cases2.txt:expand: cmdsub in heredoc delim line": [
+  "one\ntwo\n",
+  0
+ ],
+ "cases2.txt:expand: cmdsub trailing newlines only": [
+  "0000000   [  \\n  \\n   a   ]  \\n\n0000006\n",
+  0
+ ],
+ "cases2.txt:expand: default with at": [
+  "<a>\n<b>\n",
+  0
+ ],
+ "cases2.txt:expand: dollar bang unset": [
+  "[none]\n",
+  0
+ ],
+ "cases2.txt:expand: dq empty with at concat": [
+  "1\n1\n",
+  0
+ ],
+ "cases2.txt:expand: empty quoted kept": [
+  "3\n",
+  0
+ ],
+ "cases2.txt:expand: field split on cmdsub": [
+  "3\n",
+  0
+ ],
+ "cases2.txt:expand: glob after split": [
+  "4 s1\n",
+  0
+ ],
+ "cases2.txt:expand: ifs nonwhite leading": [
+  "3[][a][b]\n",
+  0
+ ],
+ "cases2.txt:expand: ifs whitespace and nonwhitespace": [
+  "2[a][b]\n",
+  0
+ ],
+ "cases2.txt:expand: length of special": [
+  "3 3 2\n",
+  0
+ ],
+ "cases2.txt:expand: no glob in assignment": [
+  "g*\n",
+  0
+ ],
+ "cases2.txt:expand: no split in assignment": [
+  "a  b\n",
+  0
+ ],
+ "cases2.txt:expand: quoted glob chars from var": [
+  "q*\n1\n",
+  0
+ ],
+ "cases2.txt:expand: special param dash": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:expand: split results joined with literal": [
+  "2 prea bpost\n",
+  0
+ ],
+ "cases2.txt:expand: star in quotes ifs": [
+  "a:b:c\nabc\na b c\n",
+  0
+ ],
+ "cases2.txt:expand: tilde in assignment after colon": [
+  "/H:/H/bin:x~\n",
+  0
+ ],
+ "cases2.txt:expand: tilde in default value": [
+  "/H/x\n",
+  0
+ ],
+ "cases2.txt:expand: tilde not after quotes": [
+  "~ ~ ~ /H/ a~\n",
+  0
+ ],
+ "cases2.txt:expand: trim no match": [
+  "abc abc\n",
+  0
+ ],
+ "cases2.txt:expand: trim on positional": [
+  "bin /usr/local\n",
+  0
+ ],
+ "cases2.txt:expand: trim quoted pattern parts": [
+  "a.b b.c a.b\n",
+  0
+ ],
+ "cases2.txt:expand: trim with var pattern": [
+  "obar foobar\n",
+  0
+ ],
+ "cases2.txt:expand: unquoted empty removed": [
+  "1\n",
+  0
+ ],
+ "cases2.txt:expand: unset vs empty with colon": [
+  "[x][x][x][]\n",
+  0
+ ],
+ "cases2.txt:misc: IFS restored after read prefix": [
+  "1 2 [x]\n",
+  0
+ ],
+ "cases2.txt:misc: background job output ordering": [
+  "first\nsecond\nthird\n",
+  0
+ ],
+ "cases2.txt:misc: case empty pattern": [
+  "empty-match\n",
+  0
+ ],
+ "cases2.txt:misc: case pattern quoting of star": [
+  "any\n",
+  0
+ ],
+ "cases2.txt:misc: case with bracket and special": [
+  "lb\nrb\n",
+  0
+ ],
+ "cases2.txt:misc: case with dollar in pattern from cmdsub": [
+  "cs-pattern\n",
+  0
+ ],
+ "cases2.txt:misc: case with variable patterns list": [
+  "matched-var\n",
+  0
+ ],
+ "cases2.txt:misc: cd in pipeline isolated": [
+  "/\n",
+  0
+ ],
+ "cases2.txt:misc: cmdsub with heredoc and quotes": [
+  "it's \"quoted\"\n",
+  0
+ ],
+ "cases2.txt:misc: deeply nested cmdsub": [
+  "deep\n",
+  0
+ ],
+ "cases2.txt:misc: export in subshell not visible": [
+  "[]\n",
+  0
+ ],
+ "cases2.txt:misc: for loop var after loop": [
+  "c\n",
+  0
+ ],
+ "cases2.txt:misc: if exit status from then": [
+  "5\n",
+  0
+ ],
+ "cases2.txt:misc: loop exit status": [
+  "2\n",
+  0
+ ],
+ "cases2.txt:misc: modifying positional in loop": [
+  "3 1\n",
+  0
+ ],
+ "cases2.txt:misc: numbers as command": [
+  "127\n",
+  0
+ ],
+ "cases2.txt:misc: printf %s with no trailing newline in cmdsub": [
+  "abc\n",
+  0
+ ],
+ "cases2.txt:misc: special chars in var names rejected": [
+  "127\n",
+  0
+ ],
+ "cases2.txt:misc: umask in subshell isolated": [
+  "0022\n",
+  0
+ ],
+ "cases2.txt:misc: unset IFS behaves default": [
+  "2\n",
+  0
+ ],
+ "cases2.txt:misc: very long string variable": [
+  "16384\n",
+  0
+ ],
+ "cases2.txt:misc: while with break status": [
+  "0\n",
+  0
+ ],
+ "cases2.txt:parse: and-or across newline": [
+  "yes\n",
+  0
+ ],
+ "cases2.txt:parse: assignment after command is argument": [
+  "a=1\n",
+  0
+ ],
+ "cases2.txt:parse: assignment words": [
+  "12\n=\na=b\n",
+  0
+ ],
+ "cases2.txt:parse: backquote nested quotes": [
+  "inner q\n",
+  0
+ ],
+ "cases2.txt:parse: brace param with quotes and spaces": [
+  "a b s q\n",
+  0
+ ],
+ "cases2.txt:parse: brace requires delimiter": [
+  "x\ny\n",
+  0
+ ],
+ "cases2.txt:parse: braces in param word": [
+  "{a} ab}\n",
+  0
+ ],
+ "cases2.txt:parse: case last item without dsemi": [
+  "last\n",
+  0
+ ],
+ "cases2.txt:parse: case pattern esac-like": [
+  "",
+  2
+ ],
+ "cases2.txt:parse: case with newlines and empty items": [
+  "done\n",
+  0
+ ],
+ "cases2.txt:parse: comment after word chars": [
+  "a#b\n",
+  0
+ ],
+ "cases2.txt:parse: dollar paren with case": [
+  "A\n",
+  0
+ ],
+ "cases2.txt:parse: dquote with embedded cmdsub quotes": [
+  "a b c d\n",
+  0
+ ],
+ "cases2.txt:parse: empty for list on new line": [
+  "ok\n",
+  0
+ ],
+ "cases2.txt:parse: for with newline before in": [
+  "a\nb\n",
+  0
+ ],
+ "cases2.txt:parse: function body subshell and redirect": [
+  "in-sub\nto-err\n",
+  0
+ ],
+ "cases2.txt:parse: function name same as var": [
+  "func-x\nvar\n",
+  0
+ ],
+ "cases2.txt:parse: function with newline before body": [
+  "nl-body\n",
+  0
+ ],
+ "cases2.txt:parse: heredoc after pipeline": [
+  "HELLO\n",
+  0
+ ],
+ "cases2.txt:parse: heredoc and command on same line continue": [
+  "body\nnext\n",
+  0
+ ],
+ "cases2.txt:parse: heredoc delimiter with quotes partial": [
+  "$no expansion\n",
+  0
+ ],
+ "cases2.txt:parse: heredoc dq not special": [
+  "\"1\" '1'\n",
+  0
+ ],
+ "cases2.txt:parse: heredoc empty": [
+  "after\n",
+  0
+ ],
+ "cases2.txt:parse: heredoc unquoted with dollar single": [
+  "$'not special'\n",
+  0
+ ],
+ "cases2.txt:parse: heredoc with tabs stripped and expansions": [
+  "val=v\n",
+  0
+ ],
+ "cases2.txt:parse: io number adjacency": [
+  "hi\nno-x2\n",
+  0
+ ],
+ "cases2.txt:parse: line continuation in word": [
+  "concatenated\n",
+  0
+ ],
+ "cases2.txt:parse: line continuation inside dquote": [
+  "ab\n",
+  0
+ ],
+ "cases2.txt:parse: nested compound": [
+  "one\nother\n",
+  0
+ ],
+ "cases2.txt:parse: no continuation in squote": [
+  "a\\\nb\n",
+  0
+ ],
+ "cases2.txt:parse: pipeline across newline": [
+  "b\n",
+  0
+ ],
+ "cases2.txt:parse: quoted assignment is not assignment": [
+  "127\n",
+  0
+ ],
+ "cases2.txt:parse: redirect before command": [
+  "first\nfirst\n",
+  0
+ ],
+ "cases2.txt:parse: reserved word after semicolon only": [
+  "a\nb\n",
+  0
+ ],
+ "cases2.txt:parse: reserved words as args": [
+  "if then else fi do done case esac while until for in { } !\n",
+  0
+ ],
+ "cases2.txt:parse: semicolon after for list": [
+  "a\nb\n",
+  0
+ ],
+ "cases2.txt:parse: subshell nesting": [
+  "deep\ncs-sub\n",
+  0
+ ],
+ "cases2.txt:parse: two heredocs one command": [
+  "from A\n",
+  0
+ ],
+ "cases2.txt:parse: until with multiple commands in condition": [
+  "3\n",
+  0
+ ]
+}

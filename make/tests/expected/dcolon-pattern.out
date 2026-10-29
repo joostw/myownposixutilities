@@ -1,0 +1,7 @@
+-- :: rules run independently
+rule 3 always
+rule 1: a / a
+rule 3 always
+-- pattern rules
+x.out from x.in (x.in common.h) stem x
+make: *** No rule to make target 'y.out', needed by 'all'.  Stop.

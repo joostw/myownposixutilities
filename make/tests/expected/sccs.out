@@ -1,0 +1,13 @@
+-- .sh~ rule from s.tool.sh
+get  -p s.tool.sh > tool.sh
+cp tool.sh tool
+chmod a+x tool
+tool from SCCS
+-- .SCCS_GET for a missing file
+sccs  get -s data
+sccs get data
+data from SCCS
+-- a writable file is not retrieved
+local
+-- makefile from SCCS
+from s.makefile

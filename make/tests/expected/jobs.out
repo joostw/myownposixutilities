@@ -1,0 +1,7 @@
+-j 1: at most 1 at once
+-j 3: at most 3 at once
+-j 5: at most 5 at once
+-- sub-makes share the pool
+shared -j 4: at most 4 at once
+-- a different -j in the sub-make makes its own pool
+-j 2 below -j 6: at most 2 at once

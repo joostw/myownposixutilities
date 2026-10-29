@@ -1,0 +1,19 @@
+yylex -> n
+n (yychar -2)
+yylex -> <
+yylex -> n
+n (yychar -2)
+yylex -> ;
+compare (yychar 59)
+statement
+yylex -> 0
+-> 0
+yylex -> n
+n (yychar -2)
+yylex -> <
+yylex -> n
+n (yychar -2)
+yylex -> <
+syntax error
+-> 1
+exit 0

@@ -1,0 +1,16 @@
+-b default: 10240
+-b 512: 2048
+-b 1b: 2048
+-b 2k: 2048
+-b 3x2b: 3072
+-b 20b: 10240
+cpio default: 5120
+cpio -b 100: 200
+pax: -b 100: block size must be a multiple of 512
+rc=1
+pax: -b 0: invalid block size
+rc=1
+pax: -b 1q: invalid block size
+rc=1
+-- reading with a different blocking
+-rw-r--r--

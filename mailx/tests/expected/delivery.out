@@ -1,0 +1,24 @@
+-- a failing mailer saves the letter
+mailx: $TMP/fakesend: exited with status 75
+"$TMP/dead.letter" 7/107
+rc=1
+Subject: fail
+Date: DATE
+
+-- no recipients
+"/dev/null": 0 messages
+mailx: No recipients specified
+rc=1
+-- -F records under the first recipient
+1
+-- debug does not deliver
+Recipients of the message: a@b
+To: a@b
+Subject: d
+Date: DATE
+
+dbg
+ls: cannot access 'sent': No such file or directory
+-- DEAD=/dev/null and nosave
+mailx: $TMP/fakesend: exited with status 1
+ls: cannot access 'dead.letter': No such file or directory

@@ -1,0 +1,10 @@
+#define END 0
+#define A 257
+#define B 500
+#define C 258
+#if !defined(YYSTYPE) && !defined(YYSTYPE_IS_DECLARED)
+#define YYSTYPE_IS_DECLARED 1
+A=257 B=500 C=258 END=0 YYEOF=0 YYEMPTY=-2 YYERRCODE=1000
+ok yychar=-2
+big ok
+exit 0

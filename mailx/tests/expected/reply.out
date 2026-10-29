@@ -1,0 +1,77 @@
+-- reply: sender and all recipients, without me
+"$TMP/sys": 2 messages 2 new
+To: Alice <alice@a.example>, root@here, bob@b.example
+Cc: carol@c.example
+Subject: Re: plans
+Held 2 messages in $TMP/sys
+== sendmail -oi -- alice@a.example ME@here bob@b.example carol@c.example
+To: Alice <alice@a.example>, ME@here, bob@b.example
+Cc: carol@c.example
+Subject: Re: plans
+Date: DATE
+In-Reply-To: <p1@a.example>
+References: <p1@a.example>
+
+thanks
+-- Reply: the sender only
+"$TMP/sys": 2 messages 2 unread
+To: Alice <alice@a.example>
+Subject: Re: plans
+== sendmail -oi -- alice@a.example
+To: Alice <alice@a.example>
+Subject: Re: plans
+Date: DATE
+In-Reply-To: <p1@a.example>
+References: <p1@a.example>
+
+thanks
+-- Reply-To replaces From; Re: is not doubled
+"$TMP/sys": 2 messages 2 unread
+To: list@l.example, other@o.example
+Subject: Re: plans
+== sendmail -oi -- list@l.example other@o.example
+To: list@l.example, other@o.example
+Subject: Re: plans
+Date: DATE
+
+ok
+-- Reply to several messages
+"$TMP/sys": 2 messages 2 unread
+To: Alice <alice@a.example>, list@l.example
+Subject: Re: plans
+== sendmail -oi -- alice@a.example list@l.example
+To: Alice <alice@a.example>, list@l.example
+Subject: Re: plans
+Date: DATE
+In-Reply-To: <p1@a.example>
+References: <p1@a.example>
+
+both
+-- flipr swaps them
+"$TMP/sys": 2 messages 2 unread
+To: Alice <alice@a.example>
+Subject: Re: plans
+== sendmail -oi -- alice@a.example
+To: Alice <alice@a.example>
+Subject: Re: plans
+Date: DATE
+In-Reply-To: <p1@a.example>
+References: <p1@a.example>
+
+flipped
+-- metoo keeps me
+"$TMP/sys": 2 messages 2 unread
+To: list@l.example, root, other@o.example
+Subject: Re: plans
+== sendmail -oi -- list@l.example ME other@o.example
+-- alternates are removed
+"$TMP/sys": 2 messages 2 unread
+To: list@l.example
+Subject: Re: plans
+== sendmail -oi -- list@l.example
+-- followup records in a file named after the author
+1
+-- record
+"$TMP/sys": 2 messages 2 unread
+To: x@y
+mailed

@@ -1,0 +1,14 @@
+after ; a # is part of the command
+t2 p
+one two
+tab then \
+two lines
+a b
+[dash-dot] [spaces kept at the end   ] [a;b ]
+-- a line with only a comment does not end the commands
+one
+two
+-- include as a macro name
+inc
+-- .POSIX may be anywhere
+ok

@@ -1,0 +1,28 @@
+-- -n prints, runs + lines and $(MAKE) lines
+echo build > out
+echo plus line runs
+plus line runs
+echo at line
+rc=0
+$M -f sub.mk
+echo sub-make ran with MAKEFLAGS=-n
+out
+-- -q: + lines run, status 1
+echo plus line runs
+plus line runs
+rc=1
+-- -t: touches, + lines run
+echo plus line runs
+plus line runs
+touch out
+rc=0
+-- -q after -t
+rc=0
+-- -t on $(MAKE) lines runs them
+$M -f sub.mk
+touch x
+touch sub
+-- -s silences touch messages
+plus line runs
+rc=0
+rc=0

@@ -1,0 +1,10 @@
+	cmd $<
+	echo $@
+.SUFFIXES: .q
+.q.o:
+IMM ::= value
+NAME = value
+t: p1 p2
+-- built-in rules: -p -f /dev/null
+1
+.SUFFIXES: .o .c .y .l .a .sh .c~ .y~ .l~ .sh~

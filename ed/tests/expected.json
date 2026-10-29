@@ -1,0 +1,697 @@
+{
+ "addr-caret": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 5\nline 4\nline 2\n",
+  "status": 0
+ },
+ "addr-errors": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "?\n?\n?\n?\n?\n?\n10\n",
+  "status": 1
+ },
+ "addr-marks": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 3\nline 4\nline 5\nline 6\nline 7\nline 3\n?\n?\nline 3\n",
+  "status": 1
+ },
+ "addr-offsets": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 2\nline 3\nline 2\nline 4\nline 2\nline 1\nline 6\nline 8\nline 7\n",
+  "status": 0
+ },
+ "addr-search": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 5\nline 5\nline 2\nline 2\nline 3\nline 2\n?\nline 1\nline 3\nline 4\n",
+  "status": 1
+ },
+ "addr-search-wrap": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 10\nline 2\nline 1\nline 9\n",
+  "status": 0
+ },
+ "addr-separators": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 2\nline 3\nline 4\nline 2\nline 3\nline 4\nline 1\nline 2\nline 3\nline 4\nline 5\nline 6\nline 7\nline 8\nline 9\nline 10\nline 10\nline 7\nline 5\nline 5\nline 6\nline 7\nline 8\nline 9\nline 1\nline 2\nline 3\nline 4\nline 5\nline 6\nline 7\nline 10\nline 10\nline 7\nline 5\nline 5\nline 6\nline 7\nline 8\nline 9\nline 5\nline 6\nline 7\nline 8\nline 9\nline 7\nline 8\n?\nline 10\nline 10\nline 4\nline 5\n",
+  "status": 1
+ },
+ "append-empty": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "2\n",
+  "status": 0
+ },
+ "append-insert": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "one\ntwo\nnew A\nnew B\nthree\nfour\nfive\n1\tbefore one\n2\tzeroth\n3\tfirst\n4\tone\n5\ttwo\n6\tnew A\n7\tnew B\n8\tthree\n9\tfour\n10\tfive\n11\tlast\n",
+  "status": 0
+ },
+ "byte-counts": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK",
+   "g": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUKb25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "24\n24\n48\n48\n",
+  "status": 0
+ },
+ "change": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "one\nX\nY\nZ\nfour\nfive\n6\none\nX\nY\nZ\nfour\nLAST\n0\n?\n",
+  "status": 1
+ },
+ "change-no-text": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "2\none\nfour\nfive\n2\n",
+  "status": 0
+ },
+ "copy": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "one\ntwo\nthree\none\nfour\nfive\n6\ntwo\nthree\none\ntwo\nthree\none\nfour\nfive\ntwo\nthree\none\ntwo\nthree\none\nfour\nfive\nfive\ntwo\ntwo\nthree\nthree\none\ntwo\nthree\none\nfour\nfive\nfive\n",
+  "status": 0
+ },
+ "delete": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "2\none\nthree\nfour\nfive\n3\none\nthree\nfour\n0\n?\n",
+  "status": 1
+ },
+ "edit": {
+  "err": "",
+  "files": {
+   "f": "ZWZmCg==",
+   "g": "Z2VlCmdlZTIK"
+  },
+  "out": "?\ngee\ngee2\ng\nf\neff\n",
+  "status": 1
+ },
+ "edit-nonexistent": {
+  "err": "nofile: No such file or directory\n",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK",
+   "nofile": "eAo="
+  },
+  "out": "?\nnofile\n",
+  "status": 1
+ },
+ "empty-buffer-ops": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "0\n?\nagain\n",
+  "status": 1
+ },
+ "eof-quit": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "one\n",
+  "status": 0
+ },
+ "eof-warning": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "?\n",
+  "status": 1
+ },
+ "equals": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "5\n5\n5\n3\n3\n",
+  "status": 0
+ },
+ "filename": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK",
+   "other": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "f\nother\nother\nother\n",
+  "status": 0
+ },
+ "global-append": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 1\nadded\nmore\nline 2\nadded\nmore\nline 3\nline 4\nline 5\nline 6\nline 7\nline 8\nline 9\nline 10\n",
+  "status": 0
+ },
+ "global-append-dot": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 1\nline 2\nline 3\nX\nline 4\nline 5\nline 6\nline 7\nline 8\nline 9\nline 10\n",
+  "status": 0
+ },
+ "global-basic": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 1\nline 3\nline 5\nline 7\nline 9\nline 10\nline 1\neven 2\nline 3\neven 4\nline 5\neven 6\nline 7\neven 8\nline 9\nline 10\n10\n",
+  "status": 0
+ },
+ "global-default-p": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 1\nline 10\nline 9\n",
+  "status": 0
+ },
+ "global-delete": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 1\nline 3\nline 5\nline 7\nline 9\n5\nline 1\nline 2\nline 3\nline 4\nline 5\nline 6\nline 7\nline 8\nline 9\nline 10\n10\n",
+  "status": 0
+ },
+ "global-join": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 1line 2\nline 3line 4\nline 5line 6\nline 7line 8\nline 9line 10\n",
+  "status": 0
+ },
+ "global-modify-unmarks": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 1\nline 3\nline 5\nline 7\nline 9\n",
+  "status": 0
+ },
+ "global-move": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 10\nline 9\nline 8\nline 7\nline 6\nline 5\nline 4\nline 3\nline 2\nline 1\n",
+  "status": 0
+ },
+ "global-multi": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "M 1\nM 2\nM 3\nM 4\nM 5\nM 6\nM 7\nM 8\nM 9\nM 10\nM 1\nM 2\nM 3\nM 4\nM 5\nM 6\nM 7\nM 8\nM 9\nM 10\n",
+  "status": 0
+ },
+ "global-nested": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "?\n",
+  "status": 1
+ },
+ "global-nomatch": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 3\n3\n",
+  "status": 0
+ },
+ "global-range": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 1\nline 2\nline 3!\nline 4!\nline 5!\nline 6\nline 7\nline 8\nline 9\nline 10\n",
+  "status": 0
+ },
+ "help": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "?\nInvalid address\nInvalid address\n?\nInvalid address\n?\nUnexpected address\n",
+  "status": 1
+ },
+ "i-zero-empty": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "first\n",
+  "status": 0
+ },
+ "input-dot-lines": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "one$\ntwo$\nthree$\nfour$\nfive$\n..$\n .$\n.x$\n",
+  "status": 0
+ },
+ "interactive-global": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 1\nline 2\nline 3\nL 1\nline 2\nL 3\nline 4\nline 5\nline 6\nline 7\nline 8\nline 9\nline 10\n",
+  "status": 0
+ },
+ "interactive-global-v": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 9\nline 9\nline 10\n",
+  "status": 0
+ },
+ "join": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "onetwothree\nfour\nfive\n3\nonetwothree\nfour\nfive\n?\nonetwothree\nfour\nfive\n",
+  "status": 1
+ },
+ "list-c-locale": {
+  "err": "",
+  "files": {
+   "f": "Y2Fmw6kK"
+  },
+  "out": "caf\\303\\251$\n",
+  "status": 0
+ },
+ "list-format": {
+  "err": "",
+  "files": {
+   "f": "YWxwaGEgYmV0YSBnYW1tYQpiZXRhIGJldGEKCkdhbW1hIGFscGhhCmVuZCAkIFwgdGFiCWhlcmUKeHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4CgF/CAwNCwcK"
+  },
+  "out": "\\001\\177\\b\\f\\r\\v\\a$\n",
+  "status": 0
+ },
+ "list-utf8": {
+  "err": "",
+  "files": {
+   "f": "Y2Fmw6kg5Lit5paHIMOpdMOpCg=="
+  },
+  "out": "caf\u00e9 \u4e2d\u6587 \u00e9t\u00e9$\n1\tcaf\u00e9 \u4e2d\u6587 \u00e9t\u00e9\n",
+  "status": 0
+ },
+ "long-lines": {
+  "err": "",
+  "files": {
+   "f": "sha256:640fc3d4f6cbb9c2740dc4cef9085bc542d8aba2c936f8538f29eddf5e1fdf03"
+  },
+  "out": "",
+  "status": 0
+ },
+ "many-lines": {
+  "err": "",
+  "files": {
+   "f": "sha256:97aa18afcb84508285a835167c31e1180e76ee3ca87806bd3ff5a17ea9b03c90"
+  },
+  "out": "13122\n",
+  "status": 0
+ },
+ "marks-follow-lines": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 5\n3\n?\n",
+  "status": 1
+ },
+ "missing-destination": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "one\ntwo\nthree\nfour\nfive\none\none\ntwo\nthree\nfour\nfive\none\n6\ttwo\none\n",
+  "status": 0
+ },
+ "move": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "two\nthree\none\nfour\nfive\n5\nfive\ntwo\nthree\none\nfour\nfive\none\nfour\ntwo\nthree\n?\n?\nfive\none\nfour\ntwo\nthree\n?\nfive\none\nfour\ntwo\nthree\n",
+  "status": 1
+ },
+ "no-filename": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "?\n?\n?\n?\n",
+  "status": 1
+ },
+ "no-trailing-newline": {
+  "err": "",
+  "files": {
+   "f": "YQpiCg=="
+  },
+  "out": "a\nb\n",
+  "status": 0
+ },
+ "null-command": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "?\n?\nline 3\nline 4\nline 10\n?\nline 3\nline 4\n",
+  "status": 1
+ },
+ "print-all": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "one\ntwo\nthree\nfour\nfive\n",
+  "status": 0
+ },
+ "print-n-l": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "1\tone\n2\ttwo\n3\tthree\ntwo$\nfive\n5\n5\n",
+  "status": 0
+ },
+ "prompt": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "*one\n*two\n",
+  "status": 0
+ },
+ "prompt-option": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "> one\n> two\n",
+  "status": 0
+ },
+ "quit-warning": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "?\n",
+  "status": 1
+ },
+ "quit-warning-reset": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "?\n?\n",
+  "status": 1
+ },
+ "shell": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "24\nhi\n!\necho hi\nhi\n!\n5\none\ntwo\nthree\nfour\nfive\nread\none\ntwo\nthree\nfour\nfive\nread\n29\necho f\nf\n!\n?\none\ntwo\nthree\nfour\nfive\nread\nf\n",
+  "status": 1
+ },
+ "shell-s": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "hi\n",
+  "status": 0
+ },
+ "subst-amp-and-escapes": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "[line] & \\ x 1\nilne 2\nline 3\nline 4\nline 5\nline 6\nline 7\nline 8\nline 9\nline 10\n",
+  "status": 0
+ },
+ "subst-backref-in-re": {
+  "err": "",
+  "files": {
+   "f": "YmFhYgo="
+  },
+  "out": "bXb\n",
+  "status": 0
+ },
+ "subst-basic": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "?\nLine 1\nlinE 2\nline 3\nl(i)n(e) 4\nilne 5\nline 6\nline 7\nline 8\nline 9\nline 10\n",
+  "status": 1
+ },
+ "subst-bracket-delim": {
+  "err": "",
+  "files": {
+   "f": "YS9iJWMK"
+  },
+  "out": "aXb%c\naXbYc\n",
+  "status": 0
+ },
+ "subst-classes": {
+  "err": "",
+  "files": {
+   "f": "QTEgQjIyIEMzMzMK"
+  },
+  "out": "A1 BN CN\nu1 uu uu\n",
+  "status": 0
+ },
+ "subst-count-large": {
+  "err": "",
+  "files": {
+   "f": "YSBhIGEgYSBhCg=="
+  },
+  "out": "a a b a a\n?\na a b a a\n",
+  "status": 1
+ },
+ "subst-delims": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "LINE 1\nlIne 2\nlin# 3\nli.e 4\nline 5\nlin& 6\nline \nl/ne 8\nline 9\nline 10\n",
+  "status": 0
+ },
+ "subst-digit-delim": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "l1ne 5\n",
+  "status": 0
+ },
+ "subst-empty-global": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "-l-i-n-e- -1-\n-l-n-e- -2-\nline 3\nline 4\nline 5\nline 6\nline 7\nline 8\nline 9\nline 10\n",
+  "status": 0
+ },
+ "subst-empty-matches": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "-line 1\nline 2\nline 3!\n>line 4\n[line 5]\nline 6\nline 7\nline 8\nline 9\nline 10\n",
+  "status": 0
+ },
+ "subst-errors": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "?\n?\n?\n?\n?\n?\n",
+  "status": 1
+ },
+ "subst-flags": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "LINE 1\n2\tLINE 2\nLINE 3$\nlIne 4\nX 5\n 6\nLINE 1\nLINE 2\nLINE 3\nlIne 4\nX 5\n 6\nline 7\nline 8\nline 9\nline 10\n",
+  "status": 0
+ },
+ "subst-missing-group": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "?\nline 10\n",
+  "status": 1
+ },
+ "subst-newline": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "?\none\ntwo\nthree\nfour\nfive\n5\none\ntwo\nthr\nX\nY\nX\nY\nfour\nfive\n9\n",
+  "status": 1
+ },
+ "subst-nomatch": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "?\n?\n2\n",
+  "status": 1
+ },
+ "subst-null-re": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "line 3\nline 1\nline 2\nTHREE\nline 4\nline 5\nline 6\nline 7\nline 8\nline 9\nline 10\n?\nlinE 10\n",
+  "status": 1
+ },
+ "subst-percent": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "L 1\nL 2\n%% 3\n% 4\nline 5\nline 6\nline 7\nline 8\nline 9\nline 10\n",
+  "status": 0
+ },
+ "subst-range-current": {
+  "err": "",
+  "files": {
+   "f": "bGluZSAxCmxpbmUgMgpsaW5lIDMKbGluZSA0CmxpbmUgNQpsaW5lIDYKbGluZSA3CmxpbmUgOApsaW5lIDkKbGluZSAxMAo="
+  },
+  "out": "5\nline 1\nL 2\nL 3\nL 4\nL 5\nline 6\nline 7\nline 8\nline 9\nline 10\n",
+  "status": 0
+ },
+ "suffix-errors": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "?\n?\n?\n",
+  "status": 1
+ },
+ "suffixes": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "two\n?\ntwo\n5\ttwo\ntwothree$\n",
+  "status": 1
+ },
+ "undo": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "one\ntwo\nthree\nfour\nfive\n5\none\nthree\nfour\nfive\n4\n1\nthree\nfour\nfive\n1\nthree\nfour\nfive\n1\nthree\nfour\nfive\n1\nthree\nfour\nfive\n",
+  "status": 0
+ },
+ "undo-after-failed": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "?\none\ntwo\nthree\nfour\nfive\n",
+  "status": 1
+ },
+ "undo-after-read": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "one\ntwo\nthree\nfour\nfive\none\ntwo\nthree\nfour\nfive\none\ntwo\nthree\nfour\nfive\n",
+  "status": 0
+ },
+ "undo-nothing": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "?\none\ntwo\nthree\nfour\nfive\n",
+  "status": 1
+ },
+ "unknown-commands": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "?\n?\n?\n?\n?\n?\n",
+  "status": 1
+ },
+ "wq": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUKZW5kCg=="
+  },
+  "out": "",
+  "status": 0
+ },
+ "write-bytes": {
+  "err": "",
+  "files": {
+   "f": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK",
+   "out": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK"
+  },
+  "out": "24\n24\n",
+  "status": 0
+ },
+ "write-read": {
+  "err": "",
+  "files": {
+   "f": "dHdvCnRocmVlCm9uZQp0d28KdGhyZWUKZm91cgpmaXZlCnR3bwp0aHJlZQo=",
+   "out": "b25lCnR3bwp0aHJlZQpmb3VyCmZpdmUK",
+   "part": "dHdvCnRocmVlCnR3bwp0aHJlZQpvbmUKdHdvCnRocmVlCmZvdXIKZml2ZQp0d28KdGhyZWUK"
+  },
+  "out": "one\ntwo\nthree\nfour\nfive\ntwo\nthree\ntwo\nthree\none\ntwo\nthree\nfour\nfive\ntwo\nthree\n",
+  "status": 0
+ }
+}

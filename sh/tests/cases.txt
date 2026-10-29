@@ -1,0 +1,427 @@
+#### quoting basic
+echo 'single $x' "double $HOME" \$x a\ b "a\"b" 'it'\''s'
+#### dollar single quote
+echo $'a\tb\n' | od -c | head -2
+printf '%s\n' $'\x41\101\e' | od -c | head -1
+#### field splitting
+x='a  b   c'; set -- $x; echo $#
+x=' a b '; set -- $x; echo "$#:$1:$2"
+IFS=:; x='a::b:'; set -- $x; echo "$#"; for i; do echo "[$i]"; done
+#### field splitting ws mix
+IFS=' ,'; x='a , b,,c ,'; set -- $x; echo $#; for i; do printf '[%s]' "$i"; done; echo
+#### ifs empty
+IFS=; x='a b'; set -- $x; echo $#
+x=; set -- $x; echo $#
+set -- a b; IFS=; for i in $*; do echo "<$i>"; done
+#### ifs unset
+unset IFS; x='a	b
+c'; set -- $x; echo $#
+#### at and star
+set -- 'a b' c ''; for i in "$@"; do echo "[$i]"; done; echo "$#"
+for i in "$*"; do echo "[$i]"; done
+IFS=-; echo "$*"
+for i in $@; do echo "u[$i]"; done
+#### empty at
+set --; for i in "$@"; do echo x; done; echo "n=$#"; set -- "$@"; echo $#
+set -- ""; set -- "$@"; echo $#
+#### at embedded
+set -- 1 2 3; for i in "x$@y"; do echo "$i"; done
+#### quoted null fields
+set -- "" ''; echo $#
+x=; set -- "$x" $x; echo $#
+#### param expansion ops
+unset u; e=; s=set
+echo "${u-d1} ${e-d2} ${s-d3}"
+echo "${u:-d1} ${e:-d2} ${s:-d3}"
+echo "${u+a1} ${e+a2} ${s+a3}"
+echo "${u:+a1} ${e:+a2} ${s:+a3}"
+echo "${u=as}" "$u"
+echo "${e:=as2}" "$e"
+#### param question
+( : ${zz?custom msg} ) 2>/dev/null; echo "rc=$?"
+( : ${zz:?} ) 2>/dev/null; echo "rc=$?"
+x=1; echo ${x?ok}
+#### length
+x=hello; echo ${#x}; set -- a b c; echo ${#}; echo ${#1}
+#### trim
+x=/a/b/c.tar.gz
+echo ${x#*/} ${x##*/} ${x%.*} ${x%%.*}
+echo "${x#"/a"}" ${x#'*'} "${x%"${x##*.}"}"
+y='a*b'; echo ${y#*\*} "${y%\**}"
+#### trim patterns brackets
+x=abc123; echo ${x%%[0-9]*} ${x##[a-c]*[a-c]} ${x#[!a]}
+#### nested param
+unset a; b=B; echo ${a:-${b:-x}} "${a:-"${b}x"}" ${a:-'$b'}
+#### positional beyond 9
+set -- 1 2 3 4 5 6 7 8 9 10 11; echo $10 ${10} ${11}
+#### special params
+echo $# ; set -- a; echo $#; (exit 3); echo $?; echo "$-" | grep -c x
+#### arithmetic
+echo $((1+2*3)) $(( (1+2)*3 )) $((7/2)) $((7%3)) $((-7/2))
+echo $((1<2)) $((3>=4)) $((1&&0)) $((0||2)) $((!5)) $((~0)) $((5^3)) $((5&3)) $((5|3)) $((1<<4)) $((256>>2))
+echo $((010)) $((0x1F)) $((1?2:3)) $((0?2:3))
+x=5; echo $((x+=2)) $x $((x*=2)) $((x-=4)) $((x/=2)) $((x%=4)) $x
+#### arithmetic vars
+x=3 y=' 4 '; echo $((x*y)) $(($x+1)); unset z; echo $((z+1))
+a=2; echo $((a == 2 ? 10 : 20)); echo $(( a<3 && a>1 ))
+#### arith assign side effect
+echo $((n=3)) $n; echo $((n>2 ? (m=1) : (m=2))) $m
+#### arith errors
+( echo $((1/0)) ) 2>/dev/null; echo "rc=$?"
+( x=abc; echo $((x+1)) ) 2>/dev/null; echo "rc2=$?"
+#### arith subshell ambiguity
+echo $( (echo inner) )
+echo $((echo a); (echo b))
+#### command substitution
+x=$(printf 'a\n\n\n'); echo "[$x]"
+echo "$(echo "nested $(echo deep)")"
+echo `echo \`echo bq\``
+x=`echo '\$HOME'`; echo "$x"
+echo "$(case x in x) echo case-in-cmdsub;; esac)"
+#### cmdsub status
+x=$(exit 5); echo $?
+x=$(false) y=$(true); echo $?
+$(exit 3); echo $?
+#### tilde
+HOME=/home/u; echo ~ ~/x "~" ~root/x | sed 's#/root#R#'
+x=~/a:~/b; echo $x
+HOME=/h/; echo ~/x
+#### globbing
+mkdir d; touch d/a.c d/b.c d/.h d/x.txt
+echo d/*.c; echo d/*; echo d/.*; echo d/[ab].c; echo d/[!a].c; echo d/?.txt; echo 'd/*.c' d/\*.c "d/*"
+echo d/nomatch*; set -f; echo d/*.c; set +f
+#### glob in variable
+mkdir e; touch e/1 e/2; p='e/*'; echo $p "$p"
+#### glob bracket classes
+mkdir f; touch f/A f/b f/3 f/_; echo f/[[:upper:]] f/[[:digit:]] f/[[:alpha:]_]
+#### glob slash bracket
+mkdir g; touch 'g/a[b'; echo g/a[b g/a[b*
+#### case patterns
+for w in abc ABC a.c '*' ''; do case $w in a*c) echo "1:$w";; [A-Z]*) echo "2:$w";; \*) echo "3:$w";; '') echo empty;; *) echo "4:$w";; esac; done
+#### case quoted pattern from var
+p='a*'; case abc in "$p") echo quoted;; $p) echo unquoted;; esac
+case 'a*' in "$p") echo quoted2;; esac
+#### case fallthrough
+case 1 in 1) echo one;& 2) echo two;; 3) echo three;; esac
+#### case misc syntax
+case x in (x) echo paren;; esac; case y in x|y) echo alt; esac
+case z in
+  a) echo a ;;
+  *) echo default
+esac
+#### if elif else
+for i in 1 2 3; do if [ $i = 1 ]; then echo one; elif [ $i = 2 ]; then echo two; else echo other; fi; done
+if false; then :; fi; echo "st=$?"
+#### while until
+i=0; while [ $i -lt 3 ]; do i=$((i+1)); echo $i; done
+until [ $i -eq 0 ]; do i=$((i-1)); done; echo $i
+#### break continue
+for i in 1 2 3 4; do [ $i = 2 ] && continue; [ $i = 4 ] && break; echo $i; done
+for i in a b; do for j in 1 2; do [ $j = 2 ] && continue 2; echo $i$j; done; done
+for i in a b; do for j in 1 2; do break 2; done; done; echo after $i$j
+for i in x; do break 5; done; echo ok
+#### for without in
+set -- p q; for a do echo $a; done
+for a in; do echo never; done; echo empty
+#### functions
+f() { echo "$1 $#"; }; f a b
+g() { local_x=1; return 7; }; g; echo $? $local_x
+h() { echo h; } > /dev/null; h; echo after
+r() ( echo sub; exit 2 ); r; echo $?
+#### function positional restore
+set -- top1 top2; f() { set -- in; echo $1; }; f; echo $1 $#
+#### function recursion
+fact() { if [ $1 -le 1 ]; then echo 1; else echo $(( $1 * $(fact $(($1-1))) )); fi; }; fact 6
+#### function redirect on definition
+f() { echo to-file; } > out.txt; f; cat out.txt
+#### return status
+f() { false; return; }; f; echo $?
+f() { (exit 9); }; f; echo $?
+#### pipelines
+echo a | cat | tr a b
+! echo x | grep -q y; echo $?
+false | true; echo $?
+true | false; echo $?
+#### pipefail
+set -o pipefail; false | true; echo $?; (exit 3) | (exit 0) | true; echo $?; set +o pipefail; false | true; echo $?
+#### and or lists
+false && echo no || echo yes
+true || echo no && echo yes2
+false || false || echo three
+#### async and wait
+(sleep 0.1; echo bg) & wait; echo after
+(exit 7) & wait $!; echo $?
+wait 999999; echo $?
+#### async pid
+sleep 0 & p=$!; [ "$p" -gt 0 ] && echo havepid; wait
+#### redirections
+echo out > f1; cat f1; echo app >> f1; cat f1
+cat < f1 | wc -l
+echo err 2>&1 >/dev/null | cat
+{ echo e1 >&2; } 2>f2; cat f2
+exec 3>f3; echo three >&3; exec 3>&-; cat f3
+echo rw 1<>f4; cat f4
+#### redirection order
+ls /nonexistent-xyz 2>&1 >/dev/null | grep -c .
+#### noclobber
+echo a > nc; set -C; echo b > nc 2>/dev/null; echo "rc=$?"; cat nc; echo c >| nc; cat nc; set +C
+#### dup errors
+echo x >&9 2>/dev/null; echo "rc=$?"
+#### heredoc basic
+x=val
+cat <<EOF
+a $x \$x `echo bq` $(echo cs) "q" 'q'
+EOF
+cat <<'EOF'
+literal $x `x`
+EOF
+cat <<"E"F
+quoted delim $x
+EF
+#### heredoc strip tabs
+cat <<-EOF
+	tab1
+		tab2
+	EOF
+#### heredoc multiple
+cat <<A; cat <<B
+first
+A
+second
+B
+#### heredoc backslash
+cat <<EOF
+line \
+continued
+back\\slash \$ \` \"
+EOF
+#### heredoc in function and loop
+f() { cat <<EOF
+in func $1
+EOF
+}
+f arg; for i in 1 2; do cat <<X
+$i
+X
+done
+#### heredoc in cmdsub
+x=$(cat <<EOF
+inside
+EOF
+); echo "$x"
+#### here-doc with large body
+i=0; s=; while [ $i -lt 200 ]; do s="${s}line$i-abcdefghij
+"; i=$((i+1)); done
+cat <<EOF | wc -l
+$s
+EOF
+#### subshell isolation
+x=1; (x=2; echo $x); echo $x
+(cd /; pwd); pwd | grep -c /
+#### brace group
+{ echo a; echo b; } | wc -l
+x=1; { x=2; }; echo $x
+#### exit status of commands
+nonexistent_cmd_xyz 2>/dev/null; echo $?
+touch noexec; chmod 644 noexec; ./noexec 2>/dev/null; echo $?
+#### assignment before command
+x=1 sh -c 'echo $x'; echo "[$x]"
+x=2 true; echo "[$x]"
+#### assignment special builtin persists
+x=3 :; echo "[$x]"
+#### export
+export A=1; sh -c 'echo $A'; B=2; export B; sh -c 'echo $B'; unset A; sh -c 'echo "[$A]"'
+#### readonly
+readonly R=1; (R=2) 2>/dev/null; echo "rc=$?"; echo $R
+#### readonly assignment error exits
+readonly R=1; R=2; echo not-reached
+#### unset
+x=1; unset x; echo "[${x-unset}]"; f() { :; }; unset -f f; f 2>/dev/null; echo $?
+#### set positional
+set -- a b c; echo $#; shift; echo $1; shift 2; echo $#
+#### set -e basic
+set -e; false || true; echo one; if false; then :; fi; echo two; ! true; echo three; false; echo no
+#### set -e and&&
+set -e; false && true; echo survived; f() { false; echo in-f; }; f; echo no
+#### set -e subshell
+set -e; (false; echo no) ; echo no2
+#### set -e pipeline
+set -e; false | true; echo yes; true | false; echo no
+#### set -e cmdsub assignment
+set -e; x=$(false); echo no
+#### set -e in condition of compound
+set -e; { false && true; }; echo yes-brace
+#### set -u
+set -u; x=1; echo $x; (echo $nope) 2>/dev/null; echo "rc=$?"; echo "${nope-default}"; echo $# ; echo "$@" end
+#### set -f
+touch a1 a2; set -f; echo a*; set +f; echo a*
+#### set -a
+set -a; AX=1; sh -c 'echo $AX'
+#### set -n
+set -n; echo should-not-print
+#### eval
+eval 'x=1; echo $x'; eval "echo \$x"; eval; echo $?
+eval 'false'; echo $?
+#### eval loop break
+for i in 1 2 3; do eval 'if [ $i = 2 ]; then break; fi'; echo $i; done
+#### dot
+echo 'echo sourced; y=from-dot' > inc.sh; . ./inc.sh; echo $y
+echo 'return 4; echo no' > ret.sh; . ./ret.sh; echo $?
+#### dot path search
+mkdir p; echo 'echo found-in-path' > p/myinc; PATH=$PWD/p:$PATH; . myinc
+#### exec
+(exec echo replaced; echo no)
+exec 4>ex.txt; echo to4 >&4; exec 4>&-; cat ex.txt
+#### exit
+(exit 300); echo $?
+(exit); echo $?
+f() { exit 5; }; (f); echo $?
+#### trap exit
+(trap 'echo exiting' EXIT; echo body); echo after
+(trap 'echo e; exit 3' EXIT; exit 1); echo $?
+#### trap signal
+trap 'echo got USR1' USR1; kill -USR1 $$; echo after
+trap - USR1
+#### trap list
+trap 'echo x' INT; trap; trap - INT; trap
+#### trap in subshell reset
+trap 'echo parent' USR1; (trap) ; trap - USR1
+#### trap status preserved
+trap 'false' USR1; true; kill -USR1 $$; echo $?
+#### command builtin
+command echo via-command; command -v echo | grep -c echo; command -v nonexist_q; echo $?
+#### command special builtin no exit
+command shift 5 2>/dev/null; echo "still here $?"
+#### type
+type cd | grep -c builtin; type nonexist_zz >/dev/null 2>&1; echo $?
+#### alias
+alias ll='echo ll-alias'
+ll x
+alias two='echo one; echo two'
+two
+alias e='echo ' w='word'
+e w
+unalias ll; ll 2>/dev/null; echo $?
+#### alias listing
+alias a1='x y'; alias a1
+#### read
+printf 'a b c\n' | { read x y; echo "[$x][$y]"; }
+printf '  lead  trail  \n' | { read x; echo "[$x]"; }
+printf 'one\\\ntwo\n' | { read x; echo "[$x]"; }
+printf 'a\\b\n' | { read -r x; echo "[$x]"; }
+printf 'a:b:c\n' | { IFS=: read x y; echo "[$x][$y]"; }
+printf 'no-newline' | { read x; echo "$? [$x]"; }
+printf 'a b\n' | { read x y z; echo "[$x][$y][$z]"; }
+#### read delimiter
+printf 'a,b;c' | { read -d ';' x; echo "[$x]"; }
+#### read ifs nonws
+printf 'a::b\n' | { IFS=: read x y z; echo "[$x][$y][$z]"; }
+printf ':a\n' | { IFS=: read x y; echo "[$x][$y]"; }
+#### getopts
+set -- -a -b arg -cfoo rest
+while getopts ab:c: o; do echo "$o ${OPTARG-}"; done; echo "OPTIND=$OPTIND"; shift $((OPTIND-1)); echo "$@"
+#### getopts errors
+set -- -x -b
+while getopts :ab: o; do echo "$o [${OPTARG-}]"; done
+OPTIND=1; while getopts ab: o 2>/dev/null; do echo "$o [${OPTARG-u}]"; done
+#### getopts grouped and --
+getopts ab o -ab; echo $o; getopts ab o -ab; echo $o $OPTIND
+OPTIND=1; set -- -- -a; getopts a o; echo "$? $OPTIND"
+#### cd and pwd
+mkdir -p dd/sub; cd dd/sub; pwd | sed 's#.*/dd#DD#'; cd ..; pwd | sed 's#.*/dd#DD#'; cd - | sed 's#.*/dd#DD#'; basename "$PWD"
+cd /nonexistent 2>/dev/null; echo "rc=$?"
+#### cd logical symlink
+mkdir -p real/x; ln -s real/x lnk; cd lnk; pwd | sed 's#.*/##'; cd ..; basename "$PWD"; cd lnk; pwd -P | sed 's#.*/real#R#'
+#### cdpath
+mkdir -p cdp/target; CDPATH=$PWD/cdp; cd target | sed 's#.*/cdp#CDP#'
+#### umask
+umask 027; umask; umask -S; umask u=rwx,g=rx,o=; umask
+#### echo escapes
+echo 'a\tb' | od -c | head -1; echo 'stop\cnot'
+#### printf
+printf '%s|%5s|%-5s|%.2s\n' a b c defg
+printf '%d %i %o %x %X %u\n' 42 -7 8 255 255 3
+printf '%c%c\n' hello world
+printf '%b\n' 'a\tb\\c' 'x\0101y'
+printf '%s\n' a b c
+printf 'no args %s|\n'
+printf '%d\n' "'A" 0x10 010
+printf '%5.1f|%e\n' 3.14159 1000
+printf '%%\n'
+printf '%2$s %1$s\n' world hello
+#### printf errors
+printf '%d\n' abc 2>/dev/null; echo "rc=$?"
+printf '%d\n' 12abc 2>/dev/null; echo "rc=$?"
+#### printf b stop
+printf '%b|%s\n' 'x\cy' z; echo
+#### test
+test 1 -eq 1 && echo eq; [ a = a ] && echo seq; [ a != b ] && echo sne; [ -z "" ] && echo z; [ -n x ] && echo n
+[ ! -e /nonexist ] && echo noexist; [ -d / ] && echo dir; [ x ] && echo one-arg; [ ] || echo zero-arg
+[ 3 -lt 10 ]; echo $?; [ a \< b ]; echo $?; [ ! ]; echo $?; [ -f ]; echo $?
+[ \( 1 -eq 1 \) ]; echo $?; [ 1 -eq 1 -a 2 -eq 3 ]; echo $?; [ 1 -eq 2 -o 2 -eq 2 ]; echo $?
+#### test errors
+[ 1 -eq a ] 2>/dev/null; echo $?
+#### test files
+touch tf; [ -f tf -a -r tf ]; echo $?; [ -s tf ]; echo $?; echo x > tf; [ -s tf ]; echo $?; ln -s tf tl; [ -h tl ]; echo $?
+[ tf -ef tl ]; echo $?
+#### kill -l
+kill -l 9; kill -l 130
+#### jobs non-interactive
+sleep 1 & kill %1; wait %1; echo $?
+#### times
+times | wc -l
+#### hash
+hash -r; hash ls; hash | grep -c ls
+#### line continuation
+echo a\
+b; ec\
+ho joined
+#### comments
+echo a # comment
+echo b#notcomment
+#
+#### semicolon newline handling
+if true
+then
+  echo multi
+fi
+for i in 1
+do echo $i; done
+#### LINENO
+echo $LINENO
+f() {
+  echo $LINENO
+}
+f
+#### PPID
+[ "$PPID" -gt 0 ] && echo ppid
+#### dollar dollar in subshell
+a=$$; b=$(echo $$); [ "$a" = "$b" ] && echo same
+#### numeric loop large
+i=0; while [ $i -lt 2000 ]; do i=$((i+1)); done; echo $i
+#### word with many expansions
+a=1 b=2; echo "x${a}y$b"z'$q'"$(echo w)"
+#### special builtin error exits
+shift 3 2>/dev/null; echo not-reached
+#### expansion error exits
+echo ${x?boom} 2>/dev/null; echo not-reached
+#### syntax error in eval
+echo before
+eval 'if' 2>/dev/null
+echo after-eval
+#### command not found continues
+nonexist_abc 2>/dev/null; echo continued
+#### redirect error continues
+cat < /nonexistent 2>/dev/null; echo continued $?
+#### redirect error special builtin exits
+: < /nonexistent 2>/dev/null; echo not-reached
+#### var assign no command redirect
+x=1 > out2.txt; echo $x; [ -f out2.txt ] && echo created
+#### assignment cmdsub status
+x=$(false); echo $?; x=$(true) $(exit 4); echo $?
+#### backslash in double quotes
+echo "a\$b \`c\` \\d \e \"f\""
+#### backquote with backslashes
+echo `echo "a\\\\b"`; echo `echo 'x\$y'`
+#### dollar at end
+echo $ "a$" 'b$'

@@ -1,0 +1,27 @@
+-- hold keeps read messages
+2
+ls: cannot access 'mbox': No such file or directory
+-- keepsave moves saved messages to mbox
+"$TMP/sys": 2 messages 2 new
+"f" [New file] 10/154
+Saved 1 message in $TMP/mbox
+Held 1 message in $TMP/sys
+Subject: message 1
+-- append puts them at the end of mbox
+Subject: message 1
+Subject: message 1
+-- noappend puts them first
+Subject: message 1
+Subject: message 1
+Subject: message 1
+-- touch moves unless hold; mbox even with hold
+"$TMP/sys": 2 messages 2 new
+Saved 1 message in $TMP/mbox
+Held 1 message in $TMP/sys
+Subject: message 1
+-- keep truncates an empty mailbox
+"$TMP/sys": 1 message 1 unread
+0
+-- exit keeps everything
+"$TMP/sys": 1 message 1 new
+1

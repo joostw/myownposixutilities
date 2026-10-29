@@ -1,0 +1,59 @@
+bc: (standard input):1: syntax error
+2
+  status 1
+bc: (standard input):1: runtime error: divide by zero
+3
+  status 1
+bc: (standard input):1: runtime error: divide by zero
+  status 1
+bc: (standard input):1: runtime error: divide by zero
+  status 1
+bc: (standard input):1: runtime error: square root of a negative number
+  status 1
+bc: (standard input):1: runtime error: function f not defined
+  status 1
+bc: (standard input):2: runtime error: function f: 1 argument expected
+bc: (standard input):3: runtime error: function f: 1 argument expected
+  status 1
+bc: (standard input):2: runtime error: function f: parameter x[] needs an array
+  status 1
+bc: (standard input):2: runtime error: function f: parameter x needs a value
+  status 1
+bc: (standard input):1: runtime error: array index out of bounds: a[-1]
+  status 1
+bc: (standard input):1: runtime error: array index out of bounds: a[16777215]
+  status 1
+bc: (standard input):1: break outside a for or while
+  status 1
+bc: (standard input):1: continue outside a for or while
+  status 1
+bc: (standard input):1: return outside a function
+  status 1
+bc: (standard input):1: break outside a for or while
+  status 1
+bc: (standard input):1: function f: parameter a declared twice
+  status 1
+bc: (standard input):2: unterminated string
+  status 1
+bc: (standard input):2: end of file in a comment
+  status 1
+bc: (standard input):1: illegal character: @
+  status 1
+bc: (standard input):1: illegal character: G
+  status 1
+bc: (standard input):1: warning: non-zero scale in exponent
+2
+  status 0
+bc: (standard input):1: runtime error: exponent too large
+  status 1
+bc: (standard input):1: runtime error: divide by zero
+3
+0
+0
+  status 1
+bc: cannot open nosuch.bc: No such file or directory
+  status 2
+bc: unknown option -x
+usage: bc [-l] [file...]
+  status 2
+exit 0

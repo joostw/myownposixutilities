@@ -1,0 +1,1190 @@
+#### x
+hello world
+----
+x
+#### 3x
+hello world
+----
+3x
+#### x end
+abc
+----
+$x
+#### X
+hello world
+----
+wX
+#### dw
+hello world foo
+----
+dw
+#### dw last word
+hello world
+second
+----
+wdw
+#### 2dw
+one two three four
+----
+2dw
+#### d2w
+one two three four
+----
+d2w
+#### cw
+hello world
+----
+cwbye<ESC>
+#### cw on blank
+hello  world
+----
+5lcwX<ESC>
+#### cw end of line
+one two
+three
+----
+wcwX<ESC>
+#### dd
+a
+b
+c
+----
+jdd
+#### 2dd
+a
+b
+c
+d
+----
+j2dd
+#### dd last
+a
+b
+c
+----
+Gdd
+#### D
+hello world
+----
+wD
+#### C
+hello world
+----
+wCthere<ESC>
+#### de
+hello world
+----
+de
+#### db
+hello world
+----
+$db
+#### dB
+foo.bar baz.qux
+----
+$dB
+#### dW
+foo.bar baz.qux
+----
+dW
+#### d$
+abc def
+----
+lld$
+#### d0
+abc def
+----
+4ld0
+#### d^
+   abc def
+----
+$d^
+#### dj
+a
+b
+c
+----
+dj
+#### dk
+a
+b
+c
+----
+jjdk
+#### dG
+a
+b
+c
+----
+jdG
+#### dgg-like 1G
+a
+b
+c
+----
+jjd1G
+#### dfx
+abcxdefxg
+----
+dfx
+#### dtx
+abcxdefxg
+----
+dtx
+#### d2fx
+abcxdefxg
+----
+d2fx
+#### dFx
+abcxdefxg
+----
+$dFx
+#### dTx
+abcxdefxg
+----
+$dTx
+#### semicolon
+a.b.c.d.e
+----
+f.;;x
+#### comma
+a.b.c.d.e
+----
+$F.,x
+#### d semicolon
+a.b.c.d.e
+----
+f.d;
+#### yank put
+abc
+def
+----
+yyp
+#### yank put P
+abc
+def
+----
+jyyP
+#### yw p
+abc def
+----
+ywP
+#### p char
+abc
+----
+xp
+#### P char count
+abc
+----
+x3P
+#### p multiline char
+one two
+three four
+----
+wd/fo<CR>$p
+#### named buffer
+one
+two
+three
+----
+"ayyj"byyG"ap"bp
+#### append buffer
+one
+two
+three
+----
+"ayyj"Ayy:$<CR>"ap
+#### numbered buffers
+1
+2
+3
+4
+----
+dddddd"1p"2p"3p
+#### numbered dot
+1
+2
+3
+4
+----
+dddddd"1p..
+#### i
+hello
+----
+iXX<ESC>
+#### a
+hello
+----
+aXX<ESC>
+#### A
+hello
+----
+AXX<ESC>
+#### I
+   hello
+----
+$IXX<ESC>
+#### o
+one
+two
+----
+oNEW<ESC>
+#### O
+one
+two
+----
+jONEW<ESC>
+#### 3i
+ab
+----
+3ix<ESC>
+#### 3a multiline
+ab
+----
+3ax<CR>y<ESC>
+#### 3o
+ab
+----
+3ox<ESC>
+#### insert newline
+hello world
+----
+wi<CR><ESC>
+#### insert BS
+hello
+----
+iabc<BS><BS>d<ESC>
+#### insert ^W
+hello
+----
+A one two^W^Wthree<ESC>
+#### insert ^U
+hello
+----
+A one two^Uxyz<ESC>
+#### insert ^V
+hello
+----
+i^V^A<ESC>
+#### R
+hello world
+----
+Rjelly<ESC>
+#### R past end
+hello
+----
+lllRxyzzy<ESC>
+#### r
+hello
+----
+rj
+#### 3r
+hello
+----
+3rx
+#### r CR
+hello world
+----
+5lr<CR>
+#### J
+one
+two
+three
+----
+J
+#### 3J
+one
+two
+three
+four
+----
+3J
+#### J period
+one.
+two
+----
+J
+#### J paren
+one
+)two
+----
+J
+#### tilde
+hello
+----
+~~~
+#### 3tilde
+hello world
+----
+3~
+#### dot repeat dw
+one two three four
+----
+dw..
+#### dot count
+one two three four five six
+----
+dw2.
+#### dot insert
+a
+b
+c
+----
+Ax<ESC>j.j.
+#### dot cw
+one two three
+----
+cwX<ESC>w.w.
+#### u
+hello
+----
+xxxu
+#### uu
+hello
+----
+xxuu
+#### U
+hello world
+----
+xwxwxU
+#### u after dd
+a
+b
+c
+----
+jddu
+#### shift right
+a
+b
+----
+>>
+#### shift count
+a
+b
+c
+----
+:set sw=4<CR>2>>
+#### shift motion
+a
+b
+c
+----
+:set sw=4<CR>>j
+#### shift left
+        a
+    b
+----
+:set sw=4<CR><j
+#### filter
+c
+b
+a
+----
+!Gsort<CR>
+#### filter bang
+c
+b
+a
+----
+2!!sort<CR>
+#### search
+one
+two
+three two
+----
+/two<CR>x
+#### search next
+one two
+two three
+two
+----
+/two<CR>nx
+#### search N
+one two
+two three
+two
+----
+G/two<CR>Nx
+#### search back
+one two
+two three
+two
+----
+G?two<CR>x
+#### search offset
+one
+two
+three
+four
+----
+/two/+1<CR>x
+#### d search
+one two three four
+----
+d/three<CR>
+#### d search line
+one
+two
+three
+----
+d/three/<CR>
+#### d search offset
+one
+two
+three
+four
+----
+d/two/+1<CR>
+#### c search
+one two three four
+----
+c/three<CR>X <ESC>
+#### percent
+if (a (b) c) d
+----
+f(d%
+#### percent back
+x [a {b} c] y
+----
+f]d%
+#### percent brace lines
+{
+a
+}
+b
+----
+d%
+#### mark
+one
+two
+three
+four
+----
+majjd'a
+#### mark backquote
+one two
+three four
+----
+wmajwd`a
+#### G
+a
+b
+c
+d
+----
+3GD
+#### H L M
+1
+2
+3
+4
+5
+----
+LdHx
+#### dollar count
+abc
+def
+ghi
+----
+l2d$
+#### pipe
+abcdefgh
+----
+5|D
+#### zero
+abcdef
+----
+$d0
+#### underscore
+abc
+def
+ghi
+----
+2d_
+#### plus minus
+abc
+  def
+ghi
+----
++x-x
+#### CR
+abc
+  def
+----
+<CR>x
+#### paragraph
+para one
+line two
+
+para two
+line
+
+para three
+----
+d}
+#### paragraph back
+para one
+line two
+
+para two
+line
+----
+Gd{
+#### paragraph motion
+a
+
+b
+
+c
+----
+}}dd
+#### section
+{
+a
+}
+{
+b
+}
+----
+]]dd
+#### sentence
+One two.  Three four.  Five.
+----
+)D
+#### sentence back
+One two.  Three four.  Five.
+----
+$(D
+#### sentence delete
+One two.  Three four.  Five.
+----
+d)
+#### w motion
+one two three
+four five
+----
+wwwx
+#### b motion
+one two three
+four five
+----
+jbbx
+#### e motion
+one two three
+----
+eex
+#### W motion
+a.b c.d e
+----
+Wx
+#### B motion
+a.b c.d e
+----
+$Bx
+#### E motion
+a.b c.d e
+----
+Ex
+#### w punct
+foo.bar(baz)
+----
+wwwx
+#### cc autoindent
+    hello
+world
+----
+:set ai<CR>ccnew<ESC>
+#### S
+hello
+world
+----
+Snew<ESC>
+#### s
+hello
+----
+3sX<ESC>
+#### Y
+a
+b
+----
+YjP
+#### yank motion cursor
+one two three
+----
+$yb$p
+#### autoindent o
+    hello
+----
+:set ai<CR>onext<CR>more<ESC>
+#### autoindent ctrl-d
+        hello
+----
+:set ai sw=4<CR>onext^Dless<ESC>
+#### autoindent 0ctrl-d
+        hello
+----
+:set ai<CR>onext<CR>0^Dzero<ESC>
+#### ctrl-t
+hello
+----
+:set sw=4<CR>i^T^T<ESC>
+#### autoindent empty line
+    a
+b
+----
+:set ai<CR>o<CR>x<ESC>
+#### ex command
+a
+b
+c
+----
+:2d<CR>
+#### ex s
+foo bar
+foo baz
+----
+:%s/foo/X/<CR>
+#### ex g
+a1
+b
+a2
+----
+:g/a/s/$/!/<CR>
+#### ampersand
+foo foo
+foo foo
+----
+:s/foo/X/<CR>j&
+#### at buffer
+hello
+----
+:1y z<CR>"zP
+#### execute buffer
+x
+----
+ox<ESC>"ayy:1d<CR>@a
+#### map
+hello world
+----
+:map Q dw<CR>Q
+#### map! abbreviation
+hello
+----
+:ab teh the<CR>A teh end<ESC>
+#### map input
+hello
+----
+:map! @@ XYZ<CR>A @@<ESC>
+#### NUL insert
+a
+b
+----
+Axy<ESC>jA^@
+#### ctrl-a? not cmd
+abc
+----
+x
+#### count i esc
+abc
+----
+2ix<ESC>
+#### put line count
+a
+----
+yy3p
+#### x count beyond
+abc
+----
+l5x
+#### X count beyond
+abcdef
+----
+3l9X
+#### c dollar
+one two
+----
+wc$X<ESC>
+#### change multi-line
+one two
+three four
+----
+wc/fo<CR>X<ESC>
+#### change lines cj
+a
+b
+c
+----
+cjX<ESC>
+#### yank lines count
+a
+b
+c
+----
+2yyGp
+#### y$ P
+abc def
+----
+wy$P
+#### tilde across
+ab
+cd
+----
+l3~
+#### empty file insert
+----
+ihello<ESC>
+#### empty file o
+----
+oone<ESC>
+#### empty file p
+----
+:$a<CR>x<CR>.<CR>:1y<CR>:1d<CR>p
+#### join count 1
+a
+b
+----
+1J
+#### join count 2
+a
+b
+c
+----
+2J
+#### undo insert
+abc
+----
+ixyz<ESC>u
+#### undo undo
+abc
+----
+xu u
+#### repeat after undo
+one two three
+----
+dwu.
+#### d ` mark lines
+one
+two
+three
+----
+majjd`a
+#### search wrap
+alpha
+beta
+alpha2
+----
+G/alpha<CR>x
+#### nowrapscan
+alpha
+beta
+----
+:set nows<CR>j/alpha<CR>x
+#### d n
+x one x two x
+----
+/x<CR>dn
+#### replace mode backspace
+abcdef
+----
+Rxy<BS>z<ESC>
+#### wrapmargin
+----
+:set wm=70<CR>iaaaa bbbb cccc dddd eeee ffff gggg hhhh iiii jjjj kkkk llll mmmm nnnn oooo pppp<ESC>
+#### count dot paste
+a
+b
+----
+yyp.
+#### dd then p twice
+1
+2
+3
+----
+ddpp
+#### r esc
+abc
+----
+r<ESC>x
+#### f not found
+abc
+----
+fzx
+#### c count motion
+a b c d e
+----
+2c2wX<ESC>
+#### Q and back
+a
+b
+----
+Qd<CR>vi<CR>x
+#### alternate file
+one
+----
+:w<CR>:e! /etc/hostname<CR>:e #<CR>x
+#### ctrl-caret
+one
+----
+:w<CR>:e /etc/hostname<CR>^^x
+#### map multi
+hello world
+----
+:map ,d dw<CR>,d
+#### map remap
+hello world foo
+----
+:map X dw<CR>:map Y X<CR>Y
+#### noremap option
+hello world foo
+----
+:set noremap<CR>:map X dw<CR>:map Y X<CR>Y
+#### unmap
+hello world
+----
+:map X dw<CR>:unmap X<CR>X
+#### at at
+a
+a
+a
+----
+:1s/^/x/<CR>"qyy:1d<CR>@q@@
+#### at with count
+a b c d e f
+----
+:$a<CR>x<CR>.<CR><CR>"qdd3@q
+#### U multiple
+hello world
+----
+xxwxxU
+#### r count CR
+abcdef
+----
+l2r<CR>
+#### R newline
+abc def
+----
+R12<CR>34<ESC>
+#### autoindent caret ctrl-d
+    a
+----
+:set ai<CR>ob<CR>^^Dc<CR>d<ESC>
+#### autoindent shiftwidth ctrl-d
+                x
+----
+:set ai sw=4<CR>oa^D^Db<ESC>
+#### ctrl-t mid line
+ab
+----
+:set sw=4<CR>A^Tc<ESC>
+#### insert count multiline
+x
+----
+2ia<CR>b<ESC>
+#### o count autoindent
+  x
+----
+:set ai<CR>2oy<ESC>
+#### change word count
+one two three four
+----
+c2wX<ESC>
+#### change to mark
+one
+two
+three
+----
+jmakc'aX<ESC>
+#### delete paragraph count
+a
+
+b
+
+c
+----
+d2}
+#### yank paragraph put
+a
+b
+
+c
+----
+y}Gp
+#### G count motion
+1
+2
+3
+4
+----
+d3G
+#### d H
+1
+2
+3
+4
+----
+GdH
+#### d L
+1
+2
+3
+4
+----
+dL
+#### d M
+1
+2
+3
+4
+5
+----
+dM
+#### put P char multiline
+ab
+cd
+----
+ld/d<CR>$P
+#### dot after A
+a
+b
+----
+Axy<ESC>j.
+#### dot after o
+a
+b
+----
+ox<ESC>j.
+#### dot after c$
+abc def
+abc def
+----
+wc$X<ESC>j0w.
+#### dot shift
+a
+b
+c
+----
+>>j.
+#### dot x count
+abcdefgh
+----
+2x.3.
+#### dot J
+a
+b
+c
+d
+----
+J.
+#### dot r
+abcd
+----
+rxl.
+#### dot tilde
+abcd
+----
+~.
+#### dot p
+1
+2
+----
+yyp.
+#### dot D
+abc def
+ghi jkl
+----
+wDj.
+#### search ignorecase
+Hello
+hello
+----
+:set ic<CR>/HELLO<CR>x
+#### search magic
+a.b
+axb
+----
+/a\.b<CR>x
+#### search nomagic
+axb
+a.b
+----
+:set nomagic<CR>/a.b<CR>x
+#### search word boundary
+cat concat
+----
+w/\<cat<CR>x
+#### question search wrap
+alpha
+beta
+----
+?beta<CR>x
+#### search semicolon
+x a b a b
+----
+/a/;/b<CR>x
+#### search z
+1
+2
+3
+----
+/3/z.<CR>x
+#### percent count lines
+(
+a
+)
+----
+y%Gp
+#### tilde count 
+abc
+----
+5~
+#### dollar motion count change
+abc
+def
+----
+c2$X<ESC>
+#### ex range mark vi
+a
+b
+c
+d
+----
+majjmb:'a,'bd<CR>
+#### colon count
+a
+b
+c
+d
+----
+3:d<CR>
+#### filter count motion
+3
+2
+1
+----
+!2jsort<CR>
+#### filter dot
+b
+a
+d
+c
+----
+!jsort<CR>jj.
+#### shift paragraph
+a
+b
+
+c
+----
+>}
+#### yank cursor back
+one two three
+----
+$yb
+#### s count
+abcdef
+----
+2sX<ESC>
+#### C count
+a b
+c d
+e f
+----
+2CX<ESC>
+#### Y count p
+a
+b
+c
+----
+2YGp
+#### x then p swap
+ab
+----
+xp
+#### ddp swap
+1
+2
+----
+ddp
+#### P line at top
+1
+2
+----
+jddkP
+#### cw at end of line word
+foo bar
+baz
+----
+wcwX<ESC>
+#### dw spaces end
+foo bar   
+baz
+----
+wdw
+#### e at end
+foo
+----
+$ex
+#### b at start
+foo
+----
+bx
+#### w at last char
+foo
+----
+$wx
+#### dw last word of file
+foo bar
+----
+wdw
+#### cw last word of file
+foo bar
+----
+wcwX<ESC>
+#### J end of buffer
+a
+----
+Jx
+#### zero after digit
+abcdefghijklmnop
+----
+10lx0x
+#### abbreviation no trigger in word
+x
+----
+:ab ab AB<CR>Aab abc ab<ESC>
+#### insert ^V ESC
+x
+----
+i^V<ESC>y<ESC>
+#### insert BS past start
+abc
+----
+lia<BS><BS>z<ESC>
+#### showmatch
+x
+----
+:set sm<CR>o(a)<ESC>
+#### wrapmargin blank trigger
+----
+:set wm=75<CR>iaa<SP>bb<SP>cc<SP>dd<SP>ee<SP>ff<SP>gg<SP>hh<SP>ii<SP>jj<SP>kk<SP>ll<SP>mm<SP>nn<SP>oo<SP>pp<SP>qq<SP>rr<ESC>
+#### dd column
+abc def
+xyz uvw
+----
+wddx
+#### dj column
+abc def
+xyz uvw
+123 456
+----
+wdjx
+#### yk column
+abc def
+xyz uvw
+----
+jwykx
+#### p line column
+  abc def
+xyz
+----
+wyyjpx

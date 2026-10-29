@@ -1,0 +1,31 @@
+== at
+36 terminals, 7 nonterminals
+37 grammar rules, 50 states
+== awk
+  yacc: awk.y: conflicts: 236 shift/reduce
+68 terminals, 38 nonterminals
+207 grammar rules, 430 states
+== bc
+  yacc: bc.y: conflicts: 24 shift/reduce
+36 terminals, 16 nonterminals
+65 grammar rules, 125 states
+== localedef
+  yacc: localedef.y:55: warning: rule 29 is never reduced
+  yacc: localedef.y: conflicts: 1 shift/reduce, 4 reduce/reduce
+100 terminals, 74 nonterminals
+193 grammar rules, 319 states
+== regex_bre
+  yacc: regex_bre.y: conflicts: 10 shift/reduce
+33 terminals, 21 nonterminals
+51 grammar rules, 74 states
+== regex_ere
+  yacc: regex_ere.y: conflicts: 1 shift/reduce
+31 terminals, 19 nonterminals
+44 grammar rules, 67 states
+== sh
+43 terminals, 48 nonterminals
+113 grammar rules, 184 states
+== yacc
+23 terminals, 16 nonterminals
+35 grammar rules, 49 states
+exit 0

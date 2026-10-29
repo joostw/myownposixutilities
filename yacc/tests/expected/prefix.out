@@ -1,0 +1,10 @@
+one.tab.c
+one.tab.h
+two.tab.c
+two.tab.h
+one: A A (yychar -2)
+two: B C, yylval 20
+0 0
+extern YYSTYPE onelval;
+int oneparse(void);
+exit 0

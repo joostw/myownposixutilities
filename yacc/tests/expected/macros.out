@@ -1,0 +1,68 @@
+a, yychar=-2
+a, yychar=-2
+accepted
+[aaq] -> 0, yynerrs 0
+a, yychar=-2
+a, yychar=-2
+abort
+[aa!] -> 1, yynerrs 0
+a, yychar=-2
+accept early
+[a.a] -> 0, yynerrs 0
+a, yychar=-2
+yyerror: syntax error
+recovered, recovering=1
+after yyerrok 0
+a, yychar=-2
+accepted
+[axx;aq] -> 0, yynerrs 1
+YYERROR
+recovered, recovering=1
+after yyerrok 0
+a, yychar=-2
+accepted
+[ee;aq] -> 0, yynerrs 0
+a, yychar=-2
+YYERROR
+[aee] -> 1, yynerrs 0
+clear -2
+a, yychar=-2
+accepted
+[ccaq] -> 0, yynerrs 0
+clear -2
+yyerror: syntax error
+[ccxq] -> 1, yynerrs 1
+yyerror: syntax error
+recovered, recovering=1
+after yyerrok 0
+yyerror: syntax error
+[zz;] -> 1, yynerrs 2
+yyerror: syntax error
+[b] -> 1, yynerrs 1
+yyerror: syntax error
+[] -> 1, yynerrs 1
+accepted
+[q] -> 0, yynerrs 0
+yyerror: syntax error
+recovered, recovering=1
+after yyerrok 0
+yyerror: syntax error
+recovered, recovering=1
+after yyerrok 0
+yyerror: syntax error
+recovered, recovering=1
+after yyerrok 0
+yyerror: syntax error
+recovered, recovering=1
+after yyerrok 0
+accepted
+[;;;;q] -> 0, yynerrs 4
+yyerror: syntax error
+recovered, recovering=1
+after yyerrok 0
+yyerror: syntax error
+recovered, recovering=1
+after yyerrok 0
+accepted
+[x;y;q] -> 0, yynerrs 2
+exit 0

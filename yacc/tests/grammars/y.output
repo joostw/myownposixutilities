@@ -1,0 +1,484 @@
+   0  $accept : spec $end
+
+   1  spec : defs MARK rules tail
+
+   2  tail : MARK
+   3       | /* empty */
+
+   4  defs : /* empty */
+   5       | defs def
+
+   6  def : START IDENTIFIER
+   7      | UNION
+
+   8  $$1 : /* empty */
+
+   9  def : LCURL $$1 RCURL
+  10      | rword tag nlist
+
+  11  rword : TOKEN
+  12        | LEFT
+  13        | RIGHT
+  14        | NONASSOC
+  15        | TYPE
+
+  16  tag : /* empty */
+  17      | '<' IDENTIFIER '>'
+
+  18  nlist : nmno
+  19        | nlist nmno
+
+  20  nmno : IDENTIFIER
+  21       | IDENTIFIER NUMBER
+
+  22  rules : C_IDENTIFIER rbody prec
+  23        | rules rule
+
+  24  rule : C_IDENTIFIER rbody prec
+  25       | '|' rbody prec
+
+  26  rbody : /* empty */
+  27        | rbody IDENTIFIER
+  28        | rbody act
+
+  29  $$2 : /* empty */
+
+  30  act : '{' $$2 '}'
+
+  31  prec : /* empty */
+  32       | PREC IDENTIFIER
+  33       | PREC IDENTIFIER act
+  34       | prec ';'
+
+state 0
+	$accept : . spec $end  (0)
+
+	.  reduce 4
+
+	spec  goto 1
+	defs  goto 2
+
+
+state 1
+	$accept : spec . $end  (0)
+
+	$end  accept
+	.  error
+
+
+state 2
+	spec : defs . MARK rules tail  (1)
+	defs : defs . def  (5)
+
+	LEFT  shift 4
+	RIGHT  shift 5
+	NONASSOC  shift 6
+	TOKEN  shift 7
+	TYPE  shift 8
+	START  shift 9
+	UNION  shift 10
+	MARK  shift 11
+	LCURL  shift 12
+	.  error
+
+	def  goto 13
+	rword  goto 14
+
+
+state 3
+	$accept : spec $end .  (0)
+
+	.  accept
+
+
+state 4
+	rword : LEFT .  (12)
+
+	.  reduce 12
+
+
+state 5
+	rword : RIGHT .  (13)
+
+	.  reduce 13
+
+
+state 6
+	rword : NONASSOC .  (14)
+
+	.  reduce 14
+
+
+state 7
+	rword : TOKEN .  (11)
+
+	.  reduce 11
+
+
+state 8
+	rword : TYPE .  (15)
+
+	.  reduce 15
+
+
+state 9
+	def : START . IDENTIFIER  (6)
+
+	IDENTIFIER  shift 15
+	.  error
+
+
+state 10
+	def : UNION .  (7)
+
+	.  reduce 7
+
+
+state 11
+	spec : defs MARK . rules tail  (1)
+
+	C_IDENTIFIER  shift 16
+	.  error
+
+	rules  goto 17
+
+
+state 12
+	def : LCURL . $$1 RCURL  (9)
+
+	.  reduce 8
+
+	$$1  goto 18
+
+
+state 13
+	defs : defs def .  (5)
+
+	.  reduce 5
+
+
+state 14
+	def : rword . tag nlist  (10)
+
+	'<'  shift 19
+	.  reduce 16
+
+	tag  goto 20
+
+
+state 15
+	def : START IDENTIFIER .  (6)
+
+	.  reduce 6
+
+
+state 16
+	rules : C_IDENTIFIER . rbody prec  (22)
+
+	.  reduce 26
+
+	rbody  goto 21
+
+
+state 17
+	spec : defs MARK rules . tail  (1)
+	rules : rules . rule  (23)
+
+	C_IDENTIFIER  shift 22
+	MARK  shift 23
+	'|'  shift 24
+	.  reduce 3
+
+	tail  goto 25
+	rule  goto 26
+
+
+state 18
+	def : LCURL $$1 . RCURL  (9)
+
+	RCURL  shift 27
+	.  error
+
+
+state 19
+	tag : '<' . IDENTIFIER '>'  (17)
+
+	IDENTIFIER  shift 28
+	.  error
+
+
+state 20
+	def : rword tag . nlist  (10)
+
+	IDENTIFIER  shift 29
+	.  error
+
+	nlist  goto 30
+	nmno  goto 31
+
+
+state 21
+	rules : C_IDENTIFIER rbody . prec  (22)
+	rbody : rbody . IDENTIFIER  (27)
+	rbody : rbody . act  (28)
+
+	IDENTIFIER  shift 32
+	PREC  shift 33
+	'{'  shift 34
+	.  reduce 31
+
+	prec  goto 35
+	act  goto 36
+
+
+state 22
+	rule : C_IDENTIFIER . rbody prec  (24)
+
+	.  reduce 26
+
+	rbody  goto 37
+
+
+state 23
+	tail : MARK .  (2)
+
+	.  reduce 2
+
+
+state 24
+	rule : '|' . rbody prec  (25)
+
+	.  reduce 26
+
+	rbody  goto 38
+
+
+state 25
+	spec : defs MARK rules tail .  (1)
+
+	.  reduce 1
+
+
+state 26
+	rules : rules rule .  (23)
+
+	.  reduce 23
+
+
+state 27
+	def : LCURL $$1 RCURL .  (9)
+
+	.  reduce 9
+
+
+state 28
+	tag : '<' IDENTIFIER . '>'  (17)
+
+	'>'  shift 39
+	.  error
+
+
+state 29
+	nmno : IDENTIFIER .  (20)
+	nmno : IDENTIFIER . NUMBER  (21)
+
+	NUMBER  shift 40
+	.  reduce 20
+
+
+state 30
+	def : rword tag nlist .  (10)
+	nlist : nlist . nmno  (19)
+
+	IDENTIFIER  shift 29
+	.  reduce 10
+
+	nmno  goto 41
+
+
+state 31
+	nlist : nmno .  (18)
+
+	.  reduce 18
+
+
+state 32
+	rbody : rbody IDENTIFIER .  (27)
+
+	.  reduce 27
+
+
+state 33
+	prec : PREC . IDENTIFIER  (32)
+	prec : PREC . IDENTIFIER act  (33)
+
+	IDENTIFIER  shift 42
+	.  error
+
+
+state 34
+	act : '{' . $$2 '}'  (30)
+
+	.  reduce 29
+
+	$$2  goto 43
+
+
+state 35
+	rules : C_IDENTIFIER rbody prec .  (22)
+	prec : prec . ';'  (34)
+
+	';'  shift 44
+	.  reduce 22
+
+
+state 36
+	rbody : rbody act .  (28)
+
+	.  reduce 28
+
+
+state 37
+	rule : C_IDENTIFIER rbody . prec  (24)
+	rbody : rbody . IDENTIFIER  (27)
+	rbody : rbody . act  (28)
+
+	IDENTIFIER  shift 32
+	PREC  shift 33
+	'{'  shift 34
+	.  reduce 31
+
+	prec  goto 45
+	act  goto 36
+
+
+state 38
+	rule : '|' rbody . prec  (25)
+	rbody : rbody . IDENTIFIER  (27)
+	rbody : rbody . act  (28)
+
+	IDENTIFIER  shift 32
+	PREC  shift 33
+	'{'  shift 34
+	.  reduce 31
+
+	prec  goto 46
+	act  goto 36
+
+
+state 39
+	tag : '<' IDENTIFIER '>' .  (17)
+
+	.  reduce 17
+
+
+state 40
+	nmno : IDENTIFIER NUMBER .  (21)
+
+	.  reduce 21
+
+
+state 41
+	nlist : nlist nmno .  (19)
+
+	.  reduce 19
+
+
+state 42
+	prec : PREC IDENTIFIER .  (32)
+	prec : PREC IDENTIFIER . act  (33)
+
+	'{'  shift 34
+	.  reduce 32
+
+	act  goto 47
+
+
+state 43
+	act : '{' $$2 . '}'  (30)
+
+	'}'  shift 48
+	.  error
+
+
+state 44
+	prec : prec ';' .  (34)
+
+	.  reduce 34
+
+
+state 45
+	rule : C_IDENTIFIER rbody prec .  (24)
+	prec : prec . ';'  (34)
+
+	';'  shift 44
+	.  reduce 24
+
+
+state 46
+	rule : '|' rbody prec .  (25)
+	prec : prec . ';'  (34)
+
+	';'  shift 44
+	.  reduce 25
+
+
+state 47
+	prec : PREC IDENTIFIER act .  (33)
+
+	.  reduce 33
+
+
+state 48
+	act : '{' $$2 '}' .  (30)
+
+	.  reduce 30
+
+
+23 terminals, 16 nonterminals
+35 grammar rules, 49 states
+92 grammar items, 75 parser actions, 23 goto entries
+Limits: none; all tables are allocated dynamically, so the number of
+terminals, nonterminals, rules, states, rule symbols and actions is
+limited only by available memory.
+
+symbol  value  name
+     0      0  $end
+     1    256  error
+     2      -  $undefined
+     3    257  IDENTIFIER
+     4    258  C_IDENTIFIER
+     5    259  NUMBER
+     6    260  LEFT
+     7    261  RIGHT
+     8    262  NONASSOC
+     9    263  TOKEN
+    10    264  PREC
+    11    265  TYPE
+    12    266  START
+    13    267  UNION
+    14    268  MARK
+    15    269  LCURL
+    16    270  RCURL
+    17     60  '<'
+    18     62  '>'
+    19    124  '|'
+    20    123  '{'
+    21    125  '}'
+    22     59  ';'
+    23      -  $accept
+    24      -  spec
+    25      -  defs
+    26      -  rules
+    27      -  tail
+    28      -  def
+    29      -  $$1
+    30      -  rword
+    31      -  tag
+    32      -  nlist
+    33      -  nmno
+    34      -  rbody
+    35      -  prec
+    36      -  rule
+    37      -  act
+    38      -  $$2

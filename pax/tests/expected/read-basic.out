@@ -1,0 +1,21 @@
+== ustar
+rc=0
+rc=0
+trees equal
+2 out/one
+2 out/dir/hard
+../one
+== pax
+rc=0
+rc=0
+trees equal
+2 out/one
+2 out/dir/hard
+../one
+== cpio
+rc=0
+rc=0
+trees equal
+2 out/one
+2 out/dir/hard
+../one

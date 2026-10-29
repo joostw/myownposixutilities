@@ -1,0 +1,40 @@
+  lex: 71 rules (0 with trailing context), 2 start conditions
+  lex: 875 NFA states, 235 DFA states (235 before minimization), 65 character classes
+  lex: 7180 packed transition entries (15275 unpacked)
+  lex: no fixed table limits; %p, %n, %a, %e, %k and %o are accepted and ignored
+PP #include <stdio.h>
+COMMENT
+INT
+ID main
+OP (
+VOID
+OP )
+OP {
+LONG
+ID x
+OP =
+HEX 0x1fUL
+OP +
+OCT 017
+OP +
+FLT 3.5e+2f
+OP ;
+CHAR
+OP *
+ID s
+OP =
+STR "a\"b"
+OP ;
+LINECOMMENT
+RETURN
+ID x
+OP2 >=
+INT 10
+OP ?
+CHARLIT 'q'
+OP :
+CHARLIT '\n'
+OP ;
+OP }
+col 0
+exit 0

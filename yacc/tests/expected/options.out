@@ -1,0 +1,15 @@
+foo.output
+foo.tab.c
+foo.tab.h
+g.y
+bar.output
+bar.tab.c
+bar.tab.h
+g.y
+g.y
+y.output
+y.tab.c
+1
+x.tab.c
+y.tab.c
+exit 0

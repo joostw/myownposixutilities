@@ -1,0 +1,23 @@
+drwxr-xr-x 0     0 Jan  1 00:00 2000 src
+drwxr-xr-x 0     0 Jan  1 00:00 2000 src/dir
+-rw-r--r-- 0     4 Jan  1 00:00 2000 src/dir/hard
+drwxr-xr-x 0     0 Jan  1 00:00 2000 src/dir/sub
+-rw-r--r-- 0  3000 Jan  1 00:00 2000 src/dir/sub/big
+lrwxrwxrwx 0     0 Jan  1 00:00 2000 src/dir/sym -> ../one
+-rw-r----- 0    10 Jan  1 00:00 2000 src/dir/two
+drwxr-xr-x 0     0 Jan  1 00:00 2000 src/empty
+prw-r--r-- 0     0 Jan  1 00:00 2000 src/fifo
+-rw-r--r-- 0     0 Jan  1 00:00 2000 src/one
+--
+src/fifo|2000-01-01 00:00:00|p|6|0000644| 
+
+src/one|2000-01-01 00:00:00|-|1|0000644| 
+
+--
+src/dir/two src/dir/two[src/dir/two]
+-- cpio keywords
+src/one 100644 4 2 Jan  1 00:00 2000 src/one
+src/dir/sym 120777 6 1 Jan  1 00:00 2000 src/dir/sym -> ../one
+-- escapes
+0000000   %  \t   s   r   c   /   o   n   e   \  \n
+0000013

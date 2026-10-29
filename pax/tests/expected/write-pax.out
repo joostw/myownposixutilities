@@ -1,0 +1,30 @@
+-- ustar refuses
+pax: d/abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij: pathname too long for the ustar format; not archived
+pax: d/sl: link name too long for the ustar format; not archived
+rc=1
+d
+d/abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij/f
+d/café
+-- pax records
+5 d/ 0 0000755
+x PaxHeaders.N/BASE 133 0000600
+    133 path=d/abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij/
+5 bcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij/ 0 0000755
+0 d/abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij/f 2 0000644
+x d/PaxHeaders.N/café 37 0000600
+    21 hdrcharset=BINARY
+    16 path=d/café
+0 d/café 1 0000644
+x d/PaxHeaders.N/sl 158 0000600
+    136 linkpath=abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij/f
+    22 mtime=946684800.25
+2 d/sl 0 0000777
+zero block at 6656
+archive size 10240
+-- round trip
+trees equal
+-- -o times
+x d/PaxHeaders.N/sl SIZE 0000600
+    22 mtime=946684800.25
+    NN atime=A
+2 d/sl 0 0000777

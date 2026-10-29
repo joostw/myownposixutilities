@@ -1,0 +1,114 @@
+"$TMP/sys": 3 messages 3 new
+team	a b c
+team	a b c
+-- ignore and retain
+"$TMP/sys": 3 messages 3 new
+message-id
+To
+Message 1:
+From a1@x Sat Oct 24 11:00:00 2026
+From: a1@x
+Subject: message 1
+
+body of message 1
+second line
+Message 2:
+From a2@x Sat Oct 24 12:00:00 2026
+Subject: message 2
+
+body of message 2
+second line
+subject
+Message 3:
+From a3@x Sat Oct 24 13:00:00 2026
+From: a3@x
+To: joe@here.example
+Subject: message 3
+Message-ID: <m3@example>
+
+body of message 3
+second line
+-- pipe
+"$TMP/sys": 3 messages 3 new
+8
+body of message 1
+2
+0000160   b   o   d   y       o   f       m   e   s   s   a   g   e    
+0000200   1  \n   s   e   c   o   n   d       l   i   n   e  \n  \f
+0000217
+-- size and top
+"$TMP/sys": 3 messages 3 new
+Message 1:
+From: a1@x
+To: joe@here.example
+Subject: message 1
+Message 2:
+From: a2@x
+To: joe@here.example
+Subject: message 2
+2: 143
+1: 143
+2: 143
+3: 143
+-- dp and dt
+"$TMP/sys": 3 messages 3 new
+Message 2:
+Message 3:
+At EOF
+0
+-- undelete and autoprint
+Message 3:
+Subject: message 3
+Message-ID: <m3@example>
+Message 2:
+Subject: message 2
+Message-ID: <m2@example>
+-- next after delete
+Message 3:
+Message-ID: <m3@example>
+Message 2:
+Message-ID: <m2@example>
+-- headers and z
+"$TMP/sys": 5 messages 5 new
+>N  1 m1@x               Sat Oct 24 11:00    9/143   message 1
+ N  2 m2@x               Sat Oct 24 12:00    9/143   message 2
+z
+ N  3 m3@x               Sat Oct 24 13:00    9/143   message 3
+ N  4 m4@x               Sat Oct 24 14:00    9/143   message 4
+z
+ N  5 m5@x               Sat Oct 24 15:00    9/143   message 5
+z
+On last screenful of messages
+z -
+ N  3 m3@x               Sat Oct 24 13:00    9/143   message 3
+ N  4 m4@x               Sat Oct 24 14:00    9/143   message 4
+h 5
+ N  5 m5@x               Sat Oct 24 15:00    9/143   message 5
+5
+-- cd and !
+"$TMP/sys": 3 messages 3 new
+sub
+once
+again: echo once
+-- file and folder
+"HOME/sys": 3 messages 3 new
+Held 3 messages in HOME/sys
+"other": 2 messages 2 new
+"other": 2 messages 2 new
+"other" complete
+"HOME/sys": 3 messages 3 unread
+"HOME/mbox": 0 messages
+"HOME/sys": 3 messages 3 unread
+-- list and help
+"$TMP/sys": 3 messages 3 unread
+alias group alternates cd chdir copy Copy delete discard ignore dp dt
+echo edit exit xit file folders folder followup Followup from headers
+-- unknown command
+"$TMP/sys": 3 messages 3 unread
+mailx: Unknown command: "frobnicate"
+rc=1
+-- abbreviations
+"$TMP/sys": 3 messages 3 unread
+abbreviated
+To: a1@x, joe@here.example
+Subject: Re: message 1

@@ -1,0 +1,92 @@
+"inc.txt" 1/10
+mailx: "exit 3" failed with exit status 3; message unchanged
+"draft.txt" 7/47
+-------
+Message contains:
+To: t1@x, t2@x
+Subject: new subject
+Cc: c1@x, c2@x
+Bcc: b1@x
+
+FIRST
+FILE TEXT
+FROM COMMAND
+-- 
+JOE	X
+BIG
+BIG
+shell ran
+quiet
+-------------------- ~ Escapes --------------------
+---------------------------------------------------
+== sendmail -oi -- t1@x t2@x c1@x c2@x b1@x
+To: t1@x, t2@x
+Cc: c1@x, c2@x
+Subject: new subject
+Date: DATE
+
+FIRST
+FILE TEXT
+FROM COMMAND
+-- 
+JOE	X
+BIG
+BIG
+last
+-- draft.txt
+FIRST
+FILE TEXT
+FROM COMMAND
+-- 
+JOE	X
+BIG
+BIG
+-- ~f, ~m, ~F in receive mode
+"$TMP/sys": 1 message 1 new
+Interpolating: 1
+Interpolating: 1
+Interpolating: 1
+Saved 1 message in $TMP/mbox
+== sendmail -oi -- x@y
+To: x@y
+
+From: Alice <alice@a.example>
+Subject: message 1
+
+body of message 1
+second line
+> From: Alice <alice@a.example>
+> Subject: message 1
+
+> body of message 1
+> second line
+> From: Alice <alice@a.example>
+> To: joe@here.example
+> Subject: message 1
+> Message-ID: <m1@example>
+
+> body of message 1
+> second line
+.
+-- ~q saves the letter, ~x does not
+"$TMP/dead.letter" 7/102
+rc=1
+Subject: q
+Date: DATE
+
+rc=1
+ls: cannot access 'dead.letter': No such file or directory
+-- ~d reads it back
+"$TMP/dead.letter" 7/104
+To: a@b
+Subject: d
+Date: DATE
+
+dead body
+
+-- a disabled escape
+
+~s not a command
+-- another escape character
+Subject: via bang
+~s literal

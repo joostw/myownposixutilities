@@ -1,0 +1,30 @@
+-- ustar headers
+5 src/dir/ 0 0000755
+0 src/dir/hard 4 0000644
+5 src/dir/sub/ 0 0000755
+0 src/dir/sub/big 3000 0000644
+2 src/dir/sym 0 0000777
+0 src/dir/two 10 0000640
+6 src/fifo 0 0000644
+zero block at 7680
+archive size 10240
+-- names from stdin
+src/one
+src/dir/two
+-- -d
+src/dir
+-- stdout
+src/one
+-- missing operand
+pax: nosuch: No such file or directory
+rc=1
+src/one
+-- archive not archived into itself
+pax: ./self.tar: the archive itself is not archived
+rc=0
+0
+-- -s and -v
+S/one
+S/dir/sym
+S/one
+S/dir/sym

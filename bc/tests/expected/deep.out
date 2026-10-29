@@ -1,0 +1,5 @@
+100000
+bc: (standard input):1: runtime error: function calls nested too deeply
+5
+status 1
+exit 0

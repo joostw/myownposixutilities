@@ -1,0 +1,25 @@
+-- default: symlinks archived
+lrwxrwxrwx  1  2000 ld -> d
+drwxr-xr-x  1  2000 d
+lrwxrwxrwx  1  2000 d/dangling -> nowhere
+lrwxrwxrwx  1  2000 d/lx -> x
+drwxr-xr-x  1  2000 d/x
+-rw-r--r--  1  2000 d/x/f
+-- -H follows operands only
+drwxr-xr-x  1  2000 ld
+lrwxrwxrwx  1  2000 ld/dangling -> nowhere
+lrwxrwxrwx  1  2000 ld/lx -> x
+drwxr-xr-x  1  2000 ld/x
+-rw-r--r--  1  2000 ld/x/f
+-- -L follows all
+drwxr-xr-x  1  2000 ld
+lrwxrwxrwx  1  2000 ld/dangling -> nowhere
+drwxr-xr-x  1  2000 ld/lx
+-rw-r--r--  1  2000 ld/lx/f
+drwxr-xr-x  1  2000 ld/x
+-rw-r--r--  1  2000 ld/x/f
+-- -H -L last wins
+5
+-- loop
+pax: loop/a/up: infinite loop in the file hierarchy
+rc=1

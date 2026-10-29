@@ -1,0 +1,18 @@
+2
+lex: N rules (N with trailing context), N start conditions
+lex: N NFA states, N DFA states (N before minimization), N character classes
+lex: N packed transition entries (N unpacked)
+lex: no fixed table limits; %p, %n, %a, %e, %k and %o are accepted and ignored
+lex: N rules (N with trailing context), N start conditions
+-vn: 0
+aBc
+aBc
+xA
+lex: unknown option -q
+usage: lex [-t] [-n|-v] [file...]
+status 2
+lex: cannot open nosuch.l: No such file or directory
+status 2
+lex: bad2.l:3: missing )
+status 1
+exit 0

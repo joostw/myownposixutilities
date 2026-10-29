@@ -1,0 +1,199 @@
+yacc: g.y: conflicts: 1 shift/reduce
+status 0
+   0  $accept : s $end
+
+   1  s : IF e s
+   2    | IF e s ELSE s
+   3    | e ';'
+
+   4  e : e '+' e
+   5    | e '<' e
+   6    | NUM
+   7    | NUM '(' ')'
+
+state 0
+	$accept : . s $end  (0)
+
+	NUM  shift 1
+	IF  shift 2
+	.  error
+
+	s  goto 3
+	e  goto 4
+
+
+state 1
+	e : NUM .  (6)
+	e : NUM . '(' ')'  (7)
+
+	'('  shift 5
+	.  reduce 6
+
+
+state 2
+	s : IF . e s  (1)
+	s : IF . e s ELSE s  (2)
+
+	NUM  shift 1
+	.  error
+
+	e  goto 6
+
+
+state 3
+	$accept : s . $end  (0)
+
+	$end  accept
+	.  error
+
+
+state 4
+	s : e . ';'  (3)
+	e : e . '+' e  (4)
+	e : e . '<' e  (5)
+
+	'<'  shift 8
+	'+'  shift 9
+	';'  shift 10
+	.  error
+
+
+state 5
+	e : NUM '(' . ')'  (7)
+
+	')'  shift 11
+	.  error
+
+
+state 6
+	s : IF e . s  (1)
+	s : IF e . s ELSE s  (2)
+	e : e . '+' e  (4)
+	e : e . '<' e  (5)
+
+	NUM  shift 1
+	IF  shift 2
+	'<'  shift 8
+	'+'  shift 9
+	.  error
+
+	s  goto 12
+	e  goto 4
+
+
+state 7
+	$accept : s $end .  (0)
+
+	.  accept
+
+
+state 8
+	e : e '<' . e  (5)
+
+	NUM  shift 1
+	.  error
+
+	e  goto 13
+
+
+state 9
+	e : e '+' . e  (4)
+
+	NUM  shift 1
+	.  error
+
+	e  goto 14
+
+
+state 10
+	s : e ';' .  (3)
+
+	.  reduce 3
+
+
+state 11
+	e : NUM '(' ')' .  (7)
+
+	.  reduce 7
+
+
+12: shift/reduce conflict (shift 15, reduce 1) on ELSE
+state 12
+	s : IF e s .  (1)
+	s : IF e s . ELSE s  (2)
+
+	ELSE  shift 15
+	.  reduce 1
+
+
+state 13
+	e : e . '+' e  (4)
+	e : e . '<' e  (5)
+	e : e '<' e .  (5)
+
+	'<'  error (nonassociative)
+	'+'  shift 9
+	.  reduce 5
+
+	conflict between rule 5 and token '<' resolved as an error
+	conflict between rule 5 and token '+' resolved as shift
+
+
+state 14
+	e : e . '+' e  (4)
+	e : e '+' e .  (4)
+	e : e . '<' e  (5)
+
+	.  reduce 4
+
+	conflict between rule 4 and token '<' resolved as reduce
+	conflict between rule 4 and token '+' resolved as reduce
+
+
+state 15
+	s : IF e s ELSE . s  (2)
+
+	NUM  shift 1
+	IF  shift 2
+	.  error
+
+	s  goto 16
+	e  goto 4
+
+
+state 16
+	s : IF e s ELSE s .  (2)
+
+	.  reduce 2
+
+
+1 shift/reduce conflict, 0 reduce/reduce conflicts in 1 state
+  state 12: 1 shift/reduce, 0 reduce/reduce
+
+11 terminals, 3 nonterminals
+8 grammar rules, 17 states
+30 grammar items, 27 parser actions, 9 goto entries
+Limits: none; all tables are allocated dynamically, so the number of
+terminals, nonterminals, rules, states, rule symbols and actions is
+limited only by available memory.
+
+symbol  value  name
+     0      0  $end
+     1    256  error
+     2      -  $undefined
+     3    257  NUM
+     4    258  IF
+     5    259  ELSE
+     6     60  '<'
+     7     43  '+'
+     8     59  ';'
+     9     40  '('
+    10     41  ')'
+    11      -  $accept
+    12      -  s
+    13      -  e
+yacc: bad.y:2: symbol t is used, but is not defined as a token and has no rules
+status 1
+1 error in the grammar bad.y; no parser was generated.
+Limits: none; all tables are allocated dynamically.
+exit 0

@@ -1,0 +1,49 @@
+"$TMP/sys": 7 messages 7 new
+Message 1:
+From a1@x DATE
+From: a1@x
+To: joe@here.example
+Subject: message 1
+Message-ID: <m1@example>
+
+body of message 1
+second line
+Message 2:
+From a2@x DATE
+From: a2@x
+To: joe@here.example
+Subject: message 2
+Message-ID: <m2@example>
+
+body of message 2
+second line
+"saved.box" [New file] 10/154
+ R  1 a1@x               Sat Oct 24 11:00    9/143   message 1
+ R  2 a2@x               Sat Oct 24 12:00    9/143   message 2
+ *  4 a4@x               Sat Oct 24 14:00    9/143   message 4
+ P  5 a5@x               Sat Oct 24 15:00    9/143   message 5
+>M  6 a6@x               Sat Oct 24 16:00    9/143   message 6
+ N  7 a7@x               Sat Oct 24 17:00    9/143   message 7
+Saved 3 messages in $TMP/mbox
+Held 2 messages in $TMP/sys
+-- the system mailbox keeps new, preserved and held messages
+From a5@x Sat Oct 24 15:00:00 2026
+Subject: message 5
+Status: O
+From a7@x Sat Oct 24 17:00:00 2026
+Subject: message 7
+Status: O
+-- mbox has read and mbox-marked messages
+Subject: message 1
+Status: RO
+Subject: message 2
+Status: RO
+Subject: message 6
+Status: RO
+-- saved.box
+Subject: message 4
+Status: RO
+-- a second session: unread
+"$TMP/sys": 2 messages 2 unread
+>U  1 a5@x               Sat Oct 24 15:00   10/153   message 5
+ U  2 a7@x               Sat Oct 24 17:00   10/153   message 7

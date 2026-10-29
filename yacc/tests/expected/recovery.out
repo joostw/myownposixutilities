@@ -1,0 +1,74 @@
+yacc: g.y:11: warning: rule 7 is never reduced
+yacc: g.y:12: warning: rule 8 is never reduced
+yacc: g.y:12: warning: rule 9 is never reduced
+[x;]
+item
+list done
+-> 0
+[q;x;]
+yyerror: syntax error
+error item
+item
+list done
+-> 0
+[qq;x;]
+yyerror: syntax error
+error item
+item
+list done
+-> 0
+[q;q;]
+yyerror: syntax error
+error item
+error item
+list done
+-> 0
+[x;q;x;]
+item
+yyerror: syntax error
+error item
+item
+list done
+-> 0
+[xxx;x;]
+yyerror: syntax error
+error item
+item
+list done
+-> 0
+[x;q]
+item
+yyerror: syntax error
+-> 1
+[q;qx;x;]
+yyerror: syntax error
+error item
+error item
+item
+list done
+-> 0
+[-]
+t
+-> 0
+[-b]
+yyerror: syntax error
+e: error
+t
+-> 0
+[b-]
+yyerror: syntax error
+e: error
+t
+-> 0
+[bb-b]
+yyerror: syntax error
+e: error
+e: error
+t
+-> 0
+[-bb]
+yyerror: syntax error
+e: error
+t
+-> 0
+exit 0

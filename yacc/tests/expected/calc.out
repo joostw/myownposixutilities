@@ -1,0 +1,20 @@
+7
+512
+4
+3
+-9
+3
+error: syntax error
+(recovered)
+error: syntax error
+(recovered)
+error: syntax error
+(recovered)
+20
+yyparse: 0
+error: syntax error
+(recovered)
+yyparse: 0
+error: syntax error
+yyparse: 1
+exit 0

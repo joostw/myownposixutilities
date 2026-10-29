@@ -1,0 +1,47 @@
+-- dir pattern selects hierarchy
+src/dir
+src/dir/hard
+src/dir/sub
+src/dir/sub/big
+src/dir/sym
+src/dir/two
+-- -d
+src/dir
+-- glob
+src/dir/sub
+src/dir/sub/big
+src/dir/sym
+-- bracket
+src/empty
+src/one
+-- star does not match slash
+pax: src*one: not found in archive
+rc=1
+-- star does not match leading period
+p/vis
+-- -c
+src
+src/empty
+src/one
+-- -n first match only
+src/dir
+src/dir/hard
+src/dir/sub
+src/dir/sub/big
+src/dir/sym
+src/dir/two
+-- -n dir keeps hierarchy
+src/dir
+src/dir/hard
+src/dir/sub
+src/dir/sub/big
+src/dir/sym
+src/dir/two
+-- unmatched
+src/one
+pax: nosuch: not found in archive
+pax: no*: not found in archive
+rc=1
+-- -c unmatched not reported
+10
+rc=0

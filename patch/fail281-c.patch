@@ -1,0 +1,41 @@
+*** a	Thu Oct 29 11:49:00 2026
+--- b	Thu Oct 29 11:49:00 2026
+***************
+*** 1,8 ****
+  line 13
+  line 6
+  line 4
+- line 6
+- line 12
+  line 13
+  line 9
+  line 11
+--- 1,7 ----
++ new 93
+  line 13
+  line 6
+  line 4
+  line 13
+  line 9
+  line 11
+***************
+*** 13,21 ****
+  line 9
+  line 15
+  line 5
+- line 8
+  line 11
+  line 4
+! line 2
+  line 5
+  line 0
+--- 12,20 ----
+  line 9
+  line 15
+  line 5
+  line 11
++ new 59
+  line 4
+! chg 61
+  line 5
+  line 0

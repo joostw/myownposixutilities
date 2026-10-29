@@ -1,0 +1,48 @@
+*** a	Thu Oct 29 11:48:57 2026
+--- b	Thu Oct 29 11:48:57 2026
+***************
+*** 1,4 ****
+! line 6
+  line 12
+  line 2
+  line 6
+--- 1,4 ----
+! chg 62
+  line 12
+  line 2
+  line 6
+***************
+*** 15,23 ****
+  line 14
+  line 14
+  line 3
+- line 10
+  line 1
+  line 9
+  line 0
+  line 6
+  line 8
+--- 15,23 ----
+  line 14
+  line 14
+  line 3
+  line 1
+  line 9
++ new 88
+  line 0
+  line 6
+  line 8
+***************
+*** 30,34 ****
+  line 5
+  line 9
+  line 4
+! line 4
+! line 14
+\ No newline at end of file
+--- 30,34 ----
+  line 5
+  line 9
+  line 4
+! chg 61
+! line 14

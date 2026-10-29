@@ -1,0 +1,24 @@
+-- empty archive
+pax: standard input: empty archive
+rc=1
+-- not an archive
+pax: junk: unknown archive format
+rc=1
+-- truncated
+f
+pax: tr.tar: unexpected end of archive
+rc=1
+-- only zeros
+rc=0
+-- bad checksum after first member
+f
+pax: invalid header checksum: the archive is damaged
+rc=1
+-- missing archive
+pax: nosuch.tar: No such file or directory
+rc=1
+-- bad options
+pax: illegal option -- Z
+pax: -x shar: unknown archive format
+rc=1
+pax: option requires an argument -- f

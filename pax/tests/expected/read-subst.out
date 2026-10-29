@@ -1,0 +1,36 @@
+-- rename with p flag
+src/dir/hard >> new/dir/hard
+src/one >> new/one
+new:
+dir
+one
+
+new/dir:
+hard
+2 new/one
+2 new/dir/hard
+-- first successful substitution wins
+SRC/dir/two
+src/ONE
+-- g flag and backrefs
+dir+srcsub+big+
+-- & and escaped delimiter
+src/[o]#ne
+-- empty result skips
+src
+empty
+fifo
+one
+-- symlink contents need S
+src/dir/sym -> ../one
+src/dir/sym -> ../uno
+-- hard link target follows renamed member
+2 first
+2 src/dir/hard
+-- bad expressions
+pax: -s ,a,b: invalid substitution
+rc=1
+pax: -s ,\(,b,: Unmatched ( or \(
+rc=1
+pax: -s ,a,b,q: invalid flag q
+rc=1

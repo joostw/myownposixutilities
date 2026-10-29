@@ -1,0 +1,13 @@
+-- nested includes to depth 20
+1 20 deep
+-- generated include runs even with -n and -q
+generating
+echo G=yes
+generating
+rc=1
+-- -include of a file that cannot be made
+ok
+-- several files and patterns on one line
+12
+-- relative to the working directory
+from-cwd

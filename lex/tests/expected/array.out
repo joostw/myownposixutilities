@@ -1,0 +1,6 @@
+<100 8192> status 0
+ status 2
+<9000 20000> status 0
+1
+lex scanner: token too long for yytext (YYLMAX)
+exit 0

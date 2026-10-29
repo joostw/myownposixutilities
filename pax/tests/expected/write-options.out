@@ -1,0 +1,38 @@
+-- keyword=value goes to a global header
+g /tmp/GlobalHead.P.1 30 0000600
+    17 comment=hello
+    13 uname=bob
+0 f 3 0000644
+zero block at 2048
+archive size 10240
+-rw-r--r--   1 bob      root            3 Jan  1  2000 f
+-- keyword:=value in each header
+x ./PaxHeaders.N/f 29 0000600
+    15 gname=staff
+    14 path=other
+0 f 3 0000644
+zero block at 2048
+archive size 10240
+-- exthdr.name and globexthdr.name
+g G.1 13 0000600
+x H/f% 13 0000600
+0 f 3 0000644
+zero block at 3072
+archive size 10240
+-- delete
+0 f 3 0000644
+zero block at 1024
+archive size 10240
+-- escaped comma
+    15 comment=a,b
+-- read: -o path:= overrides
+renamed
+-- read: global header applies
+bob hello
+-- unknown keyword
+pax: -o frobnicate: unknown option keyword
+rc=1
+-- invalid= values
+rc=0
+pax: -o invalid=nonsense: unknown action
+rc=1

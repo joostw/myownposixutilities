@@ -1,0 +1,63 @@
+lex: bad.l:2: end of input in the definitions section (missing %%)
+  status 1
+lex: bad.l:2: missing )
+  status 1
+lex: bad.l:2: unmatched )
+  status 1
+lex: bad.l:2: range out of order in a bracket expression
+  status 1
+lex: bad.l:2: range out of order in a bracket expression
+  status 1
+lex: bad.l:2: unknown character class [:foo:]
+  status 1
+lex: bad.l:2: unterminated string
+  status 1
+lex: bad.l:2: undefined definition {undef}
+  status 1
+lex: bad.l:3: definitions nested too deeply (a definition refers to itself?)
+  status 1
+lex: bad.l:2: trailing context used twice
+  status 1
+lex: bad.l:2: ^ in trailing context
+  status 1
+lex: bad.l:2: $ cannot be used with trailing context
+  status 1
+lex: bad.l:2: undeclared start condition NOPE
+  status 1
+lex: bad.l:2: bad interval: {3,1}
+  status 1
+lex: bad.l:2: interval expression with nothing to repeat
+  status 1
+lex: bad.l:2: interval count too large (at most 1000)
+  status 1
+lex: bad.l:2: unterminated action (unbalanced braces)
+  status 1
+lex: bad.l:2: the last rule's action is |
+  status 1
+lex: bad.l:1: start condition A declared twice
+  status 1
+lex: bad.l:1: unknown directive %foo
+  status 1
+lex: bad.l:1: %p must be followed by a number
+  status 1
+lex: bad.l:1: bad definition (a name and its substitute expected): 1x abc
+  status 1
+lex: bad.l:1: definition X has no substitute
+  status 1
+lex: bad.l:2: definition X redefined
+  status 1
+lex: bad.l:2: unterminated %{ block
+lex: bad.l:3: end of input in the definitions section (missing %%)
+  status 1
+lex: bad.l:2: backslash at the end of the pattern
+  status 1
+lex: bad.l:2: unterminated bracket expression
+  status 1
+lex: bad.l:2: [.ab.] is not a single character
+  status 1
+lex: bad.l:2: hexadecimal escape out of range
+  status 1
+lex: bad.l:1: definition abc has no substitute
+lex: bad.l:2: end of input in the definitions section (missing %%)
+  status 1
+exit 0

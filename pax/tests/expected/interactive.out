@@ -1,0 +1,5 @@
+a: rename? renamed
+b: rename? 
+c: rename? .
+
+rc 0 ['c', 'renamed']

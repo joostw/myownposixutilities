@@ -1,0 +1,21 @@
+*** a	Thu Oct 29 11:48:50 2026
+--- b	Thu Oct 29 11:48:50 2026
+***************
+*** 1,4 ****
+- line 10
+  line 0
+  line 14
+  line 5
+--- 1,3 ----
+***************
+*** 7,10 ****
+  line 12
+  line 11
+  line 5
+! line 10
+--- 6,9 ----
+  line 12
+  line 11
+  line 5
+! line 10
+\ No newline at end of file

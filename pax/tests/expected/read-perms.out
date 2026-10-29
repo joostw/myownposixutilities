@@ -1,0 +1,23 @@
+-- default: umask applies, no setuid
+700 o1/s
+500 o1/s/locked
+700 o1/s/suid
+600 o1/s/locked/f
+-- -pp
+1777 o2/s
+500 o2/s/locked
+755 o2/s/suid
+-- -pe
+1777 o3/s
+500 o3/s/locked
+4755 o3/s/suid
+-- mtime kept
+2000-01-01 00:00:00.000000000 +0000 o1/s/suid
+2000-01-01 00:00:00.000000000 +0000 o1/s/locked
+-- -pm
+current time
+-- -pa keeps mtime
+2000-01-01 00:00:00.000000000 +0000
+-- bad -p
+pax: -p z: unknown file characteristic
+rc=1

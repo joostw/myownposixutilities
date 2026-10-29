@@ -1,0 +1,26 @@
+rc=0
+.
+./dir
+./dir/hard
+./dir/sub
+./dir/sub/big
+./dir/sym
+./dir/two
+./empty
+./fifo
+./one
+rc=0
+drwxr-xr-x   1 root     root            0 Jan  1  2000 .
+drwxr-xr-x   1 root     root            0 Jan  1  2000 ./dir
+-rw-r--r--   1 root     root            4 Jan  1  2000 ./dir/hard
+drwxr-xr-x   1 root     root            0 Jan  1  2000 ./dir/sub
+-rw-r--r--   1 root     root         3000 Jan  1  2000 ./dir/sub/big
+lrwxrwxrwx   1 root     root            0 Jan  1  2000 ./dir/sym -> ../one
+-rw-r-----   1 root     root           10 Jan  1  2000 ./dir/two
+drwxr-xr-x   1 root     root            0 Jan  1  2000 ./empty
+prw-r--r--   1 root     root            0 Jan  1  2000 ./fifo
+-rw-r--r--   1 root     root            0 Jan  1  2000 ./one == ./dir/hard
+rc=0
+.
+./dir
+./dir/hard

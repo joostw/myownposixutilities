@@ -1,0 +1,84 @@
+yacc: bad.y:3: no grammar rules
+  status 1
+yacc: bad.y:2: unexpected ':' in the declarations section
+  status 1
+yacc: bad.y:2: symbol t is used, but is not defined as a token and has no rules
+  status 1
+yacc: bad.y:3: token A on the left-hand side of a rule
+  status 1
+yacc: bad.y:2: symbol x is used, but is not defined as a token and has no rules
+  status 1
+yacc: bad.y:5: type clash on default action: <i> != <p>
+  status 1
+yacc: bad.y:4: $3 refers beyond the 2 components before the action
+yacc: bad.y:4: $2 ('a') has no declared type
+yacc: bad.y:4: warning: empty rule for typed nonterminal s, and no action
+  status 1
+yacc: bad.y:4: $0 has no declared type; use $<tag>0
+  status 1
+yacc: bad.y:4: $2 ($$1) has no declared type
+  status 1
+yacc: bad.y:4: $$ of mid-rule action $$1 has no declared type; use $<tag>$
+yacc: bad.y:4: $2 ($$1) has no declared type
+  status 1
+yacc: bad.y:1: tokens A and B both have token number 300
+  status 1
+yacc: bad.y:2: token number of A cannot be changed
+  status 1
+yacc: bad.y:2: precedence of A redeclared
+  status 1
+yacc: bad.y:2: type of s redeclared (<x> and <y>)
+yacc: bad.y:4: warning: empty rule for typed nonterminal s, and no action
+  status 1
+yacc: bad.y:1: the start symbol A is a token
+  status 1
+yacc: bad.y:2: unterminated action
+  status 1
+yacc: bad.y:1: unterminated %{ section
+  status 1
+yacc: bad.y:2: unterminated literal
+  status 1
+yacc: bad.y:2: empty literal
+  status 1
+yacc: bad.y:2: unknown escape sequence \q in literal
+  status 1
+yacc: bad.y:2: \x used with no following hex digits
+  status 1
+yacc: bad.y:2: character literal value out of range
+  status 1
+yacc: bad.y:2: %prec b: not a token
+  status 1
+yacc: bad.y:3: more than one %prec in a rule
+  status 1
+yacc: bad.y:1: unknown directive %foo
+  status 1
+yacc: bad.y:2: no grammar rules
+  status 1
+yacc: bad.y:2: expected a rule (a name followed by ':'), found |
+  status 1
+yacc: bad.y:1: empty type tag
+  status 1
+yacc: bad.y:2: unterminated comment
+  status 1
+yacc: bad.y:2: a literal cannot be the left-hand side of a rule
+  status 1
+yacc: bad.y:2: empty literal
+  status 1
+yacc: bad.y:2: %union declared more than once
+  status 1
+yacc: bad.y:2: token number 0 is already assigned to A
+  status 1
+usage: yacc [-dltv] [-b file_prefix] [-p sym_prefix] grammar
+  status 2
+yacc: unknown option -x
+usage: yacc [-dltv] [-b file_prefix] [-p sym_prefix] grammar
+  status 2
+yacc: only one grammar file may be given
+usage: yacc [-dltv] [-b file_prefix] [-p sym_prefix] grammar
+  status 2
+yacc: option -b requires an argument
+usage: yacc [-dltv] [-b file_prefix] [-p sym_prefix] grammar
+  status 2
+yacc: cannot open nonexistent.y: No such file or directory
+  status 1
+exit 0

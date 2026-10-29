@@ -1,0 +1,22 @@
+-- options and macros are passed on
+MAKEFLAGS=[-iks -- A=1 B=two\ words] env=[-iks -- A=1 B=two\ words]
+A=[1] B=[two words]
+-- letters format
+MAKEFLAGS=[-ks] env=[-ks]
+A=[] B=[]
+-- dashed format with macros
+MAKEFLAGS=[-k -- A=from\ mf] env=[-k -- A=from\ mf]
+A=[from mf] B=[]
+-- command line beats MAKEFLAGS
+MAKEFLAGS=[-- A=mf A=cmd] env=[-- A=mf A=cmd]
+A=[cmd] B=[]
+-- -S after -k
+MAKEFLAGS=[-S] env=[-S]
+A=[] B=[]
+-- -n is passed on
+echo "MAKEFLAGS=[-n] env=[$MAKEFLAGS]"
+-- -f and -p are not passed on
+MAKEFLAGS=[] env=[]
+-- -j
+MAKEFLAGS=[-j 3 --jobserver-auth=R,W] env=[-j 3 --jobserver-auth=R,W]
+A=[] B=[]

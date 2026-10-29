@@ -1,0 +1,12 @@
+-- -u keeps newer file
+newer
+-- -k keeps existing
+newer
+-- plain replaces
+old
+-- -u replaces older
+old
+-- dir over file
+d
+-- file over empty dir
+old

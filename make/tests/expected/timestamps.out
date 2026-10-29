@@ -1,0 +1,13 @@
+-- equal times count as out-of-date
+rebuilding out
+-- newer target is up to date
+make: 'out' is up to date.
+-- sub-second differences count
+rebuilding out
+make: 'out' is up to date.
+-- a missing prerequisite with a rule is newer
+making gen without creating it
+t from gen
+-- a symbolic link to its prerequisite is up to date
+ln -sf ex view
+make: 'view' is up to date.

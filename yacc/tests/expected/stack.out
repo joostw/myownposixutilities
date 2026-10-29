@@ -1,0 +1,7 @@
+yacc: g.y:7: warning: rule 3 is never reduced
+0
+0
+yacc stack overflow
+2
+0
+exit 0

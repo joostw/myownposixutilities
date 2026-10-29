@@ -1,0 +1,32 @@
+"$TMP/sys": 2 messages 2 new
+"out" [New file] 10/186
+"out" [Appended] 10/172
+"body.txt" [New file] 2/30
+"bob" [New file] 10/172
+"alice" [New file] 10/186
+>*  1 alice@a.example    Sat Oct 24 11:00    9/175   message 1
+ *  2 bob@b.example      Sat Oct 24 12:00    9/161   message 2
+-- out
+From alice@a.example Sat Oct 24 11:00:00 2026
+Subject: message 1
+Status: RO
+From bob@b.example Sat Oct 24 12:00:00 2026
+Subject: message 2
+Status: RO
+-- body.txt
+body of message 2
+second line
+-- files named after the authors
+alice
+bob
+-- save with no file goes to mbox
+"$TMP/sys": 2 messages 2 new
+"$TMP/mbox" [New file] 10/186
+Subject: message 1
+-- + and folder
+"$TMP/sys": 2 messages 2 new
+"$TMP/Mail/kept" [New file] 10/172
+kept
+"$TMP/Mail/alice" [New file] 10/186
+alice
+kept

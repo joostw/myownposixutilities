@@ -1,0 +1,15 @@
+bc: (standard input):1: warning: negative scale, set to 0
+0
+bc: (standard input):1: warning: ibase too small, set to 2
+2
+bc: (standard input):1: warning: ibase too large, set to 16
+16
+bc: (standard input):1: warning: obase too small, set to 2
+10
+bc: (standard input):1: warning: obase too large, set to 999999999
+ 000000001 000000000
+3
+8
+10
+2147483647
+exit 0

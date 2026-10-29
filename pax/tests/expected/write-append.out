@@ -1,0 +1,26 @@
+-- tar
+a
+b
+c
+10240
+-- cpio
+a
+b
+-- pax onto ustar
+rc=0
+-- cpio onto tar
+pax: the archive is in a different format; cannot append
+rc=1
+-- -u only newer
+-rw-r--r--  1  2000 a
+-rw-r--r--  1  2000 b
+-rw-r--r--  1  2000 c
+-rw-r--r--  1  2000 c
+-rw-r--r--  1  2010 b
+-- -a without -f
+pax: -a requires -f
+rc=1
+-- extract appended archive
+1
+2
+3

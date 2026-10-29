@@ -1,0 +1,36 @@
+-- missing separator
+make: m1:1: *** missing separator.  Stop.
+rc=2
+-- commands before a target
+make: m2:1: *** commands commence before first target.  Stop.
+rc=2
+-- no targets
+make: *** No targets.  Stop.
+rc=2
+-- no makefile
+make: *** No targets specified and no makefile found.  Stop.
+rc=2
+-- no makefile but a target
+make: *** No rule to make target 'foo'.  Stop.
+rc=2
+-- missing -f file
+make: *** nosuch: No such file or directory.  Stop.
+rc=2
+-- bad options
+make: illegal option -- X
+make: option requires an argument -- j
+make: -j 0: invalid number of jobs
+-- failing command status
+make: *** [all] Error 7
+rc=2
+-- killed command
+make: *** [all] Killed
+rc=2
+-- -k keeps going with independent targets
+make: *** [a] Error 1
+b made
+make: Target 'all' not remade because of errors.
+rc=2
+-- -q with an error
+make: *** No rule to make target 'nosuch'.  Stop.
+rc=2

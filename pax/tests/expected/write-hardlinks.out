@@ -1,0 +1,31 @@
+== ustar
+drwxr-xr-x  1  2000 d
+-rw-r--r--  1  2000 d/a
+-rw-r--r--  1  2000 d/b == d/a
+-rw-r--r--  1  2000 d/c == d/a
+pax: d/b: cannot link to d/a: No such file or directory
+pax: d/c: cannot link to d/a: No such file or directory
+o/d/*: No such file or directory
+== pax
+drwxr-xr-x  1  2000 d
+-rw-r--r--  1  2000 d/a
+-rw-r--r--  1  2000 d/b == d/a
+-rw-r--r--  1  2000 d/c == d/a
+pax: d/b: cannot link to d/a: No such file or directory
+pax: d/c: cannot link to d/a: No such file or directory
+o/d/*: No such file or directory
+== cpio
+drwxr-xr-x  1  2000 d
+-rw-r--r--  1  2000 d/a
+-rw-r--r--  1  2000 d/b == d/a
+-rw-r--r--  1  2000 d/c == d/a
+2 5 o/d/b
+2 5 o/d/c
+== pax linkdata
+5 d/ 0 0000755
+0 d/a 5 0000644
+1 d/b 5 0000644
+1 d/c 5 0000644
+zero block at 3584
+archive size 10240
+data

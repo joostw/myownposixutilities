@@ -1,0 +1,4 @@
+status 0
+status 1
+syntax error
+exit 0

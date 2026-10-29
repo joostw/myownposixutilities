@@ -1,0 +1,6 @@
+#define NUM 300
+#define WORD 257
+#define PLUS 400
+#define YYSTYPE_IS_DECLARED 1
+42 done
+exit 0

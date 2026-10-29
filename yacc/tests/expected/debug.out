@@ -1,0 +1,8 @@
+14
+yydebug: state 2, reducing by rule 2 (s : 'b')
+yydebug: state 4, reducing by rule 1 (s : 'a' s)
+0
+0
+0
+14
+exit 0

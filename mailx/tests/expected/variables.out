@@ -1,0 +1,35 @@
+"/dev/null": 0 messages
+a
+asksub
+b="1"
+c="two words"
+d=""q""
+quiet
+a
+asksub
+d=""q""
+quiet
+a
+d=""q""
+quiet
+-- if s / if r
+"/dev/null": 0 messages
+receive
+
+from-send
+body
+-- echo
+0000000   "   /   d   e   v   /   n   u   l   l   "   :       0       m
+0000020   e   s   s   a   g   e   s  \n   a  \t   b       c           d
+0000040       e  \n
+-- startup file errors
+mailx: Unknown command: "bogus"
+mailx: badrc: the rest of the file is ignored
+mailx version 1.0.  Type ? for help.
+"/dev/null": 0 messages
+x="1"
+-- not allowed in start-up files
+mailx: mail: not valid in a start-up file
+mailx: badrc2: the rest of the file is ignored
+mailx version 1.0.  Type ? for help.
+"/dev/null": 0 messages

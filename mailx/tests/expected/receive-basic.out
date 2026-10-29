@@ -1,0 +1,75 @@
+-- summary and printing
+"$TMP/sys": 3 messages 3 new
+>N  1 alice@example.com  Sat Oct 24 11:00    9/169   message 1
+ N  2 bob@example.org    Sat Oct 24 12:00    9/173   message 2
+ N  3 carol@example.net  Sat Oct 24 13:00    9/169   message 3
+>N  1 alice@example.com  Sat Oct 24 11:00    9/169   message 1
+ N  2 bob@example.org    Sat Oct 24 12:00    9/173   message 2
+ N  3 carol@example.net  Sat Oct 24 13:00    9/169   message 3
+Message 1:
+From alice@example.com Sat Oct 24 11:00:00 2026
+From: alice@example.com
+To: joe@here.example
+Subject: message 1
+Message-ID: <m1@example>
+
+body of message 1
+second line
+Message 2:
+From bob@example.org Sat Oct 24 12:00:00 2026
+From: Bob B <bob@example.org>
+To: joe@here.example
+Subject: message 2
+Message-ID: <m2@example>
+
+body of message 2
+second line
+Message 3:
+From carol@example.net Sat Oct 24 13:00:00 2026
+From: carol@example.net
+To: joe@here.example
+Subject: message 3
+Message-ID: <m3@example>
+
+body of message 3
+second line
+At EOF
+3
+Message 1:
+From alice@example.com Sat Oct 24 11:00:00 2026
+From: alice@example.com
+To: joe@here.example
+Subject: message 1
+Message-ID: <m1@example>
+
+body of message 1
+second line
+Message 2:
+From bob@example.org Sat Oct 24 12:00:00 2026
+From: Bob B <bob@example.org>
+To: joe@here.example
+Subject: message 2
+Message-ID: <m2@example>
+
+body of message 2
+second line
+-- -H and -N
+>N  1 alice@example.com  Sat Oct 24 11:00    9/169   message 1
+ N  2 bob@example.org    Sat Oct 24 12:00    9/173   message 2
+ N  3 carol@example.net  Sat Oct 24 13:00    9/169   message 3
+"$TMP/sys": 3 messages 3 new
+1
+Held 3 messages in $TMP/sys
+-- -f with a file and an empty mailbox
+"other": 3 messages 3 unread
+>U  1 alice@example.com  Sat Oct 24 11:00   10/179   message 1
+ U  2 bob@example.org    Sat Oct 24 12:00   10/183   message 2
+ U  3 carol@example.net  Sat Oct 24 13:00   10/179   message 3
+"other" complete
+"empty": 0 messages
+rc=0
+No mail for root
+rc=0
+-- -e
+no mail: 1
+mail: 0

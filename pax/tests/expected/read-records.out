@@ -1,0 +1,12 @@
+-- size, uid, mtime records override the header
+huge 9000000000 4000000000 some user Feb 13 23:31 2009 x
+pax: huge.tar: unexpected end of archive
+rc=1
+-- truncated data is detected
+pax: huge.tar: unexpected end of archive
+rc=1
+-- records with an empty value delete the field
+-rw-r--r--   1 0        0     970 from-record
+-- global records apply to later members
+-rw-r--r--   1 globaluser 0    1970 a
+-rw-r--r--   1 globaluser 0    1970 b

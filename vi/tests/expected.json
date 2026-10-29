@@ -1,0 +1,2030 @@
+{
+ "ex:abbreviations list": [
+  "foo\tbar\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:address offsets": [
+  "1\n6\n3\n1\n4\n4\n",
+  "",
+  0,
+  "1\n2\n3\n4\n5\n6\n7\n"
+ ],
+ "ex:address search with offset and semicolon": [
+  "a\nc\nd\n",
+  "",
+  0,
+  "a\nb\nc\nd\ne\n"
+ ],
+ "ex:addresses": [
+  "2\n9\n6\n7\n6\n7\n3\n3\n4\n5\n2\n3\n4\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
+  "",
+  0,
+  "1\n2\n3\n4\n5\n6\n7\n8\n9\n"
+ ],
+ "ex:ampersand ampersand": [
+  "",
+  "ex: Extra characters at end of command: &\n",
+  1,
+  "aaa\n"
+ ],
+ "ex:append": [
+  "a\nx\ny\nb\n",
+  "",
+  0,
+  "a\nx\ny\nb\n"
+ ],
+ "ex:append bar": [
+  "a\nmiddle\nb\n",
+  "",
+  0,
+  "a\nmiddle\nb\n"
+ ],
+ "ex:append in middle undo": [
+  "a\nb\n",
+  "",
+  0,
+  "a\nb\n"
+ ],
+ "ex:append zero": [
+  "first\na\n",
+  "",
+  0,
+  "first\na\n"
+ ],
+ "ex:args": [
+  "[f.txt]\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:at buffer": [
+  "a\nc\n",
+  "",
+  0,
+  "a\nc\n"
+ ],
+ "ex:at buffer range": [
+  "a!\nb!\nc\nd\n",
+  "",
+  0,
+  "a!\nb!\nc\nd\n"
+ ],
+ "ex:autoprint after delete": [
+  "",
+  "",
+  0,
+  "a\nc\n"
+ ],
+ "ex:autoprint off": [
+  "",
+  "",
+  0,
+  "a\nc\n"
+ ],
+ "ex:backquote mark": [
+  "b\na\n",
+  "ex: The ` command is unknown\n",
+  1,
+  "a\nb\nc\n"
+ ],
+ "ex:bang command": [
+  "hello\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:bang escaped percent": [
+  "%\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:bang filter": [
+  "a\nb\nc\n",
+  "",
+  0,
+  "a\nb\nc\n"
+ ],
+ "ex:bang filter partial": [
+  "1\n2\n3\nx\n",
+  "",
+  0,
+  "1\n2\n3\nx\n"
+ ],
+ "ex:bang no previous": [
+  "",
+  "ex: No previous command to substitute for !\n",
+  1,
+  "a\n"
+ ],
+ "ex:bang percent": [
+  "f.txt\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:bang repeat": [
+  "one\none\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:beautify": [
+  "xy\\tz$\n",
+  "",
+  0,
+  "a\nxy\tz\n"
+ ],
+ "ex:cd": [
+  "sub\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:change": [
+  "a\nX\nY\nc\n",
+  "",
+  0,
+  "a\nX\nY\nc\n"
+ ],
+ "ex:change count": [
+  "X\nc\nd\n",
+  "",
+  0,
+  "X\nc\nd\n"
+ ],
+ "ex:change no text": [
+  "a\nc\n2\n",
+  "",
+  0,
+  "a\nc\n"
+ ],
+ "ex:colon prefix": [
+  "a\nb\n",
+  "",
+  0,
+  "a\nb\n"
+ ],
+ "ex:comma address defaults": [
+  "b\nb\n",
+  "",
+  0,
+  "a\nb\nc\n"
+ ],
+ "ex:comment": [
+  "a\n",
+  "",
+  0,
+  "a\nb\n"
+ ],
+ "ex:confirm in batch": [
+  "a a a\n^\nX a a\n  ^\nX a a\n    ^\nX a X\n",
+  "",
+  0,
+  "X a X\n"
+ ],
+ "ex:context mark": [
+  "c\na\nc\n",
+  "",
+  0,
+  "a\nb\nc\nd\n"
+ ],
+ "ex:copy": [
+  "a\nb\nc\na\nb\n",
+  "",
+  0,
+  "a\nb\nc\na\nb\n"
+ ],
+ "ex:copy into range": [
+  "a\na\nb\nc\nb\nc\n",
+  "",
+  0,
+  "a\na\nb\nc\nb\nc\n"
+ ],
+ "ex:copy undo": [
+  "a\nb\n",
+  "",
+  0,
+  "a\nb\n"
+ ],
+ "ex:copy zero": [
+  "b\na\nb\n",
+  "",
+  0,
+  "b\na\nb\n"
+ ],
+ "ex:ctrl-d": [
+  "1\n2\n",
+  "",
+  0,
+  "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n"
+ ],
+ "ex:d flags": [
+  "     1  b\n",
+  "",
+  0,
+  "c\nd\n"
+ ],
+ "ex:delete": [
+  "a\nc\nd\n",
+  "",
+  0,
+  "a\nc\nd\n"
+ ],
+ "ex:delete all": [
+  "",
+  "ex: Empty file\n",
+  1,
+  "a\nb\n"
+ ],
+ "ex:delete all then append": [
+  "new\n",
+  "",
+  0,
+  "new\n"
+ ],
+ "ex:delete append buffer": [
+  "c\na\nb\n",
+  "",
+  0,
+  "c\na\nb\n"
+ ],
+ "ex:delete beyond end count": [
+  "a\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:delete buffer": [
+  "b\nc\na\n",
+  "",
+  0,
+  "b\nc\na\n"
+ ],
+ "ex:delete count": [
+  "a\nd\ne\n",
+  "",
+  0,
+  "a\nd\ne\n"
+ ],
+ "ex:delete range count": [
+  "a\nd\ne\n",
+  "",
+  0,
+  "a\nd\ne\n"
+ ],
+ "ex:dp flag": [
+  "b\n",
+  "",
+  0,
+  "b\nc\n"
+ ],
+ "ex:edit": [
+  "other\nfile\n",
+  "",
+  0,
+  "other\nfile\n"
+ ],
+ "ex:edit alternate set on failure": [
+  "",
+  "ex: No write since last change (:edit! overrides)\n",
+  1,
+  "a\n"
+ ],
+ "ex:edit bang": [
+  "other\n",
+  "",
+  0,
+  "other\n"
+ ],
+ "ex:edit missing file": [
+  "",
+  "",
+  0,
+  ""
+ ],
+ "ex:edit modified": [
+  "",
+  "ex: No write since last change (:edit! overrides)\n",
+  1,
+  "a\n"
+ ],
+ "ex:edit percent hash": [
+  "",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:edit plus": [
+  "2\n2\n",
+  "",
+  0,
+  "1\n2\n3\n"
+ ],
+ "ex:empty buffer append": [
+  "first\n",
+  "",
+  0,
+  "first\n"
+ ],
+ "ex:empty buffer print": [
+  "",
+  "ex: Empty file\n",
+  1,
+  ""
+ ],
+ "ex:empty buffer write": [
+  "0\n",
+  "",
+  0,
+  ""
+ ],
+ "ex:equals": [
+  "3\n1\n3\n2\n",
+  "",
+  0,
+  "a\nb\nc\n"
+ ],
+ "ex:ex address dollar mark": [
+  "c\na\n3\n",
+  "",
+  0,
+  "a\nb\nc\n"
+ ],
+ "ex:extra characters": [
+  "",
+  "ex: Extra characters at end of command: yz garbage\n",
+  1,
+  "a\n"
+ ],
+ "ex:file": [
+  "",
+  "",
+  0,
+  "a\nb\n"
+ ],
+ "ex:file rename": [
+  "",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:global": [
+  "a1\na2\n",
+  "",
+  0,
+  "a1\nb\na2\nc\n"
+ ],
+ "ex:global append": [
+  "a\nadded\nb\nadded\n",
+  "",
+  0,
+  "a\nadded\nb\nadded\n"
+ ],
+ "ex:global append multiple lines no dot": [
+  "a\none\ntwo\nb\n",
+  "",
+  0,
+  "a\none\ntwo\nb\n"
+ ],
+ "ex:global bang": [
+  "a1\na2\n",
+  "",
+  0,
+  "a1\na2\n"
+ ],
+ "ex:global change": [
+  "X\nb\nX\n",
+  "",
+  0,
+  "X\nb\nX\n"
+ ],
+ "ex:global delete": [
+  "b\nc\n",
+  "",
+  0,
+  "b\nc\n"
+ ],
+ "ex:global escaped newline": [
+  "y\nb\n",
+  "",
+  0,
+  "y\nb\n"
+ ],
+ "ex:global in global": [
+  "",
+  "ex: The global command cannot be used in a global command\n",
+  1,
+  "a\n"
+ ],
+ "ex:global insert": [
+  "a\nbefore\nb\n",
+  "",
+  0,
+  "a\nbefore\nb\n"
+ ],
+ "ex:global moves": [
+  "3\n2\n1\n",
+  "",
+  0,
+  "3\n2\n1\n"
+ ],
+ "ex:global multiple commands": [
+  ">a!\n>b!\n>c!\n",
+  "",
+  0,
+  ">a!\n>b!\n>c!\n"
+ ],
+ "ex:global no command": [
+  "x1\nx2\n",
+  "",
+  0,
+  "x1\ny\nx2\n"
+ ],
+ "ex:global range": [
+  "a\nb\nb\na\n",
+  "",
+  0,
+  "a\nb\nb\na\n"
+ ],
+ "ex:global search direction": [
+  "x1\nx2\n",
+  "",
+  0,
+  "x1\nx2\n"
+ ],
+ "ex:global undo single": [
+  "a\nb\nc\n",
+  "",
+  0,
+  "a\nb\nc\n"
+ ],
+ "ex:hash": [
+  "     1  one\n",
+  "",
+  0,
+  "one\ntwo\n"
+ ],
+ "ex:illegal address": [
+  "",
+  "ex: Illegal address: only 2 lines in the file\n",
+  1,
+  "a\nb\n"
+ ],
+ "ex:implied print": [
+  "a\nb\n",
+  "",
+  0,
+  "a\nb\nc\n"
+ ],
+ "ex:implied print bar": [
+  "a\nb\nc\n",
+  "",
+  0,
+  "a\nb\nc\nd\n"
+ ],
+ "ex:implied print with addresses": [
+  "b\nc\n",
+  "",
+  0,
+  "a\nb\nc\nd\n"
+ ],
+ "ex:incomplete last line": [
+  "a$\nb$\n",
+  "",
+  0,
+  "a\nb\n"
+ ],
+ "ex:insert": [
+  "a\nx\nb\n",
+  "",
+  0,
+  "a\nx\nb\n"
+ ],
+ "ex:insert zero": [
+  "top\na\n",
+  "",
+  0,
+  "top\na\n"
+ ],
+ "ex:join": [
+  "a b c\n",
+  "",
+  0,
+  "a b c\n"
+ ],
+ "ex:join bang": [
+  "a  b\n",
+  "",
+  0,
+  "a  b\n"
+ ],
+ "ex:join count": [
+  "a b c d\n",
+  "",
+  0,
+  "a b c d\n"
+ ],
+ "ex:join default": [
+  "a b\nc\n",
+  "",
+  0,
+  "a b\nc\n"
+ ],
+ "ex:join empty line": [
+  "a b\n",
+  "",
+  0,
+  "a b\n"
+ ],
+ "ex:join rules": [
+  "end.  next x y q)z\n",
+  "",
+  0,
+  "end.  next x y q)z\n"
+ ],
+ "ex:join two addresses equal": [
+  "a\nb\n",
+  "",
+  0,
+  "a\nb\n"
+ ],
+ "ex:l folding": [
+  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\\naaaaaaaaaaaaaaaaaa$\n",
+  "",
+  0,
+  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n"
+ ],
+ "ex:list": [
+  "a\\tb\\\\c\\$d$\n",
+  "",
+  0,
+  "a\tb\\c$d\n"
+ ],
+ "ex:list option": [
+  "x\\ty$\n",
+  "",
+  0,
+  "x\ty\n"
+ ],
+ "ex:magic tilde in RE": [
+  "xyz zz\n",
+  "",
+  0,
+  "xyz zz\n"
+ ],
+ "ex:map ctrl-v": [
+  "x\ta\\026 b\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:map list": [
+  "x\tdd\ny\tz\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:mark address": [
+  "b\nc\n",
+  "",
+  0,
+  "a\nb\nc\nd\n"
+ ],
+ "ex:mark deleted line": [
+  "",
+  "ex: Mark 'a' not set\n",
+  1,
+  "a\nb\nc\n"
+ ],
+ "ex:mark invalid": [
+  "",
+  "ex: Invalid mark name '1'\n",
+  1,
+  "a\n"
+ ],
+ "ex:move": [
+  "b\nc\na\n",
+  "",
+  0,
+  "b\nc\na\n"
+ ],
+ "ex:move error": [
+  "",
+  "ex: Destination line is inside the move range\n",
+  1,
+  "a\nb\nc\n"
+ ],
+ "ex:move up": [
+  "c\nd\na\nb\n",
+  "",
+  0,
+  "c\nd\na\nb\n"
+ ],
+ "ex:next": [
+  "[f.txt]\n",
+  "ex: No more files to edit\n",
+  1,
+  "a\n"
+ ],
+ "ex:next with files": [
+  "[n1.out] n2.out\none\nn1.out [n2.out]\ntwo\n[n1.out] n2.out\n",
+  "",
+  0,
+  "one\n"
+ ],
+ "ex:nonprintable print": [
+  "a^[b\na\\033b$\n",
+  "",
+  0,
+  "x\na\u001bb\n"
+ ],
+ "ex:nowrapscan": [
+  "",
+  "ex: Pattern not found\n",
+  1,
+  "alpha\nbeta\n"
+ ],
+ "ex:number": [
+  "     1  one\n     2  two\n",
+  "",
+  0,
+  "one\ntwo\n"
+ ],
+ "ex:number option": [
+  "     1  a\n     2  b\n",
+  "",
+  0,
+  "a\nb\n"
+ ],
+ "ex:open mode in batch": [
+  "",
+  "ex: Open mode requires a terminal\n",
+  1,
+  "a\n"
+ ],
+ "ex:percent": [
+  "a\nb\n",
+  "",
+  0,
+  "a\nb\n"
+ ],
+ "ex:preserve": [
+  "1\n",
+  "",
+  0,
+  ""
+ ],
+ "ex:print all": [
+  "one\ntwo\nthree\n",
+  "",
+  0,
+  "one\ntwo\nthree\n"
+ ],
+ "ex:print count": [
+  "a\nb\nc\nd\n",
+  "",
+  0,
+  "a\nb\nc\nd\n"
+ ],
+ "ex:print default is last line": [
+  "three\n",
+  "",
+  0,
+  "one\ntwo\nthree\n"
+ ],
+ "ex:put buffer empty": [
+  "",
+  "ex: Buffer q is empty\n",
+  1,
+  "a\n"
+ ],
+ "ex:put zero": [
+  "a\na\nb\n",
+  "",
+  0,
+  "a\na\nb\n"
+ ],
+ "ex:quit bang": [
+  "",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:quit modified": [
+  "",
+  "ex: File modified since last complete write; write or use ! to override\n",
+  1,
+  "a\n"
+ ],
+ "ex:read file": [
+  "a\nx\ny\nb\n",
+  "",
+  0,
+  "a\nx\ny\nb\n"
+ ],
+ "ex:read missing": [
+  "",
+  "ex: \"/nonexistent/file\": No such file or directory\n",
+  1,
+  "a\n"
+ ],
+ "ex:read program": [
+  "a\nhi\nthere\nb\n",
+  "",
+  0,
+  "a\nhi\nthere\nb\n"
+ ],
+ "ex:read program no space": [
+  "a\nhi\n",
+  "",
+  0,
+  "a\nhi\n"
+ ],
+ "ex:read sets pathname": [
+  "",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:read zero": [
+  "x\na\n",
+  "",
+  0,
+  "x\na\n"
+ ],
+ "ex:replacement backslash": [
+  "x\\y\n",
+  "",
+  0,
+  "x\\y\n"
+ ],
+ "ex:report": [
+  "",
+  "",
+  0,
+  "4\n5\n6\n7\n"
+ ],
+ "ex:report not": [
+  "",
+  "",
+  0,
+  "5\n"
+ ],
+ "ex:reversed addresses": [
+  "",
+  "ex: The second address is smaller than the first\n",
+  1,
+  "a\nb\n"
+ ],
+ "ex:s with count and flags": [
+  "b\n",
+  "",
+  0,
+  "b\nb\na\n"
+ ],
+ "ex:search empty RE": [
+  "foo 1\nfoo 2\nfoo 1\n",
+  "",
+  0,
+  "foo 1\nbar\nfoo 2\n"
+ ],
+ "ex:search wraps": [
+  "alpha\ngamma\n",
+  "",
+  0,
+  "alpha\nbeta\ngamma\n"
+ ],
+ "ex:semicolon address": [
+  "a\nb\nc\nb\n",
+  "",
+  0,
+  "a\nb\nc\nb\nd\n"
+ ],
+ "ex:set": [
+  "shiftwidth=3\nnoautoindent\nreport=2\nshiftwidth=3\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:set all": [
+  "noautoindent                     report=5\nautoprint                        scroll=11\nnoautowrite                      sections=NHSHH HUnhsh\nnobeautify                       shell=/bin/sh\ndirectory=/var/tmp               shiftwidth=8\nnoedcompatible                   noshowmatch\nnoerrorbells                     noshowmode\nnoexrc                           noslowopen\nnoignorecase                     tabstop=8\nnolist                           taglength=0\nmagic                            tags=tags\nmesg                             term=dumb\nnonumber                         noterse\nparagraphs=IPLPPPQPP LIpplpipbp  warn\nprompt                           window=23\nnoreadonly                       wrapmargin=0\nnoredraw                         wrapscan\nremap                            nowriteany\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:set bad": [
+  "",
+  "ex: nosuchoption: unknown option\n",
+  1,
+  "a\n"
+ ],
+ "ex:set bool value": [
+  "",
+  "ex: autoindent: option is a Boolean\n",
+  1,
+  "a\n"
+ ],
+ "ex:set no non boolean": [
+  "",
+  "ex: nosw: unknown option\n",
+  1,
+  "a\n"
+ ],
+ "ex:set number value": [
+  "",
+  "ex: shiftwidth: illegal number\n",
+  1,
+  "a\n"
+ ],
+ "ex:set paragraphs odd": [
+  "",
+  "ex: paragraphs: value must have an even number of characters\n",
+  1,
+  "a\n"
+ ],
+ "ex:set string blank": [
+  "shell=/bin/s h\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:set tabstop zero": [
+  "",
+  "ex: tabstop: value must be greater than zero\n",
+  1,
+  "a\n"
+ ],
+ "ex:shift": [
+  "    a$\n\\t    b$\n$\n    c$\n",
+  "",
+  0,
+  "    a\n\t    b\n\n    c\n"
+ ],
+ "ex:shift count": [
+  " a$\n b$\nc$\n",
+  "",
+  0,
+  " a\n b\nc\n"
+ ],
+ "ex:shift left": [
+  "    a$\nb$\nc$\n",
+  "",
+  0,
+  "    a\nb\nc\n"
+ ],
+ "ex:shift multiple": [
+  "      a$\n",
+  "",
+  0,
+  "      a\n"
+ ],
+ "ex:shift with flags": [
+  "\\tb$\n",
+  "",
+  0,
+  "a\n\tb\n"
+ ],
+ "ex:source": [
+  "b\nb\n",
+  "",
+  0,
+  "b\n"
+ ],
+ "ex:star buffer": [
+  "b\n",
+  "",
+  0,
+  "b\n"
+ ],
+ "ex:substitute": [
+  "X bar foo\nX\n",
+  "",
+  0,
+  "X bar foo\nX\n"
+ ],
+ "ex:substitute amp": [
+  "a[b]c\n",
+  "",
+  0,
+  "a[b]c\n"
+ ],
+ "ex:substitute amp nomagic": [
+  "a[&]c\n",
+  "ex: No match found\n",
+  1,
+  "abc\n"
+ ],
+ "ex:substitute backref": [
+  "X cdcd\n",
+  "",
+  0,
+  "X cdcd\n"
+ ],
+ "ex:substitute bracket classes": [
+  "a# b# c#\n",
+  "",
+  0,
+  "a# b# c#\n"
+ ],
+ "ex:substitute case": [
+  "The Cat Sat on the Mat.\nThe Cat SAT ON THE Mat.\n",
+  "",
+  0,
+  "The Cat SAT ON THE Mat.\n"
+ ],
+ "ex:substitute case L": [
+  "hello world\nhello World\n",
+  "",
+  0,
+  "hello World\n"
+ ],
+ "ex:substitute count": [
+  "X\nX\nfoo\n",
+  "",
+  0,
+  "X\nX\nfoo\n"
+ ],
+ "ex:substitute delim in bracket": [
+  "aXb\n",
+  "",
+  0,
+  "aXb\n"
+ ],
+ "ex:substitute delimiter": [
+  "a-b-c\n",
+  "",
+  0,
+  "a-b-c\n"
+ ],
+ "ex:substitute edcompatible": [
+  "bbb\ncaa\n",
+  "",
+  0,
+  "bbb\ncaa\n"
+ ],
+ "ex:substitute empty match g": [
+  "-a-b-c-\n",
+  "",
+  0,
+  "-a-b-c-\n"
+ ],
+ "ex:substitute empty pattern": [
+  "foo bar\nfoo X\n",
+  "",
+  0,
+  "foo X\n"
+ ],
+ "ex:substitute escaped amp": [
+  "a&c\n",
+  "",
+  0,
+  "a&c\n"
+ ],
+ "ex:substitute flags": [
+  "     1  x\n",
+  "",
+  0,
+  "x\nbar\n"
+ ],
+ "ex:substitute g": [
+  "X bar X\n",
+  "",
+  0,
+  "X bar X\n"
+ ],
+ "ex:substitute groups": [
+  "smith, john\n",
+  "",
+  0,
+  "smith, john\n"
+ ],
+ "ex:substitute ignorecase": [
+  "x x x\n",
+  "",
+  0,
+  "x x x\n"
+ ],
+ "ex:substitute in global nomatch": [
+  "a y\nb\nc y\n",
+  "",
+  0,
+  "a y\nb\nc y\n"
+ ],
+ "ex:substitute interval": [
+  "Xaa\n",
+  "",
+  0,
+  "Xaa\n"
+ ],
+ "ex:substitute interval range": [
+  "XX\n",
+  "",
+  0,
+  "XX\n"
+ ],
+ "ex:substitute magic star": [
+  "Xb\n",
+  "",
+  0,
+  "Xb\n"
+ ],
+ "ex:substitute newline in pattern": [
+  "",
+  "ex: No match found\n",
+  1,
+  "a\n"
+ ],
+ "ex:substitute nomagic": [
+  "aXb*c\nYXb*c\n",
+  "",
+  0,
+  "YXb*c\n"
+ ],
+ "ex:substitute nomatch error": [
+  "",
+  "ex: No match found\n",
+  1,
+  "abc\n"
+ ],
+ "ex:substitute percent repl": [
+  "Qaa\nQbb\n",
+  "",
+  0,
+  "Qaa\nQbb\n"
+ ],
+ "ex:substitute r option": [
+  "aXc abc\naXY abc\n",
+  "",
+  0,
+  "aXY abc\n"
+ ],
+ "ex:substitute repeat": [
+  "baa\nbaa\n",
+  "",
+  0,
+  "baa\nbaa\n"
+ ],
+ "ex:substitute repeat g": [
+  "baa\nbbb\n",
+  "",
+  0,
+  "baa\nbbb\n"
+ ],
+ "ex:substitute repeat s": [
+  "bba\n",
+  "",
+  0,
+  "bba\n"
+ ],
+ "ex:substitute split line": [
+  "one\ntwo\n",
+  "",
+  0,
+  "one\ntwo\n"
+ ],
+ "ex:substitute tilde command": [
+  "foo bar\nX bar\nfoo X\n",
+  "",
+  0,
+  "X bar\nfoo X\n"
+ ],
+ "ex:substitute tilde repl": [
+  "Xaa\nXYbb\n",
+  "",
+  0,
+  "Xaa\nXYbb\n"
+ ],
+ "ex:substitute word boundaries": [
+  "DOG concat cats\n",
+  "",
+  0,
+  "DOG concat cats\n"
+ ],
+ "ex:tag": [
+  "4\n3\n",
+  "ex: nosuch: tag not found\n",
+  1,
+  "a\n"
+ ],
+ "ex:tilde without previous": [
+  "",
+  "ex: No previous substitute command\n",
+  1,
+  "a\n"
+ ],
+ "ex:unabbrev missing": [
+  "",
+  "ex: \" nothing\" is not an abbreviation\n",
+  1,
+  "a\n"
+ ],
+ "ex:undo": [
+  "a\nb\nc\n",
+  "",
+  0,
+  "a\nb\nc\n"
+ ],
+ "ex:undo join": [
+  "",
+  "ex: No following lines to join\n",
+  1,
+  "a\nb\n"
+ ],
+ "ex:undo marks restored": [
+  "b\n",
+  "",
+  0,
+  "a\nb\nc\n"
+ ],
+ "ex:undo move marks": [
+  "c\nc\n",
+  "",
+  0,
+  "a\nb\nc\n"
+ ],
+ "ex:undo nothing": [
+  "",
+  "ex: Nothing to undo\n",
+  1,
+  "a\n"
+ ],
+ "ex:undo substitute": [
+  "abc\n",
+  "",
+  0,
+  "abc\n"
+ ],
+ "ex:undo undo": [
+  "a\nc\n",
+  "",
+  0,
+  "a\nc\n"
+ ],
+ "ex:unknown command": [
+  "",
+  "ex: The frobnicate command is unknown\n",
+  1,
+  "a\n"
+ ],
+ "ex:unmap missing": [
+  "",
+  "ex: \" q\" is not mapped\n",
+  1,
+  "a\n"
+ ],
+ "ex:v": [
+  "a1\na2\n",
+  "",
+  0,
+  "a1\na2\n"
+ ],
+ "ex:version": [
+  "posix-vi 1.0 (POSIX.1-2024 ex/vi)\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:visual in batch": [
+  "",
+  "ex: Visual mode requires a terminal\n",
+  1,
+  "a\n"
+ ],
+ "ex:write append": [
+  "a\nb\na\nb\n",
+  "",
+  0,
+  "a\nb\n"
+ ],
+ "ex:write bang": [
+  "a\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:write existing fails": [
+  "",
+  "ex: exists.out exists, not written (use ! to override)\n",
+  1,
+  "a\n"
+ ],
+ "ex:write partial": [
+  "b\nc\n",
+  "",
+  0,
+  "a\nb\nc\n"
+ ],
+ "ex:write program no newline": [
+  "x\n",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:write readonly": [
+  "",
+  "ex: Read-only file; not written (use ! to override)\n",
+  1,
+  "a\n"
+ ],
+ "ex:write to new file sets current": [
+  "",
+  "",
+  0,
+  "x\n"
+ ],
+ "ex:write to program": [
+  "     1\tb\n     2\tc\n",
+  "",
+  0,
+  "a\nb\nc\n"
+ ],
+ "ex:xit unmodified": [
+  "",
+  "",
+  0,
+  "a\n"
+ ],
+ "ex:yank count": [
+  "a\nb\nc\na\nb\n",
+  "",
+  0,
+  "a\nb\nc\na\nb\n"
+ ],
+ "ex:yank put": [
+  "a\na\nb\na\n",
+  "",
+  0,
+  "a\na\nb\na\n"
+ ],
+ "ex:z": [
+  "3\n4\n5\n3\n4\n5\n6\n7\n8\n2\n3\n",
+  "",
+  0,
+  "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n"
+ ],
+ "ex:z dot": [
+  "3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n",
+  "",
+  0,
+  "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n"
+ ],
+ "ex:z equals": [
+  "3\n4\n5\n6\n7\n----------------------------------------\n8\n----------------------------------------\n9\n10\n11\n12\n13\n",
+  "",
+  0,
+  "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n"
+ ],
+ "ex:z with flags": [
+  "     1  1\n     2  2\n",
+  "",
+  0,
+  "1\n2\n3\n4\n"
+ ],
+ "ex:zero address": [
+  "",
+  "ex: Illegal address: line 0\n",
+  1,
+  "a\n"
+ ],
+ "vi:2dd": [
+  "a\nd\n"
+ ],
+ "vi:2dw": [
+  "three four\n"
+ ],
+ "vi:3J": [
+  "one two three\nfour\n"
+ ],
+ "vi:3a multiline": [
+  "ax\nyx\nyx\nyb\n"
+ ],
+ "vi:3i": [
+  "xxxab\n"
+ ],
+ "vi:3o": [
+  "ab\nx\nx\nx\n"
+ ],
+ "vi:3r": [
+  "xxxlo\n"
+ ],
+ "vi:3tilde": [
+  "HELlo world\n"
+ ],
+ "vi:3x": [
+  "lo world\n"
+ ],
+ "vi:A": [
+  "helloXX\n"
+ ],
+ "vi:B motion": [
+  "a.b .d e\n"
+ ],
+ "vi:C": [
+  "hello there\n"
+ ],
+ "vi:C count": [
+  "X\ne f\n"
+ ],
+ "vi:CR": [
+  "abc\n  ef\n"
+ ],
+ "vi:D": [
+  "hello \n"
+ ],
+ "vi:E motion": [
+  "a. c.d e\n"
+ ],
+ "vi:G": [
+  "a\nb\n\nd\n"
+ ],
+ "vi:G count motion": [
+  "4\n"
+ ],
+ "vi:H L M": [
+  ""
+ ],
+ "vi:I": [
+  "   XXhello\n"
+ ],
+ "vi:J": [
+  "one two\nthree\n"
+ ],
+ "vi:J end of buffer": [
+  "\n"
+ ],
+ "vi:J paren": [
+  "one)two\n"
+ ],
+ "vi:J period": [
+  "one.  two\n"
+ ],
+ "vi:NUL insert": [
+  "axy\nbxy\n"
+ ],
+ "vi:O": [
+  "one\nNEW\ntwo\n"
+ ],
+ "vi:P char count": [
+  "aaabc\n"
+ ],
+ "vi:P line at top": [
+  "2\n1\n"
+ ],
+ "vi:Q and back": [
+  "\n"
+ ],
+ "vi:R": [
+  "jelly world\n"
+ ],
+ "vi:R newline": [
+  "12\n34def\n"
+ ],
+ "vi:R past end": [
+  "helxyzzy\n"
+ ],
+ "vi:S": [
+  "new\nworld\n"
+ ],
+ "vi:U": [
+  "hello world\n"
+ ],
+ "vi:U multiple": [
+  "hello world\n"
+ ],
+ "vi:W motion": [
+  "a.b .d e\n"
+ ],
+ "vi:X": [
+  "helloworld\n"
+ ],
+ "vi:X count beyond": [
+  "def\n"
+ ],
+ "vi:Y": [
+  "a\na\nb\n"
+ ],
+ "vi:Y count p": [
+  "a\nb\nc\na\nb\n"
+ ],
+ "vi:a": [
+  "hXXello\n"
+ ],
+ "vi:abbreviation no trigger in word": [
+  "xAB abc AB\n"
+ ],
+ "vi:alternate file": [
+  "ne\n"
+ ],
+ "vi:ampersand": [
+  "X foo\nX foo\n"
+ ],
+ "vi:append buffer": [
+  "one\ntwo\nthree\none\ntwo\n"
+ ],
+ "vi:at at": [
+  "\n@@\na\n"
+ ],
+ "vi:at buffer": [
+  "hello\nhello\n"
+ ],
+ "vi:at with count": [
+  " c d e f\n"
+ ],
+ "vi:autoindent 0ctrl-d": [
+  "        hello\n\tnext\nzero\n"
+ ],
+ "vi:autoindent caret ctrl-d": [
+  "    a\n    b\n    \u001eDc\n    d\n"
+ ],
+ "vi:autoindent ctrl-d": [
+  "        hello\n\tnext\u0004less\n"
+ ],
+ "vi:autoindent empty line": [
+  "    a\n\n    x\nb\n"
+ ],
+ "vi:autoindent o": [
+  "    hello\n    next\n    more\n"
+ ],
+ "vi:autoindent shiftwidth ctrl-d": [
+  "                x\n\t\ta\u0004\u0004b\n"
+ ],
+ "vi:b at start": [
+  "oo\n"
+ ],
+ "vi:b motion": [
+  "one wo three\nfour five\n"
+ ],
+ "vi:c count motion": [
+  "X e\n"
+ ],
+ "vi:c dollar": [
+  "one X\n"
+ ],
+ "vi:c search": [
+  "X three four\n"
+ ],
+ "vi:cc autoindent": [
+  "    new\nworld\n"
+ ],
+ "vi:change lines cj": [
+  "X\nc\n"
+ ],
+ "vi:change multi-line": [
+  "one Xfour\n"
+ ],
+ "vi:change to mark": [
+  "X\nthree\n"
+ ],
+ "vi:change word count": [
+  "X three four\n"
+ ],
+ "vi:colon count": [
+  "d\n"
+ ],
+ "vi:comma": [
+  "a.b.c.de\n"
+ ],
+ "vi:count dot paste": [
+  "a\na\na\nb\n"
+ ],
+ "vi:count i esc": [
+  "xxabc\n"
+ ],
+ "vi:ctrl-a? not cmd": [
+  "bc\n"
+ ],
+ "vi:ctrl-caret": [
+  "ne\n"
+ ],
+ "vi:ctrl-t": [
+  "\thello\n"
+ ],
+ "vi:ctrl-t mid line": [
+  "ab  c\n"
+ ],
+ "vi:cw": [
+  "bye world\n"
+ ],
+ "vi:cw at end of line word": [
+  "foo X\nbaz\n"
+ ],
+ "vi:cw end of line": [
+  "one X\nthree\n"
+ ],
+ "vi:cw last word of file": [
+  "foo X\n"
+ ],
+ "vi:cw on blank": [
+  "helloX world\n"
+ ],
+ "vi:d H": [
+  ""
+ ],
+ "vi:d L": [
+  ""
+ ],
+ "vi:d M": [
+  "4\n5\n"
+ ],
+ "vi:d ` mark lines": [
+  "three\n"
+ ],
+ "vi:d n": [
+  "x one x\n"
+ ],
+ "vi:d search": [
+  "three four\n"
+ ],
+ "vi:d search line": [
+  "three\n"
+ ],
+ "vi:d search offset": [
+  "four\n"
+ ],
+ "vi:d semicolon": [
+  "ac.d.e\n"
+ ],
+ "vi:d$": [
+  "ab\n"
+ ],
+ "vi:d0": [
+  "def\n"
+ ],
+ "vi:d2fx": [
+  "g\n"
+ ],
+ "vi:d2w": [
+  "three four\n"
+ ],
+ "vi:dB": [
+  "foo.bar x\n"
+ ],
+ "vi:dFx": [
+  "abcxdefg\n"
+ ],
+ "vi:dG": [
+  "a\n"
+ ],
+ "vi:dTx": [
+  "abcxdefxg\n"
+ ],
+ "vi:dW": [
+  "baz.qux\n"
+ ],
+ "vi:d^": [
+  "   f\n"
+ ],
+ "vi:db": [
+  "hello d\n"
+ ],
+ "vi:dd": [
+  "a\nc\n"
+ ],
+ "vi:dd column": [
+  "yz uvw\n"
+ ],
+ "vi:dd last": [
+  "a\nb\n"
+ ],
+ "vi:dd then p twice": [
+  "2\n1\n1\n3\n"
+ ],
+ "vi:ddp swap": [
+  "2\n1\n"
+ ],
+ "vi:de": [
+  " world\n"
+ ],
+ "vi:delete paragraph count": [
+  "\nc\n"
+ ],
+ "vi:dfx": [
+  "defxg\n"
+ ],
+ "vi:dgg-like 1G": [
+  ""
+ ],
+ "vi:dj": [
+  "c\n"
+ ],
+ "vi:dj column": [
+  "23 456\n"
+ ],
+ "vi:dk": [
+  "a\n"
+ ],
+ "vi:dollar count": [
+  "a\nghi\n"
+ ],
+ "vi:dollar motion count change": [
+  "X\n"
+ ],
+ "vi:dot D": [
+  "abc \nghi\n"
+ ],
+ "vi:dot J": [
+  "a b c\nd\n"
+ ],
+ "vi:dot after A": [
+  "axy\nbxy\n"
+ ],
+ "vi:dot after c$": [
+  "abc X\nabc X\n"
+ ],
+ "vi:dot after o": [
+  "a\nx\nb\nx\n"
+ ],
+ "vi:dot count": [
+  "four five six\n"
+ ],
+ "vi:dot cw": [
+  "X X X\n"
+ ],
+ "vi:dot insert": [
+  "ax\nbx\ncx\n"
+ ],
+ "vi:dot p": [
+  "1\n1\n1\n2\n"
+ ],
+ "vi:dot r": [
+  "xxcd\n"
+ ],
+ "vi:dot repeat dw": [
+  "four\n"
+ ],
+ "vi:dot shift": [
+  "\ta\n\tb\nc\n"
+ ],
+ "vi:dot tilde": [
+  "ABcd\n"
+ ],
+ "vi:dot x count": [
+  "h\n"
+ ],
+ "vi:dtx": [
+  "xdefxg\n"
+ ],
+ "vi:dw": [
+  "world foo\n"
+ ],
+ "vi:dw last word": [
+  "hello \nsecond\n"
+ ],
+ "vi:dw last word of file": [
+  "foo \n"
+ ],
+ "vi:dw spaces end": [
+  "foo \nbaz\n"
+ ],
+ "vi:e at end": [
+  "fo\n"
+ ],
+ "vi:e motion": [
+  "one tw three\n"
+ ],
+ "vi:empty file insert": [
+  "hello\n"
+ ],
+ "vi:empty file o": [
+  "one\n"
+ ],
+ "vi:empty file p": [
+  "x\n"
+ ],
+ "vi:ex command": [
+  "a\nc\n"
+ ],
+ "vi:ex g": [
+  "a1!\nb\na2!\n"
+ ],
+ "vi:ex range mark vi": [
+  "d\n"
+ ],
+ "vi:ex s": [
+  "X bar\nX baz\n"
+ ],
+ "vi:execute buffer": [
+  "\n"
+ ],
+ "vi:f not found": [
+  "bc\n"
+ ],
+ "vi:filter": [
+  "a\nb\nc\n"
+ ],
+ "vi:filter bang": [
+  "b\nc\na\n"
+ ],
+ "vi:filter count motion": [
+  "1\n2\n3\n"
+ ],
+ "vi:filter dot": [
+  "a\nb\nc\nd\n"
+ ],
+ "vi:i": [
+  "XXhello\n"
+ ],
+ "vi:insert BS": [
+  "adhello\n"
+ ],
+ "vi:insert BS past start": [
+  "azbc\n"
+ ],
+ "vi:insert ^U": [
+  "helloxyz\n"
+ ],
+ "vi:insert ^V": [
+  "\u0001hello\n"
+ ],
+ "vi:insert ^V ESC": [
+  "\u001byx\n"
+ ],
+ "vi:insert ^W": [
+  "hello three\n"
+ ],
+ "vi:insert count multiline": [
+  "a\nba\nbx\n"
+ ],
+ "vi:insert newline": [
+  "hello \nworld\n"
+ ],
+ "vi:join count 1": [
+  "a b\n"
+ ],
+ "vi:join count 2": [
+  "a b\nc\n"
+ ],
+ "vi:map": [
+  "world\n"
+ ],
+ "vi:map input": [
+  "hello XYZ\n"
+ ],
+ "vi:map multi": [
+  "world\n"
+ ],
+ "vi:map remap": [
+  "world foo\n"
+ ],
+ "vi:map! abbreviation": [
+  "hello the end\n"
+ ],
+ "vi:mark": [
+  "four\n"
+ ],
+ "vi:mark backquote": [
+  "one four\n"
+ ],
+ "vi:named buffer": [
+  "one\ntwo\nthree\none\ntwo\n"
+ ],
+ "vi:noremap option": [
+  "hello world foo\n"
+ ],
+ "vi:nowrapscan": [
+  "alpha\neta\n"
+ ],
+ "vi:numbered buffers": [
+  "4\n3\n2\n1\n"
+ ],
+ "vi:numbered dot": [
+  "4\n3\n2\n1\n"
+ ],
+ "vi:o": [
+  "one\nNEW\ntwo\n"
+ ],
+ "vi:o count autoindent": [
+  "  x\n  y\n  y\n"
+ ],
+ "vi:p char": [
+  "bac\n"
+ ],
+ "vi:p line column": [
+  "  abc def\nxyz\n  bc def\n"
+ ],
+ "vi:p multiline char": [
+  "one fourtwo\nthree \n"
+ ],
+ "vi:paragraph": [
+  "\npara two\nline\n\npara three\n"
+ ],
+ "vi:paragraph back": [
+  "para one\nline two\nline\n"
+ ],
+ "vi:paragraph motion": [
+  "a\n\nb\nc\n"
+ ],
+ "vi:percent": [
+  "if  d\n"
+ ],
+ "vi:percent back": [
+  "x  y\n"
+ ],
+ "vi:percent brace lines": [
+  "b\n"
+ ],
+ "vi:percent count lines": [
+  "(\na\n)\n(\na\n)\n"
+ ],
+ "vi:pipe": [
+  "abcd\n"
+ ],
+ "vi:plus minus": [
+  "bc\n  ef\nghi\n"
+ ],
+ "vi:put P char multiline": [
+  "ab\ncd\n"
+ ],
+ "vi:put line count": [
+  "a\na\na\na\n"
+ ],
+ "vi:question search wrap": [
+  "alpha\neta\n"
+ ],
+ "vi:r": [
+  "jello\n"
+ ],
+ "vi:r CR": [
+  "hello\nworld\n"
+ ],
+ "vi:r count CR": [
+  "a\n\ndef\n"
+ ],
+ "vi:r esc": [
+  "bc\n"
+ ],
+ "vi:repeat after undo": [
+  "two three\n"
+ ],
+ "vi:replace mode backspace": [
+  "xzcdef\n"
+ ],
+ "vi:s": [
+  "Xlo\n"
+ ],
+ "vi:s count": [
+  "Xcdef\n"
+ ],
+ "vi:search": [
+  "one\nwo\nthree two\n"
+ ],
+ "vi:search N": [
+  "one two\ntwo three\nwo\n"
+ ],
+ "vi:search back": [
+  "one two\nwo three\ntwo\n"
+ ],
+ "vi:search ignorecase": [
+  "Hello\nello\n"
+ ],
+ "vi:search magic": [
+  ".b\naxb\n"
+ ],
+ "vi:search next": [
+  "one two\nwo three\ntwo\n"
+ ],
+ "vi:search nomagic": [
+  "axb\n.b\n"
+ ],
+ "vi:search offset": [
+  "one\ntwo\nhree\nfour\n"
+ ],
+ "vi:search semicolon": [
+  "x a  a b\n"
+ ],
+ "vi:search word boundary": [
+  "at concat\n"
+ ],
+ "vi:search wrap": [
+  "lpha\nbeta\nalpha2\n"
+ ],
+ "vi:search z": [
+  "1\n2\n\n"
+ ],
+ "vi:section": [
+  "{\na\n}\nb\n}\n"
+ ],
+ "vi:semicolon": [
+  "a.b.cd.e\n"
+ ],
+ "vi:sentence": [
+  "One two.  \n"
+ ],
+ "vi:sentence back": [
+  "One two.  Three four.  \n"
+ ],
+ "vi:sentence delete": [
+  "Three four.  Five.\n"
+ ],
+ "vi:shift count": [
+  "    a\n    b\nc\n"
+ ],
+ "vi:shift left": [
+  "    a\nb\n"
+ ],
+ "vi:shift motion": [
+  "    a\n    b\nc\n"
+ ],
+ "vi:shift paragraph": [
+  "\ta\n\tb\n\nc\n"
+ ],
+ "vi:shift right": [
+  "\ta\nb\n"
+ ],
+ "vi:showmatch": [
+  "x\n(a)\n"
+ ],
+ "vi:tilde": [
+  "HELlo\n"
+ ],
+ "vi:tilde across": [
+  "aB\nCD\n"
+ ],
+ "vi:tilde count": [
+  "ABC\n"
+ ],
+ "vi:u": [
+  "llo\n"
+ ],
+ "vi:u after dd": [
+  "a\nb\nc\n"
+ ],
+ "vi:underscore": [
+  "ghi\n"
+ ],
+ "vi:undo insert": [
+  "abc\n"
+ ],
+ "vi:undo undo": [
+  "bc\n"
+ ],
+ "vi:unmap": [
+  "hello world\n"
+ ],
+ "vi:uu": [
+  "llo\n"
+ ],
+ "vi:w at last char": [
+  "fo\n"
+ ],
+ "vi:w motion": [
+  "one two three\nour five\n"
+ ],
+ "vi:w punct": [
+  "foo.barbaz)\n"
+ ],
+ "vi:wrapmargin": [
+  "aaaa bbbb\ncccc dddd\neeee ffff\ngggg hhhh\niiii jjjj\nkkkk llll\nmmmm nnnn\noooo pppp\n"
+ ],
+ "vi:wrapmargin blank trigger": [
+  "aa bb\ncc dd\nee ff\ngg hh\nii jj\nkk ll\nmm nn\noo pp\nqq rr\n"
+ ],
+ "vi:x": [
+  "ello world\n"
+ ],
+ "vi:x count beyond": [
+  "a\n"
+ ],
+ "vi:x end": [
+  "ab\n"
+ ],
+ "vi:x then p swap": [
+  "ba\n"
+ ],
+ "vi:y$ P": [
+  "abc defdef\n"
+ ],
+ "vi:yank cursor back": [
+  "one two three\n"
+ ],
+ "vi:yank lines count": [
+  "a\nb\nc\na\nb\n"
+ ],
+ "vi:yank motion cursor": [
+  "one two threethre\n"
+ ],
+ "vi:yank paragraph put": [
+  "a\nb\n\nc\na\nb\n"
+ ],
+ "vi:yank put": [
+  "abc\nabc\ndef\n"
+ ],
+ "vi:yank put P": [
+  "abc\ndef\ndef\n"
+ ],
+ "vi:yk column": [
+  "abc ef\nxyz uvw\n"
+ ],
+ "vi:yw p": [
+  "abc abc def\n"
+ ],
+ "vi:zero": [
+  "f\n"
+ ],
+ "vi:zero after digit": [
+  "bcdefghijlmnop\n"
+ ]
+}

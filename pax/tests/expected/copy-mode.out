@@ -1,0 +1,43 @@
+-- copy
+rc=0
+trees equal
+-- -l links files
+4 d2/src/one
+2 src/dir/sub/big
+-- -v
+d3/src/one
+d3/src/dir/sym
+-- -k and -u
+changed
+changed
+one
+-- -s
+dir
+-- names from stdin
+d5
+d5/src
+d5/src/dir
+d5/src/dir/two
+d5/src/one
+-- bad destinations
+pax: nosuch: No such file or directory
+rc=1
+pax: src/one: not a directory
+rc=1
+-- into itself
+pax: t/in: the destination directory is not copied into itself
+rc=1
+t
+t/in
+t/in/t
+t/in/t/z
+t/z
+-- no operands
+usage: pax [-dv] [-c|-n] [-H|-L] [-o options] [-f archive] [-s replstr]... [pattern...]
+       pax -r [-c|-n] [-dikuv] [-H|-L] [-f archive] [-o options]... [-p string]...
+              [-s replstr]... [pattern...]
+       pax -w [-dituvX] [-H|-L] [-b blocksize] [[-a] [-f archive]] [-o options]...
+              [-s replstr]... [-x format] [file...]
+       pax -r -w [-dikltuvX] [-H|-L] [-o options]... [-p string]... [-s replstr]...
+              [file...] directory
+rc=1

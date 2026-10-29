@@ -1,0 +1,533 @@
+#### parse: reserved words as args
+echo if then else fi do done case esac while until for in { } !
+#### parse: reserved word after semicolon only
+echo a; if true; then echo b; fi
+#### parse: brace requires delimiter
+{ echo x;}; { echo y
+}
+#### parse: nested compound
+for i in 1 2; do case $i in 1) if true; then while false; do :; done; echo one; fi;; *) { echo other; };; esac; done
+#### parse: subshell nesting
+( ( echo deep ) ); echo $( ( echo cs-sub ) )
+#### parse: pipeline across newline
+echo a |
+tr a b
+#### parse: and-or across newline
+true &&
+echo yes ||
+echo no
+#### parse: case with newlines and empty items
+case a in
+a)
+;;
+b) echo b
+;;
+esac
+echo done
+#### parse: case last item without dsemi
+case x in x) echo last
+esac
+#### parse: case pattern esac-like
+case esac in esac) echo esac-word;; esac
+#### parse: function with newline before body
+f()
+{
+  echo nl-body
+}
+f
+#### parse: function body subshell and redirect
+f() (echo in-sub) ; f
+g() { echo to-err >&2; } 2>&1; g
+#### parse: function name same as var
+x() { echo func-x; }; x=var; x; echo $x
+#### parse: empty for list on new line
+for i in
+do
+  echo never
+done
+echo ok
+#### parse: for with newline before in
+for i
+in a b
+do echo $i; done
+#### parse: semicolon after for list
+for i in a b; do echo $i; done
+#### parse: until with multiple commands in condition
+n=0; until n=$((n+1)); [ $n -ge 3 ]; do :; done; echo $n
+#### parse: io number adjacency
+echo hi 2>/dev/null; echo hi 2 >/dev/null; echo x2>/dev/null; cat x2 2>/dev/null || echo no-x2
+#### parse: redirect before command
+>out1 echo first; cat out1; <out1 cat
+#### parse: assignment words
+a=1 b=2; echo $a$b; c==; echo $c; d=a=b; echo $d
+#### parse: assignment after command is argument
+echo a=1
+#### parse: quoted assignment is not assignment
+'a'=1 2>/dev/null; echo $?
+#### parse: comment after word chars
+echo a#b #c
+#### parse: dollar paren with case
+x=$(case a in a) echo A;; esac); echo $x
+#### parse: backquote nested quotes
+echo "`echo "inner \"q\""`"
+#### parse: dquote with embedded cmdsub quotes
+echo "$(echo "a b")" "${undefined:-"c d"}"
+#### parse: brace param with quotes and spaces
+x=; echo "${x:-a b}" ${x:-'s q'}
+#### parse: braces in param word
+unset x; echo ${x:-{a}} ${x:-a}b}
+#### parse: heredoc after pipeline
+cat <<EOF | tr a-z A-Z
+hello
+EOF
+#### parse: heredoc and command on same line continue
+cat <<EOF; echo next
+body
+EOF
+#### parse: heredoc delimiter with quotes partial
+cat <<E'O'F
+$no expansion
+EOF
+#### parse: heredoc empty
+cat <<EOF
+EOF
+echo after
+#### parse: heredoc unquoted with dollar single
+cat <<EOF
+$'not special'
+EOF
+#### parse: heredoc dq not special
+x=1; cat <<EOF
+"$x" '$x'
+EOF
+#### parse: two heredocs one command
+cat <<A 3<<B
+from A
+A
+from B
+B
+#### parse: heredoc with tabs stripped and expansions
+x=v; cat <<-END
+	val=$x
+	END
+#### parse: line continuation in word
+echo con\
+cat\
+enated
+#### parse: line continuation inside dquote
+echo "a\
+b"
+#### parse: no continuation in squote
+echo 'a\
+b'
+#### expand: unset vs empty with colon
+unset u; e=; echo "[${u:-x}][${e:-x}][${u-x}][${e-x}]"
+#### expand: default with at
+set -- a b; for i in ${u:-"$@"}; do echo "<$i>"; done
+#### expand: alternative with at
+set -- "a b" c; for i in ${1:+"$@"}; do echo "<$i>"; done
+#### expand: assign default keeps value
+unset q; : ${q:=hello}; echo $q
+#### expand: assign positional error
+( : ${1:=x} ) 2>/dev/null; echo "rc=$?"
+#### expand: length of special
+set -- abc def; echo ${#1} ${#2} ${#}
+#### expand: trim on positional
+set -- /usr/local/bin; echo ${1##*/} ${1%/*}
+#### expand: trim quoted pattern parts
+x='a.b.c'; echo ${x%".c"} ${x#*'.'} "${x%.*}"
+#### expand: trim with var pattern
+x=foobar p='o*'; echo ${x#f$p} ${x#"f$p"}
+#### expand: trim no match
+x=abc; echo ${x#z} ${x%z}
+#### expand: star in quotes ifs
+set -- a b c; IFS=:; echo "$*"; IFS=; echo "$*"; unset IFS; echo "$*"
+#### expand: field split on cmdsub
+x=$(printf 'a b\nc'); set -- $x; echo $#
+#### expand: no split in assignment
+x='a  b'; y=$x; echo "$y"
+#### expand: no glob in assignment
+touch g1 g2; x=g*; echo "$x"
+#### expand: glob after split
+touch s1 s2; v='s* q'; set -- $v; echo "$# $1"
+#### expand: quoted glob chars from var
+touch 'q*'; v='q*'; echo "$v"; set -- $v; echo $#
+#### expand: backslash in var not quoting for glob
+touch 'b\x' bx 2>/dev/null; v='b\x'; echo $v
+#### expand: tilde not after quotes
+HOME=/H; echo ~"" "~" \~ ~/ a~
+#### expand: tilde in assignment after colon
+HOME=/H; PATHX=~:~/bin:x~; echo $PATHX
+#### expand: tilde in default value
+HOME=/H; unset u; echo ${u:-~/x}
+#### expand: arithmetic in dquotes
+x=4; echo "$((x*x))" "$(( $x + 1 ))"
+#### expand: arithmetic nested parens
+echo $(( (2+3)*(4-1) )) $((((1)))) $(( - -3 ))
+#### expand: arithmetic with cmdsub
+echo $(( $(echo 3) + 4 ))
+#### expand: arithmetic negative modulo and shifts
+echo $(( -7 % 3 )) $(( -8 >> 1 )) $(( 1 << 3 ))
+#### expand: arithmetic comparison chain
+echo $(( 1 < 2 < 3 )) $(( 5 == 5 == 1 ))
+#### expand: arithmetic ternary nesting
+x=2; echo $(( x==1 ? 10 : x==2 ? 20 : 30 ))
+#### expand: arithmetic no eval in short circuit
+x=0; echo $(( 0 && (x=5) )) $x $(( 1 || (x=6) )) $x
+#### expand: arithmetic hex and octal vars
+x=0x10 y=010; echo $((x)) $((y)) $((x+y))
+#### expand: arithmetic signed var
+x=-5; echo $((x)) $((-x)) $((x*x))
+#### expand: special param dash
+set -f; echo $- | grep -c f; set +f
+#### expand: dollar bang unset
+echo "[${!-none}]"
+#### expand: cmdsub trailing newlines only
+x=$(printf '\n\na\n\n'); echo "[$x]" | od -c | head -2
+#### expand: cmdsub in heredoc delim line
+cat <<EOF
+$(echo one)
+`echo two`
+EOF
+#### expand: unquoted empty removed
+e=; set -- $e a $e; echo $#
+#### expand: empty quoted kept
+e=; set -- "$e" a ""; echo $#
+#### expand: dq empty with at concat
+set --; set -- "$@" x; echo $#; set --; set -- ""$@; echo $#
+#### expand: ifs nonwhite leading
+IFS=:; x=':a:b'; set -- $x; echo "$#[$1][$2][$3]"
+#### expand: ifs whitespace and nonwhitespace
+IFS=' :'; x=' a : b '; set -- $x; echo "$#[$1][$2]"
+#### expand: split results joined with literal
+x='a b'; set -- pre${x}post; echo "$# $1 $2"
+#### builtins: colon with args
+: ignored args $(echo x); echo $?
+#### builtins: true false
+true; echo $?; false; echo $?
+#### builtins: echo dash n literal
+echo -n abc; echo; echo -e x; echo -- y
+#### builtins: printf reuse format
+printf '%s=%s\n' a 1 b 2 c
+#### builtins: printf char constants
+printf '%d %d\n' "'a" '"b'
+#### builtins: printf octal escapes
+printf 'a\101b\0c' | od -c | head -1
+#### builtins: printf width star
+printf '[%*d][%-*s]\n' 5 42 4 ab
+#### builtins: printf missing args zero
+printf '%d %s|\n'
+#### builtins: printf negative and plus
+printf '%+d % d %05d %-5d|\n' 5 5 42 42
+#### builtins: printf x hash
+printf '%#x %#o\n' 255 8
+#### builtins: printf large
+printf '%d\n' 9223372036854775807
+#### builtins: test string ops
+[ abc = abc -a x = x ]; echo $?; [ "" ]; echo $?; [ -n "" ]; echo $?; [ = ]; echo $?
+#### builtins: test numeric ops
+[ 10 -gt 9 ]; echo $?; [ -5 -lt 0 ]; echo $?; [ 007 -eq 7 ]; echo $?
+#### builtins: test four args
+[ ! a = b ]; echo $?; [ \( a \) ]; echo $?; [ ! \( a = a \) ]; echo $?
+#### builtins: test bang bang
+[ ! ! a ]; echo $?
+#### builtins: test -t
+[ -t 9 ]; echo $?
+#### builtins: test nt ot
+touch -d '2000-01-01' old; touch new; [ new -nt old ]; echo $?; [ old -ot new ]; echo $?; [ new -nt nonexist ]; echo $?
+#### builtins: export and unexport via unset
+export E1=v; unset E1; sh -c 'echo "[${E1-u}]"'
+#### builtins: export name only then assign
+export LATER; LATER=1; sh -c 'echo $LATER'
+#### builtins: readonly unset fails
+readonly RO=1; unset RO 2>/dev/null; echo $? $RO
+#### builtins: set -- resets
+set -- a b; set --; echo $#
+#### builtins: set plus options
+set -e; set +e; false; echo survived
+#### builtins: set -o option
+set -o noglob; touch zz1; echo zz*; set +o noglob; echo zz*
+#### builtins: set listing contains var
+SETTEST='a b'; set | grep '^SETTEST='
+#### builtins: shift zero
+set -- a b; shift 0; echo $#
+#### builtins: unset multiple
+a=1 b=2; unset a b; echo "[${a-}][${b-}]"
+#### builtins: unset -v
+f=1; f() { :; }; unset -v f; echo "[${f-unset}]"; f && echo func-still
+#### builtins: eval with positional
+set -- x y; eval 'echo $2 $1'
+#### builtins: eval sets status
+eval 'exit_code=3; (exit $exit_code)'; echo $?
+#### builtins: exec with redirection only persists
+exec 5>five.txt; echo to5 >&5; exec 5>&-; cat five.txt
+#### builtins: exec in function replaces shell
+f() { exec echo from-exec; }; (f; echo not)
+#### builtins: return from dot inside function
+echo 'return 3' > rr.sh; f() { . ./rr.sh; echo "after dot $?"; }; f
+#### builtins: return value range
+f() { return 255; }; f; echo $?
+#### builtins: break in function not affecting loop
+f() { break; }; for i in 1 2; do f 2>/dev/null; echo $i; done
+#### builtins: times format
+times | head -1 | grep -cE '^[0-9]+m[0-9.]+s [0-9]+m[0-9.]+s$'
+#### builtins: trap EXIT in function context
+f() { trap 'echo exit-trap' EXIT; }; f; echo body
+#### builtins: trap with numeric signal
+trap 'echo hup' 1; kill -HUP $$; trap - 1
+#### builtins: trap reset by number
+trap 'echo x' INT TERM; trap 2 15; trap
+#### builtins: trap -p
+trap 'echo hi' USR2; trap -p USR2; trap - USR2
+#### builtins: trap invalid signal
+trap 'x' NOSUCHSIG 2>/dev/null; echo $?
+#### builtins: trap ignore then child
+trap '' USR1; sh -c 'kill -USR1 $$; echo child-survived'; trap - USR1
+#### builtins: trap during wait
+trap 'echo trapped' USR1; (sleep 0.2; kill -USR1 $$) & sleep 1; wait; echo done
+#### builtins: kill with signal name
+sleep 5 & p=$!; kill -s TERM $p; wait $p; echo $?
+sleep 5 & p=$!; kill -9 $p; wait $p; echo $?
+#### builtins: kill -l list contains
+kill -l | grep -c HUP
+#### builtins: wait multiple
+(exit 2) & a=$!; (exit 3) & b=$!; wait $a $b; echo $?
+#### builtins: wait unknown pid
+wait 12345678; echo $?
+#### builtins: jobs output
+sleep 2 & jobs | grep -c Running; kill %%; wait
+#### builtins: getopts unknown with colon
+set -- -z; getopts :a o; echo "$o $OPTARG"
+#### builtins: getopts optarg next word
+set -- -f file -v; while getopts f:v o; do echo "$o:${OPTARG-}"; done
+#### builtins: getopts with args list
+while getopts x: o -x val; do echo $o $OPTARG; done
+#### builtins: getopts reset by OPTIND
+set -- -a; getopts a o; echo $o; OPTIND=1; getopts a o; echo $o
+#### builtins: read multiple lines
+printf 'l1\nl2\n' > rl; while read l; do echo "<$l>"; done < rl
+#### builtins: read with IFS whitespace mix
+printf ' a  b  c \n' | { read x y; echo "[$x][$y]"; }
+#### builtins: read last var gets rest with nonws
+printf 'a:b:c:\n' | { IFS=: read x y; echo "[$x][$y]"; }
+#### builtins: read backslash at end
+printf 'abc\\' | { read x; echo "$? [$x]"; }
+#### builtins: read escaped ifs char
+printf 'a\\ b c\n' | { read x y; echo "[$x][$y]"; }
+#### builtins: read empty line
+printf '\n' | { read x; echo "$? [$x]"; }
+#### builtins: read nul delim
+printf 'a\0b\0' | { read -d '' x; echo "[$x]"; read -d '' y; echo "[$y]"; }
+#### builtins: read does not consume more than line
+printf 'one\ntwo\n' | { read a; cat; }
+#### builtins: cd dotdot logical
+mkdir -p a/b; ln -s a/b sl; cd sl/..; basename "$PWD"
+#### builtins: cd -P dotdot
+mkdir -p a/b; ln -s a/b sl; cd -P sl/..; basename "$PWD"
+#### builtins: cd empty arg
+cd "" 2>/dev/null; echo $?
+#### builtins: cd dash prints
+mkdir xx; cd xx; cd .. ; cd - | sed 's#.*/##'
+#### builtins: pwd -L -P
+mkdir -p r/s; ln -s r/s ls1; cd ls1; pwd -L | sed 's#.*/##'; pwd -P | sed 's#.*/##'
+#### builtins: OLDPWD set
+cd /; cd /tmp; echo $OLDPWD
+#### builtins: umask symbolic plus minus
+umask 022; umask g+w; umask; umask o-r; umask; umask a=; umask
+#### builtins: umask affects files
+umask 077; touch um; ls -l um | cut -c1-10
+#### builtins: alias with special chars in value
+alias q="echo 'quoted value'; echo \$((1+1))"; q
+#### builtins: alias not expanded in non-command position
+alias xx=echo; echo xx
+#### builtins: alias defined in same line not used
+alias yy='echo yy-alias'; yy 2>/dev/null || echo not-yet
+yy
+#### builtins: unalias -a
+alias a1=x a2=y; unalias -a; alias | wc -l
+#### builtins: command -v forms
+f() { :; }; alias al=x; command -v f; command -v al; command -v cd; command -v if; command -v sh | grep -c /
+#### builtins: command -p
+command -p ls / >/dev/null && echo plist
+#### builtins: command suppresses function
+echo() { printf 'func-echo\n'; }; command echo real; unset -f echo
+#### builtins: type for various
+f() { :; }; type f | grep -c function; type if | grep -c keyword; type : | grep -c special
+#### builtins: hash builtin no output
+hash cd; echo $?; hash | grep -c cd
+#### builtins: ulimit set and get
+(ulimit -f 1000; ulimit -f)
+#### builtins: ulimit -n
+ulimit -n | grep -cE '^[0-9]+$'
+#### exec: exit status 126 for directory
+mkdir dirx; ./dirx 2>/dev/null; echo $?
+#### exec: script without shebang
+printf 'echo ran-script $1\n' > nos; chmod +x nos; ./nos arg
+#### exec: script without shebang inherits exported only
+printf 'echo "[$NOTEXP][$EXP]"; f 2>/dev/null || echo nofunc\n' > nos2; chmod +x nos2; NOTEXP=1; export EXP=2; f() { :; }; ./nos2
+#### exec: PATH search order
+mkdir b1 b2; printf '#!/bin/sh\necho b1\n' > b1/cmdq; printf '#!/bin/sh\necho b2\n' > b2/cmdq; chmod +x b1/cmdq b2/cmdq; PATH=$PWD/b1:$PWD/b2:$PATH; cmdq
+#### exec: PATH empty entry is cwd
+printf '#!/bin/sh\necho in-cwd\n' > cwdcmd; chmod +x cwdcmd; PATH=:/bin:/usr/bin; cwdcmd
+#### exec: PATH change rehashes
+mkdir h1 h2; printf '#!/bin/sh\necho h1\n' > h1/hc; printf '#!/bin/sh\necho h2\n' > h2/hc; chmod +x h1/hc h2/hc; PATH=$PWD/h1:/bin:/usr/bin; hc; PATH=$PWD/h2:/bin:/usr/bin; hc
+#### exec: non-executable in path skipped
+mkdir n1 n2; printf 'echo n1\n' > n1/nx; printf '#!/bin/sh\necho n2\n' > n2/nx; chmod +x n2/nx; PATH=$PWD/n1:$PWD/n2:/bin:/usr/bin; nx
+#### exec: env for external
+X=1 env | grep '^X='; env | grep -c '^X='
+#### exec: arg0 of external
+printf '#!/bin/sh\necho "$0"\n' > a0; chmod +x a0; ./a0 | sed 's#.*/##'
+#### exec: subshell exit status
+(false); echo $?; (true); echo $?
+#### exec: compound redirect error not fatal
+{ echo x; } < /nonexist 2>/dev/null; echo "rc=$?"
+#### exec: function redirect error not fatal
+f() { echo x; }; f < /nonexist 2>/dev/null; echo "rc=$?"
+#### exec: brace group redirect applies to all
+{ echo a; echo b; } > br.txt; cat br.txt
+#### exec: loop redirect
+for i in 1 2; do echo $i; done > lr.txt; cat lr.txt
+while read l; do echo "got $l"; done <<EOF
+x
+y
+EOF
+#### exec: stdin of async is devnull
+echo data | { cat & wait; }
+#### exec: background job does not block
+sleep 0.3 & echo immediate; wait
+#### exec: pipeline last status and wait all
+(sleep 0.2; echo late) | true; echo after
+#### exec: deep pipeline
+echo x | cat | cat | cat | cat | cat | tr x y
+#### exec: exit in pipeline component
+exit 3 | true; echo still-here
+#### exec: errexit not triggered by and-or
+set -e; false || echo recovered; false && echo no; echo end
+#### exec: errexit until loop condition
+set -e; until true; do :; done; while false; do :; done; echo ok
+#### exec: errexit function in condition
+set -e; f() { false; echo continues-in-f; }; if f; then echo t; fi; echo end
+#### exec: errexit bang
+set -e; ! false; echo a; ! true; echo b
+#### exec: errexit in cmdsub
+set -e; echo $(false; echo inner); echo outer
+#### exec: errexit case
+set -e; case x in x) false;; esac; echo no
+#### exec: errexit for loop
+set -e; for i in 1; do false; done; echo no
+#### exec: errexit command not found
+set -e; nonexistent_xyz 2>/dev/null; echo no
+#### exec: noexec
+set -n
+echo not
+exit 3
+#### exec: xtrace format
+set -x; x=1; echo "$x" 2>&1; set +x
+#### exec: xtrace to stderr
+(set -x; echo hi) 2>&1 | head -1 | grep -c '^+'
+#### exec: verbose
+(set -v; echo v) 2>&1 | head -1
+#### exec: assignment visible in same command expansion order
+x=1; x=2 y=$x; echo $y
+#### exec: assignment to readonly before regular command
+readonly RR=1; RR=2 true 2>/dev/null; echo not-reached
+#### exec: special builtin assignment error
+readonly RS=1; RS=2 : 2>/dev/null; echo not-reached
+#### exec: dot not found exits
+. ./nonexistent-file 2>/dev/null; echo not-reached
+#### exec: unrecoverable syntax error in script
+echo before
+if then
+echo after
+#### exec: exit status of last command
+false
+#### exec: exit with no args uses last
+(false; exit); echo $?
+#### exec: trap exit status
+trap 'echo trap $?' EXIT; (exit 4)
+#### exec: subshell traps reset
+trap 'echo parent-exit' EXIT; (echo in-sub); echo end
+#### exec: exit trap runs once
+trap 'echo bye' EXIT; exit 2
+#### exec: exit inside exit trap
+trap 'echo t; exit 7; echo no' EXIT; exit 1
+#### exec: nested functions and returns
+a() { b; echo "a after b $?"; return 4; }; b() { return 3; }; a; echo $?
+#### exec: function overriding builtin
+cd() { echo my-cd; }; cd /; unset -f cd
+#### exec: special builtin not overridable by function
+set() { echo myset; } 2>/dev/null; set -- x; echo $1
+#### exec: positional in nested function
+f() { g x; echo "f:$1"; }; g() { echo "g:$1"; }; f y
+#### exec: $0 in function
+f() { echo "$0" | grep -c script; }; f
+#### exec: long command line
+s=; i=0; while [ $i -lt 2000 ]; do s="$s x"; i=$((i+1)); done; set -- $s; echo $#
+#### exec: many fds
+exec 3>a3 4>a4 5>a5 6>a6 7>a7 8>a8 9>a9; echo ok >&9; cat a9
+#### exec: dup input
+echo content > di; exec 6<di; read l <&6; echo $l; exec 6<&-
+#### exec: close stdout
+(exec >&-; echo x 2>/dev/null); echo $?
+#### exec: heredoc to fd
+cat 0<<EOF
+zero
+EOF
+#### exec: redirect word expansion
+f=out_$(echo x).txt; echo w > $f; cat out_x.txt
+#### exec: redirect word not globbed
+touch gl1; echo y > gl*; ls gl* | wc -l
+#### exec: noclobber devnull ok
+set -C; echo x > /dev/null; echo $?
+#### exec: read-write redirect creates
+: <> rwnew; [ -f rwnew ] && echo created
+#### misc: deeply nested cmdsub
+echo $(echo $(echo $(echo $(echo deep))))
+#### misc: cmdsub with heredoc and quotes
+x=$(cat <<'E'
+it's "quoted"
+E
+); echo "$x"
+#### misc: case with variable patterns list
+a=x b=y; case y in $a|$b) echo matched-var;; esac
+#### misc: case with bracket and special
+case '[' in \[) echo lb;; esac; case 'a]' in a]) echo rb;; esac
+#### misc: case pattern quoting of star
+case x in '*') echo star;; *) echo any;; esac
+#### misc: case empty pattern
+case '' in '') echo empty-match;; esac
+#### misc: case with dollar in pattern from cmdsub
+case abc in $(echo 'a*')) echo cs-pattern;; esac
+#### misc: while with break status
+while true; do break; done; echo $?
+#### misc: loop exit status
+for i in 1 2; do (exit $i); done; echo $?
+#### misc: if exit status from then
+if true; then (exit 5); fi; echo $?
+#### misc: for loop var after loop
+for v in a b c; do :; done; echo $v
+#### misc: modifying positional in loop
+set -- 1 2 3; for i; do set -- x; done; echo "$i $#"
+#### misc: IFS restored after read prefix
+IFS=x; IFS=: read a b <<EOF
+1:2
+EOF
+echo "$a $b [$IFS]"
+#### misc: unset IFS behaves default
+x='a b'; unset IFS; set -- $x; echo $#
+#### misc: export in subshell not visible
+(export SUBV=1); sh -c 'echo "[${SUBV-}]"'
+#### misc: umask in subshell isolated
+umask 022; (umask 077); umask
+#### misc: cd in pipeline isolated
+cd /; cd /tmp | true; pwd
+#### misc: background job output ordering
+echo first; (echo second) & wait; echo third
+#### misc: printf %s with no trailing newline in cmdsub
+x=$(printf 'abc'); echo "$x"
+#### misc: very long string variable
+i=0; s=x; while [ $i -lt 14 ]; do s=$s$s; i=$((i+1)); done; echo ${#s}
+#### misc: special chars in var names rejected
+x-y=1 2>/dev/null; echo $?
+#### misc: numbers as command
+1=2 2>/dev/null; echo $?
